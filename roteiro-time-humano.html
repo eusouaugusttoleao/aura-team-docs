@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiro Operacional — Mentoria AURA Premium | Time Humano</title>
+<style>
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    color: #1a1a2e;
+    line-height: 1.6;
+    font-size: 11pt;
+    background: #fff;
+  }
+  .page-break { page-break-before: always; }
+
+  /* CAPA */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    text-align: center;
+    page-break-after: always;
+  }
+  .cover-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    border: 2px solid #c9a84c;
+    color: #c9a84c;
+    font-size: 10pt;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .cover h1 {
+    font-size: 28pt;
+    font-weight: 300;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .cover h1 strong {
+    font-weight: 700;
+    color: #c9a84c;
+  }
+  .cover h2 {
+    font-size: 14pt;
+    font-weight: 400;
+    color: #555;
+    margin-bottom: 40px;
+  }
+  .cover-meta {
+    font-size: 9pt;
+    color: #999;
+    margin-top: 60px;
+  }
+  .cover-meta span { display: block; margin-bottom: 4px; }
+
+  /* HEADERS */
+  h2 {
+    font-size: 16pt;
+    color: #1a1a2e;
+    border-bottom: 3px solid #c9a84c;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+    margin-top: 30px;
+  }
+  h3 {
+    font-size: 12pt;
+    color: #c9a84c;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  h4 {
+    font-size: 10pt;
+    color: #1a1a2e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+
+  /* CONTENT */
+  p { margin-bottom: 10px; }
+  ul, ol { margin-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 4px; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 10pt;
+  }
+  th {
+    background: #1a1a2e;
+    color: #c9a84c;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  tr:nth-child(even) td { background: #f9f9f9; }
+
+  /* BOXES */
+  .box {
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #c9a84c;
+    padding: 12px 16px;
+    margin: 12px 0;
+    background: #fefef8;
+  }
+  .box-alert {
+    border-left-color: #e94560;
+    background: #fef5f5;
+  }
+  .box-success {
+    border-left-color: #0f9b8e;
+    background: #f5fefa;
+  }
+  .box p { margin-bottom: 4px; }
+  .box strong { color: #1a1a2e; }
+
+  /* QUOTE */
+  blockquote {
+    border-left: 3px solid #c9a84c;
+    padding: 8px 16px;
+    margin: 12px 0;
+    font-style: italic;
+    color: #555;
+    background: #fefef8;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    margin-left: 0;
+  }
+  .checklist li {
+    padding: 4px 0 4px 24px;
+    position: relative;
+  }
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    font-size: 13pt;
+  }
+
+  /* FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 16px 0;
+    font-size: 9pt;
+  }
+  .flow-step {
+    background: #1a1a2e;
+    color: #c9a84c;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .flow-arrow { color: #c9a84c; font-size: 14pt; }
+
+  /* ROLE CARD */
+  .role-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 14px;
+    margin: 10px 0;
+    page-break-inside: avoid;
+  }
+  .role-card h4 {
+    margin-top: 0;
+    color: #c9a84c;
+    font-size: 11pt;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    font-size: 8pt;
+    color: #bbb;
+    margin-top: 40px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  /* PRINT */
+  @media print {
+    body { font-size: 10pt; }
+    .no-print { display: none; }
+    h2 { margin-top: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== CAPA ==================== -->
+<div class="cover">
+  <div class="cover-badge">Documento Interno</div>
+  <h1>Roteiro Operacional<br><strong>MENTORIA AURA PREMIUM</strong></h1>
+  <h2>Guia Completo para o Time Humano</h2>
+  <p style="color:#888; max-width:500px; margin: 0 auto;">
+    Tudo que Augustto, Talita, Gabriel e Rose precisam saber para operar a Mentoria Premium de R$33K com excelência — do primeiro contato até a formatura do aluno.
+  </p>
+  <div class="cover-meta">
+    <span><strong>Empresa:</strong> Sellect Intelligence</span>
+    <span><strong>Projeto:</strong> Mentoria AURA</span>
+    <span><strong>Versão:</strong> 1.0 — Abril 2026</span>
+    <span><strong>Classificação:</strong> Uso interno do time</span>
+  </div>
+</div>
+
+<!-- ==================== ÍNDICE ==================== -->
+<h2>Índice</h2>
+<ol>
+  <li>Visão Geral do Produto</li>
+  <li>Papéis do Time Humano</li>
+  <li>Papéis dos Agentes IA</li>
+  <li>Fluxo Completo: Lead → Aluno → Formatura</li>
+  <li>Cronograma das 12 Semanas</li>
+  <li>Roteiro dos 4 Encontros Individuais</li>
+  <li>Protocolos de Atendimento</li>
+  <li>Checklists Operacionais</li>
+  <li>Regras de Ouro</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- ==================== 1. VISÃO GERAL ==================== -->
+<h2>1. Visão Geral do Produto</h2>
+
+<h3>Mentoria AURA Premium — R$ 33.000</h3>
+
+<table>
+  <tr><th>Item</th><th>Descrição</th></tr>
+  <tr><td><strong>Formato</strong></td><td>12 aulas em grupo (Google Meet) + 4 encontros individuais com Augustto</td></tr>
+  <tr><td><strong>Duração</strong></td><td>12 semanas</td></tr>
+  <tr><td><strong>Valor</strong></td><td>R$ 33.000</td></tr>
+  <tr><td><strong>Suporte</strong></td><td>WhatsApp contínuo (agente Salomão + Rose)</td></tr>
+  <tr><td><strong>Grupo</strong></td><td>Exclusivo de alunos premium</td></tr>
+  <tr><td><strong>Cliente ideal</strong></td><td>Líder/empresário com resultados, mas com gap de autoridade e percepção</td></tr>
+</table>
+
+<h3>Mentoria AURA Grupo — R$ 7.000</h3>
+<table>
+  <tr><th>Item</th><th>Descrição</th></tr>
+  <tr><td><strong>Formato</strong></td><td>12 aulas em grupo (Google Meet)</td></tr>
+  <tr><td><strong>Duração</strong></td><td>12 semanas</td></tr>
+  <tr><td><strong>Valor</strong></td><td>R$ 7.000</td></tr>
+  <tr><td><strong>Suporte</strong></td><td>Grupo de WhatsApp + suporte básico</td></tr>
+  <tr><td><strong>Cliente ideal</strong></td><td>Profissional com potencial, mas que não fecha o premium</td></tr>
+</table>
+
+<h3>Jornada AURA — 4 Blocos (12 Semanas)</h3>
+<table>
+  <tr><th>Bloco</th><th>Semanas</th><th>Tema Central</th><th>Encontro Individual</th></tr>
+  <tr><td><strong>1. Autoimagem</strong></td><td>1 a 3</td><td>Identidade, autoconhecimento, crenças, valor próprio</td><td>Espelho de Identidade</td></tr>
+  <tr><td><strong>2. Posicionamento</strong></td><td>4 a 6</td><td>Marca pessoal, diferenciação, presença</td><td>Arquitetura de Posicionamento</td></tr>
+  <tr><td><strong>3. Comunicação Magnética</strong></td><td>7 a 9</td><td>Oratória, linguagem corporal, storytelling</td><td>Calibragem de Comunicação</td></tr>
+  <tr><td><strong>4. Autoridade em Movimento</strong></td><td>10 a 12</td><td>Execução, vendas com autoridade, resultado</td><td>Plano de Autoridade</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- ==================== 2. PAPÉIS HUMANOS ==================== -->
+<h2>2. Papéis do Time Humano</h2>
+
+<div class="role-card">
+  <h4>Augustto Leão — Mentor Principal</h4>
+  <p><strong>O que faz:</strong></p>
+  <ul>
+    <li>Ministra as 12 aulas em grupo via Google Meet</li>
+    <li>Conduz os 4 encontros individuais com cada aluno premium</li>
+    <li>Fecha vendas em sessões estratégicas (closer principal)</li>
+    <li>Valida tom e linguagem dos agentes IA</li>
+  </ul>
+  <p><strong>O que NÃO faz:</strong></p>
+  <ul>
+    <li>Suporte operacional entre aulas — Salomão + Rose cuidam disso</li>
+    <li>Triagem de leads — Laura faz automaticamente</li>
+    <li>Monitoramento de alunos — PedroSup faz automaticamente</li>
+  </ul>
+</div>
+
+<div class="role-card">
+  <h4>Talita — Closer</h4>
+  <p><strong>O que faz:</strong></p>
+  <ul>
+    <li>Conduz sessões estratégicas quando Augustto não está disponível</li>
+    <li>Fecha vendas da Mentoria Premium (R$33K) e Grupo (R$7K)</li>
+    <li>Recebe dossiê completo da Laura antes de cada sessão</li>
+    <li>Encaminha pagamento e contrato ao financeiro</li>
+  </ul>
+  <p><strong>Preparação antes da sessão:</strong></p>
+  <ul>
+    <li>Ler o dossiê do lead (gerado pela Laura)</li>
+    <li>Identificar a dor principal e o padrão de bloqueio</li>
+    <li>Não repetir perguntas que a Laura já fez — o lead sente como descuido</li>
+  </ul>
+</div>
+
+<div class="role-card">
+  <h4>Gabriel — SDR (Sales Development Representative)</h4>
+  <p><strong>O que faz:</strong></p>
+  <ul>
+    <li>Recebe dossiês de leads qualificados pela Laura</li>
+    <li>Faz contato humano quando a Laura sinaliza lead quente</li>
+    <li>Agenda sessões estratégicas (Calendly)</li>
+    <li>Follow-up com leads que não agendaram</li>
+  </ul>
+  <p><strong>Fluxo com a Laura (IA):</strong></p>
+  <ul>
+    <li>Laura qualifica → Gera dossiê → Notifica Gabriel via WhatsApp</li>
+    <li>Gabriel lê o dossiê → Agenda sessão → Talita ou Augustto fecha</li>
+    <li>Se lead não agenda em 48h → Gabriel faz follow-up pessoal</li>
+  </ul>
+</div>
+
+<div class="role-card">
+  <h4>Rose — Sucesso do Cliente</h4>
+  <p><strong>O que faz:</strong></p>
+  <ul>
+    <li>Cuida dos casos sensíveis que os agentes IA não devem tratar</li>
+    <li>Atende alunos em estado emocional delicado</li>
+    <li>Resolve questões administrativas (pagamento, acesso, reagendamento)</li>
+    <li>Recebe alertas vermelhos do PedroSup (alunos em risco)</li>
+    <li>Faz onboarding operacional (envio de acesso, grupo, cronograma)</li>
+  </ul>
+  <p><strong>Quando Rose é acionada:</strong></p>
+  <ul>
+    <li>Salomão encaminha quando detecta crise emocional ou frustração profunda</li>
+    <li>PedroSup emite alerta vermelho (aluno sumiu ou demonstrou desistência)</li>
+    <li>Aluno pede reembolso, reclama de valor ou questiona o investimento</li>
+  </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== 3. PAPÉIS IA ==================== -->
+<h2>3. Papéis dos Agentes IA</h2>
+
+<div class="box">
+  <p><strong>Importante:</strong> Os agentes IA são ferramentas de apoio — não substituem decisão humana, leitura emocional fina ou negociação sensível. Eles existem para dar velocidade, consistência e escala ao time.</p>
+</div>
+
+<table>
+  <tr><th>Agente</th><th>Função</th><th>Canal</th><th>Interage com aluno?</th></tr>
+  <tr><td><strong>Laura</strong></td><td>SDR IA — qualifica leads via WhatsApp</td><td>WhatsApp</td><td>Sim (pré-venda)</td></tr>
+  <tr><td><strong>Salomão</strong></td><td>Suporte pedagógico — acompanha aluno entre encontros</td><td>WhatsApp</td><td>Sim (pós-venda)</td></tr>
+  <tr><td><strong>PedroSup</strong></td><td>Monitoramento — rastreia evolução e riscos</td><td>Interno</td><td>Não (bastidor)</td></tr>
+</table>
+
+<h3>Como os agentes se conectam ao time</h3>
+<div class="flow">
+  <span class="flow-step">Laura qualifica</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">Gabriel recebe dossiê</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">Talita/Augustto fecha</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">Salomão faz onboarding</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">PedroSup monitora</span>
+  <span class="flow-arrow">→</span>
+  <span class="flow-step">Augustto encontro individual</span>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== 4. FLUXO COMPLETO ==================== -->
+<h2>4. Fluxo Completo: Lead → Aluno → Formatura</h2>
+
+<h3>Fase 1: Captação e Qualificação</h3>
+<table>
+  <tr><th>Etapa</th><th>Quem faz</th><th>O que acontece</th></tr>
+  <tr><td>1</td><td>Tráfego pago / Instagram</td><td>Lead clica no anúncio ou link da bio</td></tr>
+  <tr><td>2</td><td>Landing page + Typebot</td><td>Lead preenche formulário (nome, WhatsApp, Instagram, contexto)</td></tr>
+  <tr><td>3</td><td><strong>Laura (IA)</strong></td><td>Inicia conversa no WhatsApp, qualifica em 5 etapas, gera dossiê</td></tr>
+  <tr><td>4</td><td><strong>Gabriel</strong></td><td>Recebe dossiê, faz contato humano, agenda sessão estratégica</td></tr>
+  <tr><td>5</td><td><strong>Augustto ou Talita</strong></td><td>Conduz sessão estratégica (30min), fecha a venda</td></tr>
+</table>
+
+<h3>Fase 2: Onboarding (Dia 0)</h3>
+<table>
+  <tr><th>Etapa</th><th>Quem faz</th><th>O que acontece</th></tr>
+  <tr><td>1</td><td><strong>Rose</strong></td><td>Confirma pagamento e envia acesso à plataforma</td></tr>
+  <tr><td>2</td><td><strong>Salomão (IA)</strong></td><td>Mensagem de boas-vindas + Kit do Aluno (cronograma, datas, grupo)</td></tr>
+  <tr><td>3</td><td><strong>Salomão (IA)</strong></td><td>Primeira provocação: pergunta que inicia o processo de reflexão</td></tr>
+  <tr><td>4</td><td><strong>PedroSup (IA)</strong></td><td>Registra aluno no sistema, importa dossiê da Laura, inicia monitoramento</td></tr>
+</table>
+
+<h3>Fase 3: As 12 Semanas</h3>
+<table>
+  <tr><th>Semana</th><th>Aula em Grupo</th><th>Individual</th><th>Suporte</th></tr>
+  <tr><td>1</td><td>Aula 1 — Autoimagem</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>2</td><td>Aula 2 — Autoimagem</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>3</td><td>Aula 3 — Autoimagem</td><td><strong>Encontro 1: Espelho de Identidade</strong></td><td>Dossiê do PedroSup</td></tr>
+  <tr><td>4</td><td>Aula 4 — Posicionamento</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>5</td><td>Aula 5 — Posicionamento</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>6</td><td>Aula 6 — Posicionamento</td><td><strong>Encontro 2: Arquitetura de Posicionamento</strong></td><td>Dossiê do PedroSup</td></tr>
+  <tr><td>7</td><td>Aula 7 — Comunicação</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>8</td><td>Aula 8 — Comunicação</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>9</td><td>Aula 9 — Comunicação</td><td><strong>Encontro 3: Calibragem de Comunicação</strong></td><td>Dossiê do PedroSup</td></tr>
+  <tr><td>10</td><td>Aula 10 — Autoridade</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>11</td><td>Aula 11 — Autoridade</td><td>—</td><td>Salomão + PedroSup</td></tr>
+  <tr><td>12</td><td>Aula 12 — Autoridade</td><td><strong>Encontro 4: Plano de Autoridade</strong></td><td>Relatório final</td></tr>
+</table>
+
+<h3>Fase 4: Pós-Mentoria (Semana 13+)</h3>
+<table>
+  <tr><th>Ação</th><th>Quem faz</th><th>Objetivo</th></tr>
+  <tr><td>Oferta Fire Class</td><td>Salomão (IA)</td><td>Recorrência R$37-77/mês</td></tr>
+  <tr><td>Coleta de depoimento</td><td>Rose</td><td>Case para marketing</td></tr>
+  <tr><td>Programa de indicação</td><td>Laura (IA)</td><td>Novos leads qualificados</td></tr>
+  <tr><td>Relatório final</td><td>PedroSup (IA)</td><td>Documentação da transformação</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- ==================== 5. CRONOGRAMA ==================== -->
+<h2>5. Cronograma Semanal de Referência</h2>
+
+<h3>Rotina semanal do time durante as 12 semanas</h3>
+
+<table>
+  <tr><th>Dia</th><th>Augustto</th><th>Rose</th><th>Agentes IA</th></tr>
+  <tr>
+    <td><strong>Segunda</strong></td>
+    <td>—</td>
+    <td>Verificar alertas do PedroSup</td>
+    <td>Salomão envia provocação semanal<br>PedroSup gera relatório semanal</td>
+  </tr>
+  <tr>
+    <td><strong>Terça</strong></td>
+    <td>Aula em grupo (Google Meet)</td>
+    <td>Verificar presença na aula</td>
+    <td>PedroSup registra presença</td>
+  </tr>
+  <tr>
+    <td><strong>Quarta</strong></td>
+    <td>—</td>
+    <td>Atender casos sensíveis</td>
+    <td>Salomão envia material pós-aula</td>
+  </tr>
+  <tr>
+    <td><strong>Quinta</strong></td>
+    <td>Encontros individuais (semanas 3, 6, 9, 12)</td>
+    <td>Suporte operacional</td>
+    <td>PedroSup gera dossiê pré-encontro (48h antes)</td>
+  </tr>
+  <tr>
+    <td><strong>Sexta</strong></td>
+    <td>—</td>
+    <td>—</td>
+    <td>Salomão envia reforço pós-encontro (se houve)</td>
+  </tr>
+</table>
+
+<div class="box">
+  <p><strong>Nota:</strong> Esse cronograma é uma referência. Os dias podem ser ajustados conforme a agenda do Augustto. O importante é manter o ritmo: 1 aula/semana + provocação semanal + encontro individual a cada 3 semanas.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== 6. ROTEIRO DOS 4 ENCONTROS ==================== -->
+<h2>6. Roteiro dos 4 Encontros Individuais</h2>
+
+<div class="box">
+  <p><strong>Regra fundamental:</strong> Nos encontros individuais, o Augustto NÃO ensina — ele diagnostica e ativa. O ensino acontece nas aulas em grupo. O individual é para transformação personalizada.</p>
+</div>
+
+<!-- ENCONTRO 1 -->
+<h3>Encontro 1 — Espelho de Identidade (Semana 3)</h3>
+<p><strong>Objetivo:</strong> Confrontar a autoimagem real do aluno vs. a imagem que ele projeta</p>
+
+<table>
+  <tr><th>Momento</th><th>Duração</th><th>O que fazer</th></tr>
+  <tr>
+    <td><strong>Abertura</strong></td>
+    <td>5 min</td>
+    <td>"Depois dessas 3 semanas, o que mudou na forma como você se enxerga?"</td>
+  </tr>
+  <tr>
+    <td><strong>Diagnóstico</strong></td>
+    <td>20 min</td>
+    <td>Como o aluno se descreve vs. como descreveu na entrada. Onde se superestima. Onde se subestima. Qual narrativa interna limita o próximo passo.</td>
+  </tr>
+  <tr>
+    <td><strong>Espelho</strong></td>
+    <td>15 min</td>
+    <td>Devolver o que observou sem julgamento: "Você chegou dizendo X. Nas aulas, demonstrou Y. A dissonância está em Z." Nomear o padrão.</td>
+  </tr>
+  <tr>
+    <td><strong>Ativação</strong></td>
+    <td>15 min</td>
+    <td>Definir UMA mudança concreta: "Nas próximas 3 semanas, toda vez que [gatilho], você vai [ação nova]"</td>
+  </tr>
+  <tr>
+    <td><strong>Fechamento</strong></td>
+    <td>5 min</td>
+    <td>"Esse é o ponto de partida real. Tudo que veio antes foi aquecimento."</td>
+  </tr>
+</table>
+
+<ul class="checklist">
+  <li>Ler dossiê do PedroSup antes da sessão</li>
+  <li>Anotar a ativação definida para acompanhamento</li>
+  <li>Registrar observações para o próximo encontro</li>
+</ul>
+
+<!-- ENCONTRO 2 -->
+<h3>Encontro 2 — Arquitetura de Posicionamento (Semana 6)</h3>
+<p><strong>Objetivo:</strong> Construir a tese de posicionamento única do aluno</p>
+
+<table>
+  <tr><th>Momento</th><th>Duração</th><th>O que fazer</th></tr>
+  <tr>
+    <td><strong>Abertura</strong></td>
+    <td>5 min</td>
+    <td>"A ativação que definimos no último encontro — o que aconteceu com ela?"</td>
+  </tr>
+  <tr>
+    <td><strong>Revisão</strong></td>
+    <td>20 min</td>
+    <td>Como o mercado vê o aluno hoje vs. como ele quer ser visto. Qual território quer ocupar. Quem está tentando agradar vs. quem deveria atrair.</td>
+  </tr>
+  <tr>
+    <td><strong>Construção</strong></td>
+    <td>20 min</td>
+    <td>Definir: tese de posicionamento ("Eu sou quem [verbo] [resultado] para [público]"), diferenciador real, território de autoridade.</td>
+  </tr>
+  <tr>
+    <td><strong>Calibragem</strong></td>
+    <td>10 min</td>
+    <td>Testar: "Se alguém te perguntasse o que você faz, o que diria em 15 segundos?" Ajustar até soar natural e magnético.</td>
+  </tr>
+  <tr>
+    <td><strong>Fechamento</strong></td>
+    <td>5 min</td>
+    <td>"A partir de agora, toda decisão — de post a proposta — passa por esse filtro."</td>
+  </tr>
+</table>
+
+<ul class="checklist">
+  <li>Ler dossiê do PedroSup + status da ativação anterior</li>
+  <li>Registrar a tese de posicionamento definida</li>
+  <li>Anotar o território de autoridade escolhido</li>
+</ul>
+
+<!-- ENCONTRO 3 -->
+<h3>Encontro 3 — Calibragem de Comunicação (Semana 9)</h3>
+<p><strong>Objetivo:</strong> Ajustar a comunicação para que a mensagem chegue com o peso certo</p>
+
+<table>
+  <tr><th>Momento</th><th>Duração</th><th>O que fazer</th></tr>
+  <tr>
+    <td><strong>Abertura</strong></td>
+    <td>5 min</td>
+    <td>"Nas últimas 3 semanas, teve alguma situação de peso em que precisou se comunicar — como foi?"</td>
+  </tr>
+  <tr>
+    <td><strong>Diagnóstico</strong></td>
+    <td>20 min</td>
+    <td>Fala com clareza ou se perde? Tom de autoridade ou aprovação? Linguagem corporal reforça ou contradiz? Storytelling tem estrutura?</td>
+  </tr>
+  <tr>
+    <td><strong>Prática ao Vivo</strong></td>
+    <td>20 min</td>
+    <td>Exercício 1: "Me venda seu serviço em 2 minutos" → feedback → 2a tentativa.<br>Exercício 2: "Me conte sua história em 3 minutos" → feedback de presença e impacto.</td>
+  </tr>
+  <tr>
+    <td><strong>Ajustes</strong></td>
+    <td>10 min</td>
+    <td>3 ajustes específicos: (1) linguagem, (2) postura, (3) ritmo. Todos praticáveis imediatamente.</td>
+  </tr>
+  <tr>
+    <td><strong>Fechamento</strong></td>
+    <td>5 min</td>
+    <td>"Comunicação não é sobre falar bonito. É fazer a pessoa sentir que você é a resposta que ela procurava."</td>
+  </tr>
+</table>
+
+<ul class="checklist">
+  <li>Ler dossiê do PedroSup + verificar se aluno gravou vídeos/posts</li>
+  <li>Registrar os 3 ajustes definidos</li>
+  <li>Anotar nível de conforto do aluno com exposição</li>
+</ul>
+
+<!-- ENCONTRO 4 -->
+<h3>Encontro 4 — Plano de Autoridade (Semana 12)</h3>
+<p><strong>Objetivo:</strong> Consolidar a transformação e definir o plano pós-mentoria</p>
+
+<table>
+  <tr><th>Momento</th><th>Duração</th><th>O que fazer</th></tr>
+  <tr>
+    <td><strong>Abertura</strong></td>
+    <td>5 min</td>
+    <td>"Me descreve quem era a pessoa que entrou 12 semanas atrás — e quem está aqui agora."</td>
+  </tr>
+  <tr>
+    <td><strong>Consolidação</strong></td>
+    <td>20 min</td>
+    <td>Revisão dos 4 blocos pela perspectiva do aluno: o que mudou em autoimagem, posicionamento, comunicação e autoridade?</td>
+  </tr>
+  <tr>
+    <td><strong>Plano 90 dias</strong></td>
+    <td>25 min</td>
+    <td>Construir plano concreto: conteúdo (3x/sem), presença em eventos (1x/mês), reposicionar preço, conectar com 3 pessoas estratégicas/mês, 1 conteúdo de autoridade/semana.</td>
+  </tr>
+  <tr>
+    <td><strong>Fechamento</strong></td>
+    <td>10 min</td>
+    <td>Oferta do Fire Class. Proposta de case/depoimento. Convite para indicação. "O que você construiu aqui não termina. Termina quando o mercado inteiro souber quem você é."</td>
+  </tr>
+</table>
+
+<ul class="checklist">
+  <li>Ler relatório final do PedroSup (evolução completa 12 semanas)</li>
+  <li>Registrar o plano de 90 dias do aluno</li>
+  <li>Confirmar se aceitou Fire Class, depoimento e indicação</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- ==================== 7. PROTOCOLOS ==================== -->
+<h2>7. Protocolos de Atendimento</h2>
+
+<h3>Protocolo: Aluno em Risco (Alerta do PedroSup)</h3>
+
+<table>
+  <tr><th>Nível</th><th>Sinais</th><th>Quem age</th><th>Ação</th></tr>
+  <tr>
+    <td style="background:#0f9b8e;color:#fff;font-weight:bold;text-align:center;">VERDE</td>
+    <td>Presente, participativo, executando ativações</td>
+    <td>Ninguém (rotina)</td>
+    <td>Monitoramento padrão</td>
+  </tr>
+  <tr>
+    <td style="background:#f0ad4e;color:#fff;font-weight:bold;text-align:center;">AMARELO</td>
+    <td>Faltou 1 aula, silêncio no grupo 3-5 dias, ativação atrasada</td>
+    <td><strong>Salomão (IA)</strong></td>
+    <td>Mensagem de reativação leve, sem cobrar. Se sem resposta em 48h → 2a mensagem. Se sem resposta em 5 dias → Rose.</td>
+  </tr>
+  <tr>
+    <td style="background:#e94560;color:#fff;font-weight:bold;text-align:center;">VERMELHO</td>
+    <td>Faltou 2+ aulas, sumiu do grupo 5+ dias, sinais de desistência</td>
+    <td><strong>Rose + Augustto</strong></td>
+    <td>Rose faz contato humano direto. Se necessário, Augustto liga pessoalmente. Mapear causa e definir plano de recuperação.</td>
+  </tr>
+</table>
+
+<h3>Protocolo: Lead que não fecha na sessão</h3>
+<table>
+  <tr><th>Situação</th><th>Ação</th><th>Quem</th></tr>
+  <tr><td>Lead qualificado, mas não fechou</td><td>Follow-up em 48h com reflexão personalizada</td><td>Gabriel</td></tr>
+  <tr><td>Lead qualificado, mas sem budget para Premium</td><td>Oferecer Mentoria Grupo (R$7K)</td><td>Talita</td></tr>
+  <tr><td>Lead fora do ICP</td><td>Oferecer Ative Seu Poder (R$1K)</td><td>Laura (IA)</td></tr>
+  <tr><td>Lead não respondeu follow-up</td><td>Entrar em cadência de nurturing (90 dias)</td><td>Laura (IA)</td></tr>
+</table>
+
+<h3>Protocolo: Aluno pede reembolso</h3>
+<div class="box box-alert">
+  <p><strong>NUNCA</strong> discuta reembolso via agente IA. Sempre humano.</p>
+  <p><strong>Quem trata:</strong> Rose (primeiro contato) → Augustto (se necessário)</p>
+  <p><strong>Postura:</strong> Escutar, entender a causa real, propor solução antes de aceitar o reembolso.</p>
+  <p><strong>Registro:</strong> Documentar motivo para feedback ao time.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== 8. CHECKLISTS ==================== -->
+<h2>8. Checklists Operacionais</h2>
+
+<h3>Checklist: Antes de Cada Aula em Grupo</h3>
+<ul class="checklist">
+  <li>Link do Google Meet enviado ao grupo (24h antes)</li>
+  <li>Material da aula preparado (slides/roteiro)</li>
+  <li>Verificar alunos em alerta amarelo/vermelho — dar atenção especial</li>
+  <li>Gravação ativada no Google Meet</li>
+</ul>
+
+<h3>Checklist: Antes de Cada Encontro Individual</h3>
+<ul class="checklist">
+  <li>Dossiê do PedroSup lido e anotado</li>
+  <li>Status da ativação anterior verificado</li>
+  <li>Link do Google Meet/Zoom enviado ao aluno</li>
+  <li>60 minutos bloqueados na agenda (sem atrasos)</li>
+  <li>Ambiente silencioso, câmera ligada, presença total</li>
+</ul>
+
+<h3>Checklist: Após Cada Encontro Individual</h3>
+<ul class="checklist">
+  <li>Ativação definida registrada (para PedroSup acompanhar)</li>
+  <li>Observações anotadas para o próximo encontro</li>
+  <li>Feedback ao Salomão sobre foco de suporte nas próximas semanas</li>
+</ul>
+
+<h3>Checklist: Onboarding de Novo Aluno</h3>
+<ul class="checklist">
+  <li>Pagamento confirmado</li>
+  <li>Acesso à plataforma enviado (Rose)</li>
+  <li>Adicionado ao grupo exclusivo de WhatsApp</li>
+  <li>Cronograma das 12 semanas enviado</li>
+  <li>Datas dos 4 encontros individuais agendadas</li>
+  <li>Salomão enviou boas-vindas + provocação inicial</li>
+  <li>PedroSup registrou aluno e importou dossiê da Laura</li>
+</ul>
+
+<h3>Checklist: Formatura do Aluno (Semana 12)</h3>
+<ul class="checklist">
+  <li>Encontro 4 realizado com plano de 90 dias definido</li>
+  <li>Relatório final do PedroSup gerado</li>
+  <li>Fire Class oferecido pelo Salomão</li>
+  <li>Depoimento solicitado pela Rose</li>
+  <li>Programa de indicação ativado</li>
+  <li>Aluno removido do grupo da turma (se aplicável)</li>
+  <li>Adicionado ao grupo Fire Class (se aceitar)</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- ==================== 9. REGRAS DE OURO ==================== -->
+<h2>9. Regras de Ouro</h2>
+
+<div class="box" style="border-left-color:#1a1a2e;">
+  <h4 style="margin-top:0;">Para o Augustto</h4>
+  <ol>
+    <li>Nos encontros individuais: diagnosticar e ativar — não ensinar</li>
+    <li>Cada encontro tem UMA entrega clara — não resolver tudo de uma vez</li>
+    <li>Ler o dossiê do PedroSup ANTES de cada sessão — nunca entrar sem contexto</li>
+    <li>O encontro 4 SEMPRE termina com oferta de continuidade</li>
+  </ol>
+</div>
+
+<div class="box" style="border-left-color:#e94560;">
+  <h4 style="margin-top:0;">Para Talita e Gabriel</h4>
+  <ol>
+    <li>Nunca repetir perguntas que a Laura já fez — ler o dossiê antes</li>
+    <li>O lead que não fecha Premium pode fechar Grupo (R$7K) — nunca perder o lead</li>
+    <li>Follow-up em 48h é obrigatório — depois disso, o lead esfria</li>
+    <li>O preço nunca é discutido antes da sessão estratégica</li>
+  </ol>
+</div>
+
+<div class="box" style="border-left-color:#0f9b8e;">
+  <h4 style="margin-top:0;">Para Rose</h4>
+  <ol>
+    <li>Alerta vermelho = ação em até 4 horas — não pode esperar</li>
+    <li>Reembolso é última opção — escutar e propor solução antes</li>
+    <li>Documentar TUDO — cada caso sensível vira aprendizado para o time</li>
+    <li>O aluno que reclama é o que mais se importa — tratar com respeito total</li>
+  </ol>
+</div>
+
+<div class="box" style="border-left-color:#c9a84c;">
+  <h4 style="margin-top:0;">Para Todos</h4>
+  <ol>
+    <li>O aluno investiu R$33K — cada interação deve reforçar que valeu cada centavo</li>
+    <li>Proibido improvisar fora da Jornada de 12 Semanas — os 4 blocos são sagrados</li>
+    <li>Os agentes IA são ferramentas — a decisão final é sempre humana</li>
+    <li>Feito e imperfeito > perfeito e parado</li>
+  </ol>
+</div>
+
+<blockquote>
+  "A mentoria acontece nos encontros. Mas a transformação acontece entre eles."
+</blockquote>
+
+<div class="footer">
+  <p>MENTORIA AURA PREMIUM — Roteiro Operacional v1.0 — Sellect Intelligence — Abril 2026</p>
+  <p>Documento interno e confidencial. Não distribuir fora do time.</p>
+</div>
+
+</body>
+</html>

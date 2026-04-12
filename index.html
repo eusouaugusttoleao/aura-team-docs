@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentoria AURA — Documentos do Time</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0f;
+    color: #e4e4f0;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(212, 160, 74, .12);
+    border: 1px solid rgba(212, 160, 74, .25);
+    color: #d4a04a;
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 0%, #d4a04a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: #888;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* CARDS */
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all .3s ease;
+  }
+
+  .card:hover {
+    background: rgba(255, 255, 255, .06);
+    border-color: rgba(212, 160, 74, .3);
+    transform: translateY(-2px);
+  }
+
+  .card-number {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: rgba(212, 160, 74, .15);
+    color: #d4a04a;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .card p {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  .card-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .3s ease;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #d4a04a, #b8863a);
+    color: #0a0a0f;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(212, 160, 74, .3);
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: #e4e4f0;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, .1);
+  }
+
+  .icon {
+    font-size: 16px;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, .06);
+  }
+
+  .footer p {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.8;
+  }
+
+  .footer strong {
+    color: #d4a04a;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="badge">Documento Interno</div>
+    <h1>Mentoria AURA<br>Documentos do Time</h1>
+    <p>Todas as apresentacoes e documentos operacionais da Mentoria AURA Premium em um so lugar.</p>
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-number">1</div>
+      <h3>Workflow Laura (SDR IA)</h3>
+      <p>Fluxo completo da agente Laura: captacao, qualificacao de leads em 5 etapas, geracao de dossie e handoff para o time humano.</p>
+      <div class="card-links">
+        <a href="workflow-laura.html" class="btn btn-primary" target="_blank"><span class="icon">&#9654;</span> Visualizar</a>
+        <a href="workflow-laura.pdf" class="btn btn-secondary" download><span class="icon">&#8615;</span> Baixar PDF</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-number">2</div>
+      <h3>Plano Semanal — 12 Semanas</h3>
+      <p>Cronograma detalhado das 12 semanas de mentoria: aulas em grupo, encontros individuais, ativacoes e suporte por bloco.</p>
+      <div class="card-links">
+        <a href="plano-semanal.html" class="btn btn-primary" target="_blank"><span class="icon">&#9654;</span> Visualizar</a>
+        <a href="plano-semanal.pdf" class="btn btn-secondary" download><span class="icon">&#8615;</span> Baixar PDF</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-number">3</div>
+      <h3>Simulacao dos Agentes IA</h3>
+      <p>Demonstracao interativa de como Laura, Salomao e PedroSup operam em tempo real com conversas simuladas.</p>
+      <div class="card-links">
+        <a href="simulacao-agentes.html" class="btn btn-primary" target="_blank"><span class="icon">&#9654;</span> Visualizar</a>
+        <a href="simulacao-agentes.pdf" class="btn btn-secondary" download><span class="icon">&#8615;</span> Baixar PDF</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-number">4</div>
+      <h3>Roteiro Operacional do Time</h3>
+      <p>Guia completo para Augustto, Talita, Gabriel e Rose: papeis, fluxos, protocolos, checklists e regras de ouro.</p>
+      <div class="card-links">
+        <a href="roteiro-time-humano.html" class="btn btn-primary" target="_blank"><span class="icon">&#9654;</span> Visualizar</a>
+        <a href="roteiro-time-humano.pdf" class="btn btn-secondary" download><span class="icon">&#8615;</span> Baixar PDF</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p><strong>Sellect Intelligence</strong> — Mentoria AURA Premium<br>
+    Documento interno e confidencial. Nao distribuir fora do time.<br>
+    Versao 1.0 — Abril 2026</p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Semanal 12 Semanas — Mentoria AURA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e4e4f0;overflow-x:hidden}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:40px 20px;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 25% 50%,rgba(139,92,246,.12) 0%,transparent 50%),radial-gradient(ellipse at 75% 50%,rgba(212,160,74,.08) 0%,transparent 50%);animation:pulse 10s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}}
+  .hero-content{position:relative;z-index:1;max-width:800px}
+  .badge{display:inline-block;background:rgba(212,160,74,.12);border:1px solid rgba(212,160,74,.25);color:#d4a04a;padding:8px 24px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:30px}
+  .hero h1{font-size:clamp(36px,5.5vw,64px);font-weight:900;line-height:1.08;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,#d4a04a 60%,#8b5cf6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{font-size:17px;color:#a0a0b0;max-width:600px;line-height:1.7;margin:0 auto 40px}
+  .hero-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;width:100%;max-width:700px;margin-top:10px}
+  .hero-stat{text-align:center;padding:16px 8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px}
+  .hero-stat-num{font-size:28px;font-weight:800;color:#d4a04a}
+  .hero-stat-label{font-size:10px;color:#a0a0b0;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+  /* NAV TABS */
+  .nav-bar{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 20px}
+  .nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+  .nav-inner::-webkit-scrollbar{display:none}
+  .nav-tab{padding:16px 24px;font-size:13px;font-weight:600;color:#a0a0b0;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .3s}
+  .nav-tab:hover,.nav-tab.active{color:#fff;border-bottom-color:#8b5cf6}
+  .nav-tab.gold.active{border-bottom-color:#d4a04a}
+
+  /* SECTIONS */
+  section{padding:80px 20px;max-width:1200px;margin:0 auto}
+  .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:10px}
+  .label-b1{color:#8b5cf6}.label-b2{color:#3b82f6}.label-b3{color:#f59e0b}.label-b4{color:#22c55e}.label-gold{color:#d4a04a}
+  .section-title{font-size:clamp(26px,3.5vw,38px);font-weight:800;color:#fff;margin-bottom:8px}
+  .section-subtitle{color:#a0a0b0;font-size:15px;line-height:1.6;max-width:700px;margin-bottom:50px}
+
+  /* BLOCO HEADER */
+  .bloco-header{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:50px}
+  .bloco-info{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:20px}
+  .bloco-info h4{font-size:12px;color:#a0a0b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+  .bloco-info p{font-size:14px;color:#fff;line-height:1.5}
+  .bloco-info .hook{font-style:italic;color:#d4a04a;font-size:13px}
+
+  /* WEEK CARD */
+  .week-card{background:#12121a;border:1px solid rgba(255,255,255,.06);border-radius:20px;margin-bottom:30px;overflow:hidden;transition:all .3s}
+  .week-card:hover{border-color:rgba(139,92,246,.3)}
+  .week-header{padding:24px 28px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none}
+  .week-num{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+  .b1 .week-num{background:rgba(139,92,246,.15);color:#a78bfa}
+  .b2 .week-num{background:rgba(59,130,246,.15);color:#60a5fa}
+  .b3 .week-num{background:rgba(245,158,11,.15);color:#fbbf24}
+  .b4 .week-num{background:rgba(34,197,94,.15);color:#4ade80}
+  .week-title-group{flex:1}
+  .week-title{font-size:18px;font-weight:700;color:#fff}
+  .week-subtitle{font-size:13px;color:#a0a0b0;margin-top:2px}
+  .week-toggle{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#a0a0b0;transition:transform .3s}
+  .week-card.open .week-toggle{transform:rotate(180deg)}
+  .week-body{display:none;padding:0 28px 28px}
+  .week-card.open .week-body{display:block}
+
+  /* SQUAD ROWS */
+  .squad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .squad-block{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:18px;transition:all .3s}
+  .squad-block:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+  .squad-block.full{grid-column:1/-1}
+  .squad-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+  .tag-content{background:rgba(192,132,252,.12);color:#c084fc}
+  .tag-support{background:rgba(34,197,94,.12);color:#22c55e}
+  .tag-growth{background:rgba(59,130,246,.12);color:#60a5fa}
+  .tag-cfo{background:rgba(245,158,11,.12);color:#f59e0b}
+  .tag-laura{background:rgba(236,72,153,.12);color:#f472b6}
+  .tag-marco{background:rgba(212,160,74,.12);color:#d4a04a}
+  .squad-block h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+  .squad-block p{font-size:13px;color:#a0a0b0;line-height:1.6}
+  .squad-block .highlight{color:#e4e4f0;font-weight:500}
+  .squad-block .tool-name{display:inline-block;background:rgba(212,160,74,.1);border:1px solid rgba(212,160,74,.2);color:#d4a04a;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;margin-top:8px}
+  .squad-block .ritual-name{display:inline-block;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);color:#22c55e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;margin-top:8px}
+  .squad-block .marco-name{display:inline-block;background:rgba(212,160,74,.15);border:1px solid rgba(212,160,74,.25);color:#d4a04a;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:700;margin-top:8px}
+
+  /* MARCO TIMELINE */
+  .marco-timeline{display:flex;gap:0;margin:50px 0;position:relative;overflow-x:auto;padding-bottom:10px}
+  .marco-item{flex:1;min-width:90px;text-align:center;position:relative}
+  .marco-item::after{content:'';position:absolute;top:18px;left:50%;width:100%;height:2px;z-index:0}
+  .marco-item:last-child::after{display:none}
+  .b1 .marco-item::after{background:linear-gradient(90deg,#8b5cf6,#8b5cf6)}
+  .b2 .marco-item::after{background:linear-gradient(90deg,#3b82f6,#3b82f6)}
+  .b3 .marco-item::after{background:linear-gradient(90deg,#f59e0b,#f59e0b)}
+  .b4 .marco-item::after{background:linear-gradient(90deg,#22c55e,#22c55e)}
+  .marco-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;position:relative;z-index:1;font-size:14px;font-weight:800}
+  .b1 .marco-dot{background:rgba(139,92,246,.2);color:#a78bfa;border:2px solid #8b5cf6}
+  .b2 .marco-dot{background:rgba(59,130,246,.2);color:#60a5fa;border:2px solid #3b82f6}
+  .b3 .marco-dot{background:rgba(245,158,11,.2);color:#fbbf24;border:2px solid #f59e0b}
+  .b4 .marco-dot{background:rgba(34,197,94,.2);color:#4ade80;border:2px solid #22c55e}
+  .marco-label{font-size:11px;font-weight:600;color:#fff;line-height:1.3}
+  .marco-week{font-size:10px;color:#a0a0b0;margin-top:2px}
+
+  /* FERRAMENTAS */
+  .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+  .tool-card{background:#12121a;border:1px solid rgba(212,160,74,.15);border-radius:14px;padding:16px;transition:all .3s}
+  .tool-card:hover{border-color:rgba(212,160,74,.4);transform:translateY(-4px)}
+  .tool-card .week-badge{font-size:10px;color:#a0a0b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+  .tool-card h5{font-size:13px;font-weight:700;color:#d4a04a;margin-bottom:4px}
+  .tool-card p{font-size:11px;color:#a0a0b0;line-height:1.5}
+  .tool-card .type{display:inline-block;background:rgba(255,255,255,.05);padding:2px 8px;border-radius:4px;font-size:10px;color:#e4e4f0;margin-top:6px}
+
+  /* RITUAIS */
+  .rituals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+  .ritual-card{background:#12121a;border:1px solid rgba(34,197,94,.15);border-radius:14px;padding:16px;transition:all .3s}
+  .ritual-card:hover{border-color:rgba(34,197,94,.4);transform:translateY(-4px)}
+  .ritual-card .week-badge{font-size:10px;color:#a0a0b0;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+  .ritual-card h5{font-size:13px;font-weight:700;color:#22c55e;margin-bottom:4px}
+  .ritual-card p{font-size:11px;color:#a0a0b0;line-height:1.5}
+  .ritual-card .dia{display:inline-block;background:rgba(34,197,94,.1);padding:2px 8px;border-radius:4px;font-size:10px;color:#22c55e;margin-top:6px}
+
+  /* ESCALACAO */
+  .esc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+  .esc-card{background:#12121a;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:18px;transition:all .3s}
+  .esc-card:hover{border-color:rgba(239,68,68,.3)}
+  .esc-urgencia{display:inline-block;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:10px}
+  .urg-critica{background:rgba(239,68,68,.15);color:#ef4444}
+  .urg-alta{background:rgba(245,158,11,.15);color:#f59e0b}
+  .urg-media{background:rgba(59,130,246,.15);color:#60a5fa}
+  .esc-card h5{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
+  .esc-card p{font-size:12px;color:#a0a0b0;line-height:1.5}
+  .esc-route{font-size:11px;color:#e4e4f0;margin-top:8px;font-weight:500}
+
+  /* METRICAS */
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+  .metric-card{border-radius:16px;padding:24px;text-align:center;transition:all .3s}
+  .metric-card:hover{transform:translateY(-4px)}
+  .mc-b1{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(139,92,246,.02));border:1px solid rgba(139,92,246,.2)}
+  .mc-b2{background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(59,130,246,.02));border:1px solid rgba(59,130,246,.2)}
+  .mc-b3{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(245,158,11,.02));border:1px solid rgba(245,158,11,.2)}
+  .mc-b4{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(34,197,94,.02));border:1px solid rgba(34,197,94,.2)}
+  .metric-card h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:16px}
+  .metric-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+  .metric-row:last-child{border:none}
+  .metric-label{font-size:11px;color:#a0a0b0}
+  .metric-value{font-size:13px;font-weight:700}
+  .mc-b1 .metric-value{color:#a78bfa}.mc-b2 .metric-value{color:#60a5fa}.mc-b3 .metric-value{color:#fbbf24}.mc-b4 .metric-value{color:#4ade80}
+
+  /* OVERVIEW TABLE */
+  .overview-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.06);margin-top:30px}
+  .overview-table th{background:#14141e;padding:14px 16px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#a0a0b0;border-bottom:1px solid rgba(255,255,255,.06)}
+  .overview-table td{padding:12px 16px;font-size:12px;border-bottom:1px solid rgba(255,255,255,.03);color:#e4e4f0}
+  .overview-table tr:hover td{background:rgba(139,92,246,.03)}
+  .overview-table .sem-num{font-weight:800;font-size:14px}
+  .overview-table .bloco-badge{padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700}
+  .bb-1{background:rgba(139,92,246,.15);color:#a78bfa}
+  .bb-2{background:rgba(59,130,246,.15);color:#60a5fa}
+  .bb-3{background:rgba(245,158,11,.15);color:#fbbf24}
+  .bb-4{background:rgba(34,197,94,.15);color:#4ade80}
+
+  footer{text-align:center;padding:60px 20px;border-top:1px solid #1a1a24}
+  footer .brand{font-size:16px;font-weight:700;color:#d4a04a;margin-bottom:6px}
+  footer p{color:#555;font-size:12px}
+
+  @media(max-width:768px){
+    .hero-grid{grid-template-columns:repeat(3,1fr)}
+    .bloco-header{grid-template-columns:1fr}
+    .squad-grid{grid-template-columns:1fr}
+    .tools-grid,.rituals-grid{grid-template-columns:repeat(2,1fr)}
+    .esc-grid{grid-template-columns:1fr}
+    .metrics-grid{grid-template-columns:repeat(2,1fr)}
+    .overview-table{font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="badge">Mentoria AURA — Augustto Leao</div>
+    <h1>Plano de Execucao<br>12 Semanas</h1>
+    <p>Documento operacional completo que alimenta todos os squads e agentes. Cada semana detalhada com conteudo, rituais, campanhas, financeiro e marcos AURA.</p>
+    <div class="hero-grid">
+      <div class="hero-stat"><div class="hero-stat-num">4</div><div class="hero-stat-label">Blocos</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">12</div><div class="hero-stat-label">Semanas</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">12</div><div class="hero-stat-label">Marcos</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">12</div><div class="hero-stat-label">Rituais</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">12</div><div class="hero-stat-label">Ferramentas</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-bar">
+  <div class="nav-inner">
+    <div class="nav-tab gold active" onclick="scrollTo_('overview')">Visao Geral</div>
+    <div class="nav-tab" onclick="scrollTo_('bloco1')">Bloco 1</div>
+    <div class="nav-tab" onclick="scrollTo_('bloco2')">Bloco 2</div>
+    <div class="nav-tab" onclick="scrollTo_('bloco3')">Bloco 3</div>
+    <div class="nav-tab" onclick="scrollTo_('bloco4')">Bloco 4</div>
+    <div class="nav-tab" onclick="scrollTo_('ferramentas')">Ferramentas</div>
+    <div class="nav-tab" onclick="scrollTo_('rituais')">Rituais</div>
+    <div class="nav-tab" onclick="scrollTo_('marcos')">Marcos</div>
+    <div class="nav-tab" onclick="scrollTo_('escalacao')">Escalacao</div>
+    <div class="nav-tab" onclick="scrollTo_('metricas')">Metricas</div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-label label-gold">Visao Geral</div>
+  <div class="section-title">Mapa das 12 Semanas</div>
+  <div class="section-subtitle">Cada semana com tema, ferramenta de sabedoria, ritual AURA e marco. Clique nos blocos abaixo para ver os detalhes.</div>
+
+  <table class="overview-table">
+    <thead><tr><th>Sem</th><th>Bloco</th><th>Titulo</th><th>Ferramenta</th><th>Ritual</th><th>Marco AURA</th></tr></thead>
+    <tbody>
+      <tr><td class="sem-num">1</td><td><span class="bloco-badge bb-1">Autoimagem</span></td><td>O Espelho Interno</td><td>Mapa da Autoimagem</td><td>Check-in do Espelho</td><td>Despertar do Espelho</td></tr>
+      <tr><td class="sem-num">2</td><td><span class="bloco-badge bb-1">Autoimagem</span></td><td>Crencas que Constroem Tetos</td><td>Inventario de Crencas</td><td>Renuncia Consciente</td><td>Nomeacao</td></tr>
+      <tr><td class="sem-num">3</td><td><span class="bloco-badge bb-1">Autoimagem</span></td><td>Reconstrucao do Valor Proprio</td><td>Carta ao Eu do Futuro</td><td>Declaracao de Nova Identidade</td><td>Nova Identidade</td></tr>
+      <tr><td class="sem-num">4</td><td><span class="bloco-badge bb-2">Posicionamento</span></td><td>A Frequencia do Posicionamento</td><td>Pesquisa de Percepcao</td><td>Espelho do Mercado</td><td>Mapa de Gaps</td></tr>
+      <tr><td class="sem-num">5</td><td><span class="bloco-badge bb-2">Posicionamento</span></td><td>Construindo Presenca</td><td>Frase de Posicionamento</td><td>Teste de Presenca</td><td>Declaracao de Presenca</td></tr>
+      <tr><td class="sem-num">6</td><td><span class="bloco-badge bb-2">Posicionamento</span></td><td>Autoridade Percebida</td><td>Plano de Autoridade 30 dias</td><td>Compromisso Publico</td><td>Autoridade Ativada</td></tr>
+      <tr><td class="sem-num">7</td><td><span class="bloco-badge bb-3">Comunicacao</span></td><td>A Voz da Autoridade</td><td>Diagnostico Vocal</td><td>Espelho da Voz</td><td>Consciencia Vocal</td></tr>
+      <tr><td class="sem-num">8</td><td><span class="bloco-badge bb-3">Comunicacao</span></td><td>Storytelling com Autoridade</td><td>Minha Historia de Autoridade</td><td>Roda de Historias</td><td>Historia Contada</td></tr>
+      <tr><td class="sem-num">9</td><td><span class="bloco-badge bb-3">Comunicacao</span></td><td>Comunicacao que Converte</td><td>7 Dias de Escuta Ativa</td><td>Relato de Escuta</td><td>Comunicador Magnetico</td></tr>
+      <tr><td class="sem-num">10</td><td><span class="bloco-badge bb-4">Acao</span></td><td>Execucao Estrategica</td><td>Plano 90 Dias de Autoridade</td><td>Primeira Acao em 24h</td><td>Plano em Acao</td></tr>
+      <tr><td class="sem-num">11</td><td><span class="bloco-badge bb-4">Acao</span></td><td>Vendas com Autoridade</td><td>Script de Venda por Autoridade</td><td>Venda Real</td><td>Primeira Venda</td></tr>
+      <tr><td class="sem-num">12</td><td><span class="bloco-badge bb-4">Acao</span></td><td>Autoridade Consolidada</td><td>Carta ao Eu do Futuro (abertura)</td><td>Declaracao Final</td><td>Autoridade Consolidada</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- BLOCO 1 -->
+<section id="bloco1" class="b1">
+  <div class="section-label label-b1">Bloco 1 — Semanas 1 a 3</div>
+  <div class="section-title">Autoimagem</div>
+  <div class="section-subtitle">Quem voce acredita que e define o teto dos seus resultados.</div>
+
+  <div class="bloco-header">
+    <div class="bloco-info"><h4>Padrao de Dor</h4><p>Teto Interno de Precificacao / Desvalorizacao Profissional</p></div>
+    <div class="bloco-info"><h4>Hook Principal</h4><p class="hook">"Voce nao vive o seu potencial. Vive a imagem que tem de si."</p></div>
+    <div class="bloco-info"><h4>Reflexao Laura</h4><p class="hook">"O preco que voce aceita cobrar e o espelho do preco que voce acredita que vale."</p></div>
+  </div>
+
+  <div class="marco-timeline">
+    <div class="marco-item"><div class="marco-dot">1</div><div class="marco-label">Despertar<br>do Espelho</div><div class="marco-week">Semana 1</div></div>
+    <div class="marco-item"><div class="marco-dot">2</div><div class="marco-label">Nomeacao</div><div class="marco-week">Semana 2</div></div>
+    <div class="marco-item"><div class="marco-dot">3</div><div class="marco-label">Nova<br>Identidade</div><div class="marco-week">Semana 3</div></div>
+  </div>
+
+  <!-- SEMANA 1 -->
+  <div class="week-card open" onclick="this.classList.toggle('open')">
+    <div class="week-header">
+      <div class="week-num">1</div>
+      <div class="week-title-group"><div class="week-title">O Espelho Interno</div><div class="week-subtitle">Descobrindo a autoimagem que governa seus resultados</div></div>
+      <div class="week-toggle">▼</div>
+    </div>
+    <div class="week-body">
+      <div class="squad-grid">
+        <div class="squad-block"><div class="squad-tag tag-content">Content Squad</div><h4>Aula: O que e autoimagem e como ela limita resultados</h4><p><span class="highlight">Hook:</span> "Voce nao vive o seu potencial. Vive a imagem que tem de si."</p><p><span class="highlight">Estrutura:</span> 25% Teoria (neurociencia) / 30% Pratica (exercicio do espelho) / 20% Ativacao</p><p><span class="highlight">Carrossel:</span> "Sua autoimagem esta sabotando seus resultados?" — 7 slides</p><p><span class="highlight">Reel:</span> Augustto: "Eu ja fui panfleteiro. Nao mudei de cargo — mudei a imagem que tinha de mim." (30s)</p><div class="tool-name">Ferramenta: Mapa da Autoimagem (15 min)</div></div>
+        <div class="squad-block"><div class="squad-tag tag-support">Support Squad</div><h4>Ritual: Check-in do Espelho</h4><p><span class="highlight">Dia:</span> Quarta-feira | <span class="highlight">Canal:</span> WhatsApp</p><p><span class="highlight">Mecanica:</span> "Em uma palavra, como voce se descreveu hoje para alguem?"</p><p><span class="highlight">Onboarding:</span> Acesso liberado, grupo adicionado, kit enviado, ritual explicado</p><p><span class="highlight">Escalacao:</span> Aluno nao acessa em 48h → Rose contata</p><div class="ritual-name">Ritual: Check-in do Espelho</div></div>
+        <div class="squad-block"><div class="squad-tag tag-growth">Growth Squad</div><h4>Campanha: Autoimagem — Topo de Funil</h4><p><span class="highlight">Headline:</span> "Voce tem resultado. Mas sente que o mercado nao te enxerga?"</p><p><span class="highlight">Publico:</span> Lideranca 40% + Comunicacao 30% + Lookalike 30%</p><p><span class="highlight">Organico:</span> 1 carrossel + 1 reel + 3 stories + 1 post LinkedIn</p></div>
+        <div class="squad-block"><div class="squad-tag tag-cfo">CFO Squad</div><h4>Meta: R$ 216.666</h4><p><span class="highlight">Foco:</span> Fireflix + Sessao Estrategica</p><p><span class="highlight">KPI:</span> Numero de leads capturados | CPL vs meta</p><p><span class="highlight">Alerta:</span> CPL > 2x media → revisar copy</p></div>
+        <div class="squad-block"><div class="squad-tag tag-laura">Laura IA</div><h4>Foco: Leads com dor de autoimagem</h4><p><span class="highlight">Pergunta:</span> "O que te trouxe ate aqui agora?"</p><p><span class="highlight">Padrao:</span> Teto Interno de Precificacao</p></div>
+        <div class="squad-block"><div class="squad-tag tag-marco">Marco AURA</div><h4>Despertar do Espelho</h4><p>Aluno reconhece conscientemente sua autoimagem limitante</p><p><span class="highlight">Indicador:</span> Mapa da Autoimagem completo + 1 crenca identificada</p><div class="marco-name">Marco 1 de 12</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEMANA 2 -->
+  <div class="week-card" onclick="this.classList.toggle('open')">
+    <div class="week-header">
+      <div class="week-num">2</div>
+      <div class="week-title-group"><div class="week-title">Crencas que Constroem Tetos</div><div class="week-subtitle">Identificando e nomeando as crencas que limitam</div></div>
+      <div class="week-toggle">▼</div>
+    </div>
+    <div class="week-body">
+      <div class="squad-grid">
+        <div class="squad-block"><div class="squad-tag tag-content">Content Squad</div><h4>Aula: Como crencas limitantes se formam e como reprograma-las</h4><p><span class="highlight">Hook:</span> "O problema nao e o que voce sabe. E o que voce acredita que merece."</p><p><span class="highlight">Carrossel:</span> "3 crencas que impedem voce de cobrar o que vale"</p><div class="tool-name">Ferramenta: Inventario de Crencas (20 min)</div></div>
+        <div class="squad-block"><div class="squad-tag tag-support">Support Squad</div><h4>Ritual: Renuncia Consciente</h4><p><span class="highlight">Dia:</span> Quinta-feira</p><p>"Eu renuncio a crenca de que [X] porque ela nao serve mais ao meu proximo nivel."</p><p>Sage (aura-tutor) responde cada renuncia com validacao personalizada</p><div class="ritual-name">Ritual: Renuncia Consciente</div></div>
+        <div class="squad-block"><div class="squad-tag tag-growth">Growth Squad</div><h4>Retargeting semana 1</h4><p><span class="highlight">Headline:</span> "Voce ja sabe que algo te trava. Agora e hora de nomear."</p></div>
+        <div class="squad-block"><div class="squad-tag tag-marco">Marco AURA</div><h4>Nomeacao</h4><p>Aluno nomeia 3 crencas limitantes + ritual de Renuncia</p><div class="marco-name">Marco 2 de 12</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEMANA 3 -->
+  <div class="week-card" onclick="this.classList.toggle('open')">
+    <div class="week-header">
+      <div class="week-num">3</div>
+      <div class="week-title-group"><div class="week-title">Reconstrucao do Valor Proprio</div><div class="week-subtitle">Criando uma nova base de autoconfianca</div></div>
+      <div class="week-toggle">▼</div>
+    </div>
+    <div class="week-body">
+      <div class="squad-grid">
+        <div class="squad-block"><div class="squad-tag tag-content">Content Squad</div><h4>Aula: Reconstruindo a autoimagem — nova identidade</h4><p><span class="highlight">Hook:</span> "Voce nao precisa de mais confianca. Precisa de uma imagem nova de si."</p><p><span class="highlight">Reel:</span> "Eu nao me tornei outro. Eu parei de ser quem eu nao era." (20s)</p><div class="tool-name">Ferramenta: Carta ao Eu do Futuro (20 min)</div></div>
+        <div class="squad-block"><div class="squad-tag tag-support">Support Squad</div><h4>Ritual: Declaracao de Nova Identidade</h4><p><span class="highlight">Dia:</span> Sexta-feira | Audio 30s</p><p>"Eu sou [nome]. Eu decidi ser [nova identidade]. A partir de agora, eu [compromisso]."</p><p><span class="highlight">Feedback do Bloco:</span> NPS + formulario qualitativo</p><div class="ritual-name">Ritual: Declaracao de Identidade</div></div>
+        <div class="squad-block"><div class="squad-tag tag-growth">Growth Squad</div><h4>Prova Social — Transformacao</h4><p><span class="highlight">Headline:</span> "Ele achava que o problema era o mercado. Era o espelho."</p></div>
+        <div class="squad-block"><div class="squad-tag tag-marco">Marco AURA</div><h4>Nova Identidade</h4><p>Audio de declaracao + Carta lacrada (abrir na semana 12)</p><p><span class="highlight">Celebracao:</span> Augustto grava audio personalizado</p><div class="marco-name">Marco 3 de 12</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOCO 2 -->
+<section id="bloco2" class="b2">
+  <div class="section-label label-b2">Bloco 2 — Semanas 4 a 6</div>
+  <div class="section-title">Posicionamento</div>
+  <div class="section-subtitle">Posicionamento nao e o que voce fala. E o que sentem quando voce chega.</div>
+  <div class="bloco-header">
+    <div class="bloco-info"><h4>Padrao de Dor</h4><p>Invisibilidade de Posicionamento / Atracao de Publico Errado</p></div>
+    <div class="bloco-info"><h4>Hook Principal</h4><p class="hook">"Se voce precisa se explicar, seu posicionamento esta fraco."</p></div>
+    <div class="bloco-info"><h4>Reflexao Laura</h4><p class="hook">"Posicionamento e identidade. Quando nao consegue se posicionar, e porque ainda nao decidiu quem e para o mercado."</p></div>
+  </div>
+  <div class="marco-timeline">
+    <div class="marco-item"><div class="marco-dot">4</div><div class="marco-label">Mapa de<br>Gaps</div><div class="marco-week">Semana 4</div></div>
+    <div class="marco-item"><div class="marco-dot">5</div><div class="marco-label">Declaracao<br>de Presenca</div><div class="marco-week">Semana 5</div></div>
+    <div class="marco-item"><div class="marco-dot">6</div><div class="marco-label">Autoridade<br>Ativada</div><div class="marco-week">Semana 6</div></div>
+  </div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">4</div><div class="week-title-group"><div class="week-title">A Frequencia do Posicionamento</div><div class="week-subtitle">Diagnostico de como o mercado te percebe</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: Diagnostico de posicionamento</h4><p>Hook: "Voce esta sendo percebido como 'mais um'?"</p><div class="tool-name">Pesquisa de Percepcao (7 dias)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Espelho do Mercado</h4><p>Terca-feira — compartilhar resultado da pesquisa</p><div class="ritual-name">Espelho do Mercado</div></div><div class="squad-block"><div class="squad-tag tag-growth">Growth</div><h4>Topo: Posicionamento</h4><p>"O mercado nao te ignora por falta de competencia."</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Mapa de Gaps</h4><p>Pesquisa completa (min 3 respostas)</p><div class="marco-name">Marco 4</div></div></div></div></div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">5</div><div class="week-title-group"><div class="week-title">Construindo Presenca</div><div class="week-subtitle">Da invisibilidade a presenca intencional</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: Presenca intencional</h4><p>Hook: "Presenca nao se finge. Se constroi."</p><div class="tool-name">Frase de Posicionamento (15 min)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Teste de Presenca</h4><p>Quarta — usar frase em situacao real</p><div class="ritual-name">Teste de Presenca</div></div><div class="squad-block"><div class="squad-tag tag-laura">Laura</div><h4>Foco: Invisibilidade</h4><p>"As pessoas certas sabem que voce existe?"</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Declaracao de Presenca</h4><p>Frase construida + testada</p><div class="marco-name">Marco 5</div></div></div></div></div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">6</div><div class="week-title-group"><div class="week-title">Autoridade Percebida</div><div class="week-subtitle">Consolidando posicionamento como identidade</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: De posicionamento a autoridade</h4><p>Hook: "Autoridade nao se pede. Se demonstra."</p><div class="tool-name">Plano de Autoridade 30 dias (25 min)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Compromisso Publico</h4><p>Sexta — publicar no Instagram usando frase de posicionamento</p><div class="ritual-name">Compromisso Publico</div></div><div class="squad-block"><div class="squad-tag tag-growth">Growth</div><h4>Prova Social</h4><p>"Ele era invisivel no mercado. Hoje os clientes vem ate ele."</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Autoridade Ativada</h4><p>Plano de 30 dias + 1 post publico</p><div class="marco-name">Marco 6</div></div></div></div></div>
+</section>
+
+<!-- BLOCO 3 -->
+<section id="bloco3" class="b3">
+  <div class="section-label label-b3">Bloco 3 — Semanas 7 a 9</div>
+  <div class="section-title">Comunicacao Magnetica</div>
+  <div class="section-subtitle">Comunicacao com autoridade nao e sobre volume. E sobre peso.</div>
+  <div class="bloco-header">
+    <div class="bloco-info"><h4>Padrao de Dor</h4><p>Trava na Camera / Vazamento de Autoridade</p></div>
+    <div class="bloco-info"><h4>Hook Principal</h4><p class="hook">"Voce fala para informar ou para ativar?"</p></div>
+    <div class="bloco-info"><h4>Reflexao Laura</h4><p class="hook">"A camera nao cria bloqueio — revela um que ja estava la."</p></div>
+  </div>
+  <div class="marco-timeline">
+    <div class="marco-item"><div class="marco-dot">7</div><div class="marco-label">Consciencia<br>Vocal</div><div class="marco-week">Semana 7</div></div>
+    <div class="marco-item"><div class="marco-dot">8</div><div class="marco-label">Historia<br>Contada</div><div class="marco-week">Semana 8</div></div>
+    <div class="marco-item"><div class="marco-dot">9</div><div class="marco-label">Comunicador<br>Magnetico</div><div class="marco-week">Semana 9</div></div>
+  </div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">7</div><div class="week-title-group"><div class="week-title">A Voz da Autoridade</div><div class="week-subtitle">Tom, ritmo e intencao na comunicacao</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: Padroes vocais que sabotam autoridade</h4><p>Hook: "Sua energia esta vazando na sua fala?"</p><div class="tool-name">Diagnostico Vocal (15 min)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Espelho da Voz</h4><p>Quarta — gravar 30s e receber feedback dos colegas</p><div class="ritual-name">Espelho da Voz</div></div><div class="squad-block"><div class="squad-tag tag-growth">Growth</div><h4>Topo: Comunicacao</h4><p>"Voce tem conteudo. Mas sua comunicacao esta travando?"</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Consciencia Vocal</h4><p>Diagnostico completo + 3 pontos de melhoria</p><div class="marco-name">Marco 7</div></div></div></div></div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">8</div><div class="week-title-group"><div class="week-title">Storytelling com Autoridade</div><div class="week-subtitle">Transformando experiencia em narrativa magnetica</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: Storytelling estrategico</h4><p>Hook: "Voce fala para informar ou para ativar?"</p><p>Framework: Dor → Virada → Transformacao</p><div class="tool-name">Minha Historia de Autoridade (25 min)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Roda de Historias</h4><p>Quinta — chamada ao vivo, 3-4 alunos contam historia em 2 min</p><div class="ritual-name">Roda de Historias</div></div><div class="squad-block"><div class="squad-tag tag-growth">Growth</div><h4>Conversao: Historia do Augustto</h4><p>"De panfleteiro a CMO. O que mudou nao foi o cargo."</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Historia Contada</h4><p>Historia escrita + contada na Roda</p><div class="marco-name">Marco 8</div></div></div></div></div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">9</div><div class="week-title-group"><div class="week-title">Comunicacao que Converte</div><div class="week-subtitle">Da escuta ativa a influencia natural</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: Escuta ativa e perguntas poderosas</h4><p>Hook: "As pessoas mais influentes falam menos. Perguntam mais."</p><div class="tool-name">7 Dias de Escuta Ativa (desafio)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Relato de Escuta</h4><p>Sexta — compartilhar momento mais impactante dos 7 dias</p><p><span class="highlight">Feedback Bloco:</span> NPS + auto-avaliacao antes vs depois</p><div class="ritual-name">Relato de Escuta</div></div><div class="squad-block"><div class="squad-tag tag-growth">Growth</div><h4>Depoimento + resultado</h4><p>"Ela parou de falar mais. Comecou a falar melhor. Faturamento triplicou."</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Comunicador Magnetico</h4><p>Diario 7 dias + certificado</p><div class="marco-name">Marco 9</div></div></div></div></div>
+</section>
+
+<!-- BLOCO 4 -->
+<section id="bloco4" class="b4">
+  <div class="section-label label-b4">Bloco 4 — Semanas 10 a 12</div>
+  <div class="section-title">Autoridade em Movimento</div>
+  <div class="section-subtitle">Autoridade sem acao e discurso. Acao sem autoridade e barulho.</div>
+  <div class="bloco-header">
+    <div class="bloco-info"><h4>Padrao de Dor</h4><p>Estagnacao com Esforco / Paralisia por Comparacao</p></div>
+    <div class="bloco-info"><h4>Hook Principal</h4><p class="hook">"Vender nao e convencer. E ativar desejo com verdade."</p></div>
+    <div class="bloco-info"><h4>Reflexao Laura</h4><p class="hook">"Frequencia travada. Algo interno nao foi atualizado para o proximo nivel."</p></div>
+  </div>
+  <div class="marco-timeline">
+    <div class="marco-item"><div class="marco-dot">10</div><div class="marco-label">Plano<br>em Acao</div><div class="marco-week">Semana 10</div></div>
+    <div class="marco-item"><div class="marco-dot">11</div><div class="marco-label">Primeira<br>Venda</div><div class="marco-week">Semana 11</div></div>
+    <div class="marco-item"><div class="marco-dot">12</div><div class="marco-label">Autoridade<br>Consolidada</div><div class="marco-week">Semana 12</div></div>
+  </div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">10</div><div class="week-title-group"><div class="week-title">Execucao Estrategica</div><div class="week-subtitle">Da intencao ao resultado mensuravel</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: Produtividade com proposito</h4><p>Hook: "Voce esta ocupado ou esta produzindo resultado?"</p><div class="tool-name">Plano 90 Dias de Autoridade (30 min)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Primeira Acao em 24h</h4><p>Segunda — compartilhar primeira acao do Plano 90 Dias</p><div class="ritual-name">Primeira Acao em 24h</div></div><div class="squad-block"><div class="squad-tag tag-growth">Growth</div><h4>Bottom Funnel: Resultado</h4><p>"90 dias. 1 plano. Resultado real."</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Plano em Acao</h4><p>Plano criado + 1 acao em 24h</p><div class="marco-name">Marco 10</div></div></div></div></div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">11</div><div class="week-title-group"><div class="week-title">Vendas com Autoridade</div><div class="week-subtitle">Vendendo sem convencer</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block"><div class="squad-tag tag-content">Content</div><h4>Aula: Vendas por autoridade</h4><p>Hook: "Vender nao e convencer. E ativar desejo com verdade."</p><p>Framework: Pergunta → Diagnostico → Espelho → Proposta → Convite</p><div class="tool-name">Script de Venda por Autoridade (20 min)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Venda Real</h4><p>Quinta — relatar uso do script em conversa real</p><div class="ritual-name">Venda Real</div></div><div class="squad-block"><div class="squad-tag tag-growth">Growth</div><h4>Urgencia: Ultimas vagas</h4><p>"Ultimas vagas da proxima turma da Mentoria Aurea"</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Primeira Venda com Autoridade</h4><p>Script construido + 1 conversa real</p><div class="marco-name">Marco 11</div></div></div></div></div>
+
+  <div class="week-card" onclick="this.classList.toggle('open')"><div class="week-header"><div class="week-num">12</div><div class="week-title-group"><div class="week-title">Autoridade Consolidada</div><div class="week-subtitle">Integracao final — quem voce se tornou</div></div><div class="week-toggle">▼</div></div><div class="week-body"><div class="squad-grid"><div class="squad-block full"><div class="squad-tag tag-content">Content</div><h4>Aula Final: De onde voce partiu, onde esta, para onde vai</h4><p>Hook: "Voce nao e a mesma pessoa que comecou. E isso e so o inicio."</p><p><span class="highlight">Ativacao:</span> Abrir Carta ao Eu do Futuro (semana 3). Ler em voz alta. Comparar.</p><div class="tool-name">Abertura da Carta ao Eu do Futuro (15 min)</div></div><div class="squad-block"><div class="squad-tag tag-support">Support</div><h4>Ritual: Declaracao Final + Encerramento</h4><p><span class="highlight">Sexta — Sessao ao vivo com Augustto</span></p><p>Cada aluno declara em 2 min: quem era, quem e, para onde vai</p><p><span class="highlight">Feedback:</span> NPS final + depoimento 60s</p><p><span class="highlight">Transicao:</span> Apresentar Fire Class (1o mes gratis)</p><div class="ritual-name">Declaracao de Autoridade Final</div></div><div class="squad-block"><div class="squad-tag tag-cfo">CFO</div><h4>Revisao Final da Turma</h4><p>Receita total vs meta | ROI turma | Conversao Fire Class | Projecao proxima turma</p><p><span class="highlight">Foco:</span> Fire Class (retencao) + Mentoria nova turma</p></div><div class="squad-block"><div class="squad-tag tag-marco">Marco</div><h4>Autoridade Consolidada</h4><p>Presenca na sessao final + declaracao feita</p><p><span class="highlight">Celebracao:</span> Certificado + Selo AURA + Convite Fire Class</p><div class="marco-name">Marco 12 — FINAL</div></div></div></div></div>
+</section>
+
+<!-- FERRAMENTAS DE SABEDORIA -->
+<section id="ferramentas">
+  <div class="section-label label-gold">Banco Completo</div>
+  <div class="section-title">12 Ferramentas de Sabedoria</div>
+  <div class="section-subtitle">Uma por semana. Cada ferramenta gera um output tangivel que o aluno leva consigo.</div>
+  <div class="tools-grid">
+    <div class="tool-card"><div class="week-badge">Semana 1</div><h5>Mapa da Autoimagem</h5><p>Como me vejo vs como outros me veem</p><div class="type">exercicio escrito • 15 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 2</div><h5>Inventario de Crencas</h5><p>10 frases sobre si — classificar e priorizar</p><div class="type">exercicio guiado • 20 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 3</div><h5>Carta ao Eu do Futuro</h5><p>Carta lacrada para abrir na semana 12</p><div class="type">visualizacao + escrita • 20 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 4</div><h5>Pesquisa de Percepcao</h5><p>Perguntar a 5 pessoas como te descrevem</p><div class="type">exercicio de campo • 7 dias</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 5</div><h5>Frase de Posicionamento</h5><p>"Eu ajudo [quem] a [resultado] atraves de [metodo]"</p><div class="type">framework • 15 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 6</div><h5>Plano de Autoridade 30 dias</h5><p>4 pilares de conteudo + 1 acao/semana</p><div class="type">plano de acao • 25 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 7</div><h5>Diagnostico Vocal</h5><p>Gravar 60s — assistir sem som, ouvir sem video</p><div class="type">pratico + gravacao • 15 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 8</div><h5>Historia de Autoridade</h5><p>Dor → Virada → Resultado → Ativacao</p><div class="type">framework narrativo • 25 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 9</div><h5>7 Dias de Escuta Ativa</h5><p>1 conversa/dia praticando escuta + pergunta poderosa</p><div class="type">desafio pratico • 7 dias</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 10</div><h5>Plano 90 Dias</h5><p>1 meta financeira + 1 posicionamento + 1 comunicacao</p><div class="type">plano estruturado • 30 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 11</div><h5>Script de Venda</h5><p>Pergunta → Diagnostico → Espelho → Proposta → Convite</p><div class="type">framework de conversa • 20 min</div></div>
+    <div class="tool-card"><div class="week-badge">Semana 12</div><h5>Abertura da Carta</h5><p>Ler a Carta da semana 3 em voz alta. Comparar.</p><div class="type">ritual de fechamento • 15 min</div></div>
+  </div>
+</section>
+
+<!-- RITUAIS -->
+<section id="rituais">
+  <div class="section-label" style="color:#22c55e">Banco Completo</div>
+  <div class="section-title">12 Rituais AURA</div>
+  <div class="section-subtitle">Cada ritual tem dia fixo, mecanica clara e metrica de sucesso.</div>
+  <div class="rituals-grid">
+    <div class="ritual-card"><div class="week-badge">Semana 1</div><h5>Check-in do Espelho</h5><p>"Em uma palavra, como voce se descreveu hoje?"</p><div class="dia">Quarta • WhatsApp</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 2</div><h5>Renuncia Consciente</h5><p>"Eu renuncio a crenca de que [X]..."</p><div class="dia">Quinta • WhatsApp</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 3</div><h5>Declaracao de Identidade</h5><p>Audio 30s: "Eu sou [nome]. Eu decidi ser..."</p><div class="dia">Sexta • Audio</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 4</div><h5>Espelho do Mercado</h5><p>Compartilhar resultado da Pesquisa de Percepcao</p><div class="dia">Terca • WhatsApp</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 5</div><h5>Teste de Presenca</h5><p>Usar frase de posicionamento em situacao real</p><div class="dia">Quarta • WhatsApp</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 6</div><h5>Compromisso Publico</h5><p>Publicar no Instagram usando frase de posicionamento</p><div class="dia">Sexta • Instagram</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 7</div><h5>Espelho da Voz</h5><p>Gravar 30s e receber feedback dos colegas</p><div class="dia">Quarta • Audio</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 8</div><h5>Roda de Historias</h5><p>Contar historia de autoridade em 2 min</p><div class="dia">Quinta • Ao Vivo</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 9</div><h5>Relato de Escuta</h5><p>Momento mais impactante dos 7 dias de escuta</p><div class="dia">Sexta • WhatsApp</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 10</div><h5>Primeira Acao em 24h</h5><p>Compartilhar primeira acao do Plano 90 Dias</p><div class="dia">Segunda • WhatsApp</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 11</div><h5>Venda Real</h5><p>Relatar uso do script em conversa real</p><div class="dia">Quinta • WhatsApp</div></div>
+    <div class="ritual-card"><div class="week-badge">Semana 12</div><h5>Declaracao Final</h5><p>Quem era, quem e, para onde vai — 2 min</p><div class="dia">Sexta • Ao Vivo</div></div>
+  </div>
+</section>
+
+<!-- MARCOS TIMELINE GLOBAL -->
+<section id="marcos">
+  <div class="section-label label-gold">Jornada Completa</div>
+  <div class="section-title">12 Marcos AURA</div>
+  <div class="section-subtitle">Cada marco e uma conquista mensuravel. O aluno sabe exatamente onde esta na jornada.</div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px">
+    <div style="background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.15);border-radius:16px;padding:20px">
+      <div style="font-size:11px;color:#a78bfa;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Bloco 1</div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">🪞</div><div style="font-size:13px;font-weight:700;color:#fff">1. Despertar do Espelho</div><div style="font-size:11px;color:#a0a0b0">Reconhece autoimagem limitante</div></div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">📋</div><div style="font-size:13px;font-weight:700;color:#fff">2. Nomeacao</div><div style="font-size:11px;color:#a0a0b0">Nomeia 3 crencas limitantes</div></div>
+      <div><div style="font-size:24px;margin-bottom:2px">🦋</div><div style="font-size:13px;font-weight:700;color:#fff">3. Nova Identidade</div><div style="font-size:11px;color:#a0a0b0">Declara quem esta se tornando</div></div>
+    </div>
+    <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:16px;padding:20px">
+      <div style="font-size:11px;color:#60a5fa;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Bloco 2</div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">🗺️</div><div style="font-size:13px;font-weight:700;color:#fff">4. Mapa de Gaps</div><div style="font-size:11px;color:#a0a0b0">Distancia percepcao vs intencao</div></div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">🎯</div><div style="font-size:13px;font-weight:700;color:#fff">5. Declaracao de Presenca</div><div style="font-size:11px;color:#a0a0b0">Frase de posicionamento validada</div></div>
+      <div><div style="font-size:24px;margin-bottom:2px">⚡</div><div style="font-size:13px;font-weight:700;color:#fff">6. Autoridade Ativada</div><div style="font-size:11px;color:#a0a0b0">Plano + post publico feito</div></div>
+    </div>
+    <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:16px;padding:20px">
+      <div style="font-size:11px;color:#fbbf24;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Bloco 3</div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">🎙️</div><div style="font-size:13px;font-weight:700;color:#fff">7. Consciencia Vocal</div><div style="font-size:11px;color:#a0a0b0">Padroes vocais identificados</div></div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">📖</div><div style="font-size:13px;font-weight:700;color:#fff">8. Historia Contada</div><div style="font-size:11px;color:#a0a0b0">Historia de autoridade pronta</div></div>
+      <div><div style="font-size:24px;margin-bottom:2px">🧲</div><div style="font-size:13px;font-weight:700;color:#fff">9. Comunicador Magnetico</div><div style="font-size:11px;color:#a0a0b0">7 dias de escuta + certificado</div></div>
+    </div>
+    <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:16px;padding:20px">
+      <div style="font-size:11px;color:#4ade80;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Bloco 4</div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">🚀</div><div style="font-size:13px;font-weight:700;color:#fff">10. Plano em Acao</div><div style="font-size:11px;color:#a0a0b0">Plano 90 dias + acao em 24h</div></div>
+      <div style="margin-bottom:14px"><div style="font-size:24px;margin-bottom:2px">💰</div><div style="font-size:13px;font-weight:700;color:#fff">11. Primeira Venda</div><div style="font-size:11px;color:#a0a0b0">Script + conversa de venda real</div></div>
+      <div><div style="font-size:24px;margin-bottom:2px">👑</div><div style="font-size:13px;font-weight:700;color:#fff">12. Autoridade Consolidada</div><div style="font-size:11px;color:#a0a0b0">Certificado + Selo AURA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESCALACAO -->
+<section id="escalacao">
+  <div class="section-label" style="color:#ef4444">Protocolos</div>
+  <div class="section-title">Escalacao Entre Squads</div>
+  <div class="section-subtitle">6 triggers automaticos com urgencia e acao definidas.</div>
+  <div class="esc-grid">
+    <div class="esc-card"><div class="esc-urgencia urg-media">Media</div><h5>Aluno sem acesso 48h</h5><p>Aluno nao acessou plataforma em 2 dias</p><div class="esc-route">Support → Rose (contato direto)</div></div>
+    <div class="esc-card"><div class="esc-urgencia urg-alta">Alta</div><h5>NPS < 6</h5><p>Aluno avaliou bloco com nota baixa</p><div class="esc-route">Support → Maestro + Augustto</div></div>
+    <div class="esc-card"><div class="esc-urgencia urg-alta">Alta</div><h5>CPL > 2x media (3 dias)</h5><p>Custo por lead disparou</p><div class="esc-route">CFO → Growth (pausar + revisar)</div></div>
+    <div class="esc-card"><div class="esc-urgencia urg-critica">Critica</div><h5>Pedido de cancelamento</h5><p>Aluno quer cancelar mentoria</p><div class="esc-route">Support → Rose + Talita (24h)</div></div>
+    <div class="esc-card"><div class="esc-urgencia urg-alta">Alta</div><h5>Lead qualificado sem resposta</h5><p>Lead qualificado ha 24h sem follow-up</p><div class="esc-route">Laura → Gabriel (imediato)</div></div>
+    <div class="esc-card"><div class="esc-urgencia urg-critica">Critica</div><h5>Churn > 15% no bloco</h5><p>Taxa de saida acima do aceitavel</p><div class="esc-route">CFO → Maestro + Support + Content</div></div>
+  </div>
+</section>
+
+<!-- METRICAS -->
+<section id="metricas">
+  <div class="section-label label-gold">KPIs</div>
+  <div class="section-title">Metricas por Bloco</div>
+  <div class="section-subtitle">Cada bloco tem metas claras de retencao, NPS, rituais e marcos.</div>
+  <div class="metrics-grid">
+    <div class="metric-card mc-b1">
+      <h4>Bloco 1 — Autoimagem</h4>
+      <div class="metric-row"><span class="metric-label">Retencao</span><span class="metric-value">90%</span></div>
+      <div class="metric-row"><span class="metric-label">NPS</span><span class="metric-value">8+</span></div>
+      <div class="metric-row"><span class="metric-label">Rituais</span><span class="metric-value">70%</span></div>
+      <div class="metric-row"><span class="metric-label">Marcos</span><span class="metric-value">80%</span></div>
+    </div>
+    <div class="metric-card mc-b2">
+      <h4>Bloco 2 — Posicionamento</h4>
+      <div class="metric-row"><span class="metric-label">Retencao</span><span class="metric-value">85%</span></div>
+      <div class="metric-row"><span class="metric-label">NPS</span><span class="metric-value">8+</span></div>
+      <div class="metric-row"><span class="metric-label">Rituais</span><span class="metric-value">65%</span></div>
+      <div class="metric-row"><span class="metric-label">Marcos</span><span class="metric-value">75%</span></div>
+    </div>
+    <div class="metric-card mc-b3">
+      <h4>Bloco 3 — Comunicacao</h4>
+      <div class="metric-row"><span class="metric-label">Retencao</span><span class="metric-value">82%</span></div>
+      <div class="metric-row"><span class="metric-label">NPS</span><span class="metric-value">8.5+</span></div>
+      <div class="metric-row"><span class="metric-label">Rituais</span><span class="metric-value">60%</span></div>
+      <div class="metric-row"><span class="metric-label">Marcos</span><span class="metric-value">70%</span></div>
+    </div>
+    <div class="metric-card mc-b4">
+      <h4>Bloco 4 — Acao</h4>
+      <div class="metric-row"><span class="metric-label">Retencao</span><span class="metric-value">80%</span></div>
+      <div class="metric-row"><span class="metric-label">NPS</span><span class="metric-value">9+</span></div>
+      <div class="metric-row"><span class="metric-label">Rituais</span><span class="metric-value">70%</span></div>
+      <div class="metric-row"><span class="metric-label">Marcos</span><span class="metric-value">85%</span></div>
+      <div class="metric-row"><span class="metric-label">Fire Class</span><span class="metric-value">40%</span></div>
+      <div class="metric-row"><span class="metric-label">Depoimentos</span><span class="metric-value">50%</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">AURA — Energia, Presenca, Autoridade</div>
+  <p>Plano de Execucao 12 Semanas v1.0 — Sellect Intelligence — 31/03/2026</p>
+</footer>
+
+<script>
+function scrollTo_(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',function(){document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));this.classList.add('active')}));
+</script>
+</body>
+</html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulação AURA — Agentes em Ação</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0a;
+  color: #f5f5f5;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 30px 20px 10px;
+}
+.header h1 {
+  font-size: 28px;
+  font-weight: 300;
+  color: #c9a84c;
+  letter-spacing: 2px;
+}
+.header p {
+  color: #888;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  flex-wrap: wrap;
+}
+.btn {
+  background: #1a1a2e;
+  color: #c9a84c;
+  border: 1px solid #c9a84c;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s;
+  letter-spacing: 0.5px;
+}
+.btn:hover { background: #c9a84c; color: #0a0a0a; }
+.btn.active { background: #c9a84c; color: #0a0a0a; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* STATS BAR */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 12px 20px;
+  background: #111;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #c9a84c;
+}
+.stat-label {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* MAIN LAYOUT */
+.main {
+  display: flex;
+  height: calc(100vh - 220px);
+  min-height: 500px;
+}
+
+/* AGENT MAP */
+.agent-map {
+  flex: 1;
+  position: relative;
+  padding: 20px;
+  min-width: 0;
+}
+
+/* AGENT NODES */
+.agent-node {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #333;
+  background: #1a1a2e;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  z-index: 2;
+}
+.agent-node.active {
+  border-color: #c9a84c;
+  box-shadow: 0 0 20px rgba(201,168,76,0.4), 0 0 40px rgba(201,168,76,0.1);
+  transform: scale(1.1);
+}
+.agent-node.sending {
+  animation: pulse 0.8s ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); box-shadow: 0 0 30px rgba(201,168,76,0.6); }
+}
+.agent-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+.agent-name {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.2;
+}
+.agent-node .agent-squad {
+  font-size: 7px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* SQUAD COLORS */
+.squad-sucesso { border-color: #0f9b8e33; }
+.squad-sucesso.active { border-color: #0f9b8e; box-shadow: 0 0 20px rgba(15,155,142,0.4); }
+.squad-social { border-color: #e9456033; }
+.squad-social.active { border-color: #e94560; box-shadow: 0 0 20px rgba(233,69,96,0.4); }
+.squad-financeiro { border-color: #f08a5d33; }
+.squad-financeiro.active { border-color: #f08a5d; box-shadow: 0 0 20px rgba(240,138,93,0.4); }
+.squad-maestro { border-color: #c9a84c33; }
+.squad-maestro.active { border-color: #c9a84c; box-shadow: 0 0 20px rgba(201,168,76,0.6); }
+.squad-humano { border-color: #6c5ce733; }
+.squad-humano.active { border-color: #6c5ce7; box-shadow: 0 0 20px rgba(108,92,231,0.4); }
+
+/* CONNECTION LINES */
+.connections {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* FLYING MESSAGE */
+.flying-msg {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c9a84c;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 0 10px #c9a84c, 0 0 20px rgba(201,168,76,0.3);
+}
+
+/* LOG PANEL */
+.log-panel {
+  width: 380px;
+  background: #111;
+  border-left: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+}
+.log-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid #222;
+  font-size: 12px;
+  font-weight: 700;
+  color: #c9a84c;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.log-entries {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+.log-entry {
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  background: #1a1a1a;
+  border-left: 3px solid #333;
+  animation: slideIn 0.4s ease;
+  font-size: 12px;
+  line-height: 1.5;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.log-entry .log-time {
+  font-size: 10px;
+  color: #555;
+  margin-bottom: 4px;
+}
+.log-entry .log-from {
+  font-weight: 700;
+  margin-right: 4px;
+}
+.log-entry .log-arrow {
+  color: #c9a84c;
+  margin: 0 4px;
+}
+.log-entry .log-to {
+  font-weight: 700;
+  margin-right: 8px;
+}
+.log-entry .log-msg {
+  color: #ccc;
+  display: block;
+  margin-top: 4px;
+}
+
+/* LOG COLORS */
+.log-sucesso { border-left-color: #0f9b8e; }
+.log-sucesso .log-from, .log-sucesso .log-to { color: #0f9b8e; }
+.log-social { border-left-color: #e94560; }
+.log-social .log-from, .log-social .log-to { color: #e94560; }
+.log-financeiro { border-left-color: #f08a5d; }
+.log-financeiro .log-from, .log-financeiro .log-to { color: #f08a5d; }
+.log-maestro { border-left-color: #c9a84c; }
+.log-maestro .log-from, .log-maestro .log-to { color: #c9a84c; }
+.log-humano { border-left-color: #6c5ce7; }
+.log-humano .log-from, .log-humano .log-to { color: #6c5ce7; }
+
+/* PROGRESS BAR */
+.progress-wrap {
+  padding: 10px 16px;
+  border-top: 1px solid #222;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.progress-bar {
+  height: 4px;
+  background: #222;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c9a84c, #e94560);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .main { flex-direction: column; }
+  .log-panel { width: 100%; height: 300px; border-left: none; border-top: 1px solid #222; }
+  .agent-map { min-height: 400px; }
+}
+
+/* SCROLLBAR */
+.log-entries::-webkit-scrollbar { width: 4px; }
+.log-entries::-webkit-scrollbar-track { background: #111; }
+.log-entries::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>MENTORIA AURA — AGENTES EM ACAO</h1>
+  <p>Simulacao do ecossistema completo: 10 agentes + 4 humanos operando em sincronia</p>
+</div>
+
+<div class="controls">
+  <button class="btn" onclick="startSimulation('lead')" id="btn-lead">Novo Lead Entra</button>
+  <button class="btn" onclick="startSimulation('aluno')" id="btn-aluno">Aluno em Risco</button>
+  <button class="btn" onclick="startSimulation('conteudo')" id="btn-conteudo">Ciclo de Conteudo</button>
+  <button class="btn" onclick="startSimulation('meta')" id="btn-meta">Alerta de Meta</button>
+  <button class="btn" onclick="startSimulation('completo')" id="btn-completo">Fluxo Completo</button>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-value" id="s-leads">0</div><div class="stat-label">Leads</div></div>
+  <div class="stat"><div class="stat-value" id="s-qualif">0</div><div class="stat-label">Qualificados</div></div>
+  <div class="stat"><div class="stat-value" id="s-vendas">0</div><div class="stat-label">Vendas</div></div>
+  <div class="stat"><div class="stat-value" id="s-receita">R$ 0</div><div class="stat-label">Receita</div></div>
+  <div class="stat"><div class="stat-value" id="s-msgs">0</div><div class="stat-label">Mensagens</div></div>
+</div>
+
+<div class="main">
+  <div class="agent-map" id="agent-map">
+    <svg class="connections" id="connections"></svg>
+
+    <!-- MAESTRO -->
+    <div class="agent-node squad-maestro" id="node-maestro" style="top:10%;left:50%;transform:translateX(-50%)">
+      <div class="agent-icon">👑</div>
+      <div class="agent-name">Maestro</div>
+      <div class="agent-squad">AURA</div>
+    </div>
+
+    <!-- SQUAD SUCESSO -->
+    <div class="agent-node squad-sucesso" id="node-laura" style="top:35%;left:8%">
+      <div class="agent-icon">💬</div>
+      <div class="agent-name">Laura</div>
+      <div class="agent-squad">SDR IA</div>
+    </div>
+    <div class="agent-node squad-sucesso" id="node-pedro" style="top:55%;left:8%">
+      <div class="agent-icon">👁</div>
+      <div class="agent-name">PedroSup</div>
+      <div class="agent-squad">Monitor</div>
+    </div>
+    <div class="agent-node squad-sucesso" id="node-salomao" style="top:75%;left:8%">
+      <div class="agent-icon">🤝</div>
+      <div class="agent-name">Salomao</div>
+      <div class="agent-squad">Suporte</div>
+    </div>
+
+    <!-- SQUAD SOCIAL -->
+    <div class="agent-node squad-social" id="node-cris" style="top:35%;left:50%;transform:translateX(-50%)">
+      <div class="agent-icon">📋</div>
+      <div class="agent-name">Cris</div>
+      <div class="agent-squad">Estrategia</div>
+    </div>
+    <div class="agent-node squad-social" id="node-caio" style="top:55%;left:38%">
+      <div class="agent-icon">🎨</div>
+      <div class="agent-name">Caio</div>
+      <div class="agent-squad">Designer</div>
+    </div>
+    <div class="agent-node squad-social" id="node-bonner" style="top:55%;left:56%">
+      <div class="agent-icon">✍️</div>
+      <div class="agent-name">Bonner</div>
+      <div class="agent-squad">Copy</div>
+    </div>
+
+    <!-- SQUAD FINANCEIRO -->
+    <div class="agent-node squad-financeiro" id="node-luciana" style="top:35%;right:8%">
+      <div class="agent-icon">📊</div>
+      <div class="agent-name">Luciana</div>
+      <div class="agent-squad">Analise</div>
+    </div>
+    <div class="agent-node squad-financeiro" id="node-erick" style="top:55%;right:8%">
+      <div class="agent-icon">💰</div>
+      <div class="agent-name">Erick</div>
+      <div class="agent-squad">Receita</div>
+    </div>
+    <div class="agent-node squad-financeiro" id="node-jub" style="top:75%;right:8%">
+      <div class="agent-icon">🚨</div>
+      <div class="agent-name">Jub</div>
+      <div class="agent-squad">Alertas</div>
+    </div>
+
+    <!-- TIME HUMANO -->
+    <div class="agent-node squad-humano" id="node-augustto" style="bottom:5%;left:20%">
+      <div class="agent-icon">🎤</div>
+      <div class="agent-name">Augustto</div>
+      <div class="agent-squad">Mentor</div>
+    </div>
+    <div class="agent-node squad-humano" id="node-talita" style="bottom:5%;left:40%">
+      <div class="agent-icon">🎯</div>
+      <div class="agent-name">Talita</div>
+      <div class="agent-squad">Closer</div>
+    </div>
+    <div class="agent-node squad-humano" id="node-gabriel" style="bottom:5%;left:60%">
+      <div class="agent-icon">📞</div>
+      <div class="agent-name">Gabriel</div>
+      <div class="agent-squad">SDR</div>
+    </div>
+    <div class="agent-node squad-humano" id="node-rose" style="bottom:5%;right:20%">
+      <div class="agent-icon">💜</div>
+      <div class="agent-name">Rose</div>
+      <div class="agent-squad">Sucesso</div>
+    </div>
+  </div>
+
+  <div class="log-panel">
+    <div class="log-header">Log de Acoes em Tempo Real</div>
+    <div class="log-entries" id="log-entries"></div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progress-step">Aguardando simulacao...</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let stats = { leads: 0, qualif: 0, vendas: 0, receita: 0, msgs: 0 };
+let running = false;
+let simTimeout = [];
+
+function updateStats() {
+  document.getElementById('s-leads').textContent = stats.leads;
+  document.getElementById('s-qualif').textContent = stats.qualif;
+  document.getElementById('s-vendas').textContent = stats.vendas;
+  document.getElementById('s-receita').textContent = 'R$ ' + (stats.receita >= 1000 ? (stats.receita/1000).toFixed(0) + 'K' : stats.receita);
+  document.getElementById('s-msgs').textContent = stats.msgs;
+}
+
+function setProgress(step, pct) {
+  document.getElementById('progress-step').textContent = step;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function activateNode(id) {
+  const node = document.getElementById('node-' + id);
+  if (node) { node.classList.add('active', 'sending'); setTimeout(() => node.classList.remove('sending'), 800); }
+}
+function deactivateAll() {
+  document.querySelectorAll('.agent-node').forEach(n => n.classList.remove('active'));
+}
+
+function addLog(from, to, msg, squad) {
+  stats.msgs++;
+  updateStats();
+  const entries = document.getElementById('log-entries');
+  const now = new Date();
+  const time = now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  const entry = document.createElement('div');
+  entry.className = 'log-entry log-' + squad;
+  entry.innerHTML = `<div class="log-time">${time}</div><span class="log-from">${from}</span><span class="log-arrow">→</span><span class="log-to">${to}</span><span class="log-msg">${msg}</span>`;
+  entries.prepend(entry);
+}
+
+function flyMessage(fromId, toId, color) {
+  const map = document.getElementById('agent-map');
+  const from = document.getElementById('node-' + fromId);
+  const to = document.getElementById('node-' + toId);
+  if (!from || !to) return;
+  const mapRect = map.getBoundingClientRect();
+  const fromRect = from.getBoundingClientRect();
+  const toRect = to.getBoundingClientRect();
+  const msg = document.createElement('div');
+  msg.className = 'flying-msg';
+  msg.style.background = color || '#c9a84c';
+  msg.style.boxShadow = `0 0 10px ${color || '#c9a84c'}`;
+  const startX = fromRect.left + fromRect.width/2 - mapRect.left;
+  const startY = fromRect.top + fromRect.height/2 - mapRect.top;
+  const endX = toRect.left + toRect.width/2 - mapRect.left;
+  const endY = toRect.top + toRect.height/2 - mapRect.top;
+  msg.style.left = startX + 'px';
+  msg.style.top = startY + 'px';
+  map.appendChild(msg);
+  msg.animate([
+    { left: startX + 'px', top: startY + 'px', opacity: 1 },
+    { left: endX + 'px', top: endY + 'px', opacity: 1 }
+  ], { duration: 600, easing: 'ease-in-out', fill: 'forwards' });
+  setTimeout(() => msg.remove(), 650);
+}
+
+function scheduleAction(delay, fn) {
+  const t = setTimeout(fn, delay);
+  simTimeout.push(t);
+  return t;
+}
+
+function clearSim() {
+  simTimeout.forEach(t => clearTimeout(t));
+  simTimeout = [];
+  running = false;
+  document.querySelectorAll('.btn').forEach(b => b.disabled = false);
+}
+
+function startSimulation(type) {
+  if (running) return;
+  running = true;
+  document.querySelectorAll('.btn').forEach(b => b.disabled = true);
+  deactivateAll();
+  document.getElementById('log-entries').innerHTML = '';
+  setProgress('Iniciando...', 0);
+
+  const scenarios = { lead: simLead, aluno: simAluno, conteudo: simConteudo, meta: simMeta, completo: simCompleto };
+  scenarios[type]();
+}
+
+function simLead() {
+  const steps = [
+    [500, () => { stats.leads++; updateStats(); activateNode('laura'); flyMessage('laura','laura','#0f9b8e'); addLog('Lead','Laura','Novo lead entrou via Typebot: "Marcos, empresario, 8 anos de mercado"','sucesso'); setProgress('Laura qualificando...', 10); }],
+    [2000, () => { activateNode('laura'); addLog('Laura','Lead','Oi, Marcos! Aqui e a Laura, da equipe do Augustto. O que te trouxe ate aqui?','sucesso'); setProgress('Diagnostico de dor...', 20); }],
+    [3500, () => { addLog('Lead','Laura','"Sinto que entrego muito mas nao sou reconhecido no nivel que mereco"','sucesso'); setProgress('Espelho estrategico...', 30); }],
+    [5000, () => { activateNode('laura'); addLog('Laura','Lead','Isso tem um nome: vazamento de autoridade. Voce opera em uma frequencia, mas o mercado te percebe em outra.','sucesso'); setProgress('Qualificacao ICP...', 45); }],
+    [6500, () => { stats.qualif++; updateStats(); activateNode('laura'); flyMessage('laura','gabriel','#0f9b8e'); addLog('Laura','Gabriel','DOSSIE GERADO: Marcos, 8 anos, consultoria, dor de reconhecimento, QUALIFICADO','sucesso'); setProgress('Dossie enviado ao Gabriel...', 55); }],
+    [8000, () => { activateNode('gabriel'); flyMessage('gabriel','talita','#6c5ce7'); addLog('Gabriel','Talita','Sessao estrategica agendada para Marcos. Dossie anexado. Lead quente.','humano'); setProgress('Sessao agendada...', 65); }],
+    [9500, () => { activateNode('talita'); addLog('Talita','Marcos','Sessao estrategica realizada. Marcos entendeu o valor. FECHOU PREMIUM R$33K!','humano'); stats.vendas++; stats.receita += 33000; updateStats(); setProgress('Venda fechada!', 75); }],
+    [11000, () => { activateNode('erick'); flyMessage('talita','erick','#f08a5d'); addLog('ErickGrana','Time','VENDA REGISTRADA: Premium R$33K | Closer: Talita | Meta mes: 4% atingido','financeiro'); setProgress('Receita registrada...', 82); }],
+    [12500, () => { activateNode('salomao'); flyMessage('erick','salomao','#0f9b8e'); addLog('Salomao','Marcos','Seja bem-vindo, Marcos. A partir de agora, voce tem um canal direto comigo. Vou enviar seu Kit de Inicio.','sucesso'); setProgress('Onboarding iniciado...', 90); }],
+    [14000, () => { activateNode('pedro'); activateNode('maestro'); flyMessage('salomao','pedro','#0f9b8e'); flyMessage('pedro','maestro','#c9a84c'); addLog('PedroSup','Maestro','Aluno Marcos registrado. Dossie importado. Monitoramento ativo. Status: VERDE','sucesso'); addLog('Maestro','Augustto','Novo aluno Premium onboardado. Encontro 1 em 3 semanas. Dossie pronto.','maestro'); setProgress('Simulacao completa!', 100); }],
+    [16000, () => { deactivateAll(); clearSim(); }]
+  ];
+  steps.forEach(([delay, fn]) => scheduleAction(delay, fn));
+}
+
+function simAluno() {
+  const steps = [
+    [500, () => { activateNode('pedro'); addLog('PedroSup','Sistema','Monitoramento diario: Aluna Sofia ausente na aula 5. Silencio no grupo ha 4 dias.','sucesso'); setProgress('PedroSup detectou risco...', 15); }],
+    [2000, () => { activateNode('pedro'); flyMessage('pedro','salomao','#0f9b8e'); addLog('PedroSup','Salomao','ALERTA AMARELO — Sofia. Sinais: ausencia + silencio 4 dias. Sugestao: mensagem de reativacao leve.','sucesso'); setProgress('Alerta enviado ao Salomao...', 30); }],
+    [3500, () => { activateNode('salomao'); addLog('Salomao','Sofia','Sofia, percebi que voce ficou mais quieta essa semana. A resistencia e um sinal de que algo esta mudando. Quando estiver pronta, me diz: o que esta pesando?','sucesso'); setProgress('Salomao tentando reativar...', 45); }],
+    [5500, () => { addLog('Sofia','Salomao','"Estou sobrecarregada com o trabalho, sinto que nao estou acompanhando o grupo"','sucesso'); setProgress('Sofia respondeu...', 55); }],
+    [7000, () => { activateNode('salomao'); addLog('Salomao','Sofia','O que voce esta sentindo e normal nessa fase. O Bloco 2 pede que voce se posicione — e isso gera desconforto. Nao e sinal de fracasso. E sinal de crescimento.','sucesso'); setProgress('Reativacao em andamento...', 65); }],
+    [8500, () => { activateNode('pedro'); flyMessage('salomao','pedro','#0f9b8e'); addLog('PedroSup','Sistema','Sofia respondeu ao Salomao. Tom positivo. Reclassificando: AMARELO → VERDE. Monitoramento reforçado.','sucesso'); setProgress('Risco neutralizado...', 80); }],
+    [10000, () => { activateNode('maestro'); flyMessage('pedro','maestro','#c9a84c'); addLog('Maestro','Augustto','Aluno em risco (Sofia) reativado pelo Salomao. Status volta para VERDE. Acompanhamento reforçado para proximo encontro.','maestro'); setProgress('Simulacao completa!', 100); }],
+    [12000, () => { deactivateAll(); clearSim(); }]
+  ];
+  steps.forEach(([delay, fn]) => scheduleAction(delay, fn));
+}
+
+function simConteudo() {
+  const steps = [
+    [500, () => { activateNode('maestro'); addLog('Maestro','Cris','Diagnostico: taxa de qualificacao caiu 18% essa semana. Problema de ATRACAO. Precisamos de conteudo de choque de percepcao no Bloco Autoimagem.','maestro'); setProgress('Maestro diagnosticou gargalo...', 10); }],
+    [2000, () => { activateNode('cris'); flyMessage('maestro','cris','#e94560'); addLog('Cris','Squad','Pauta emergencial: 3 carrosseis de choque de percepcao + 2 Reels provocativos. Bloco: Autoimagem. Objetivo: ATRACAO.','social'); setProgress('Cris gerando briefings...', 25); }],
+    [3500, () => { activateNode('cris'); flyMessage('cris','bonner','#e94560'); addLog('Cris','Bonner','BRIEFING: Carrossel "O teto do seu negocio e o teto da sua autoimagem". Tom provocativo. CTA: link na bio. Gancho: verdade incomoda.','social'); setProgress('Briefing enviado ao Bonner...', 40); }],
+    [5000, () => { activateNode('bonner'); addLog('Bonner','Cris','COPY PRONTA: "O teto do seu negocio e o teto da sua autoimagem. Voce pode ter a melhor estrategia... mas se por dentro voce ainda acredita que nao merece o proximo nivel — seu negocio vai concordar com voce."','social'); setProgress('Copy pronta!', 55); }],
+    [6500, () => { activateNode('cris'); flyMessage('cris','caio','#e94560'); addLog('Cris','Caio','BRIEFING VISUAL: Carrossel 8 slides, dark premium, foto Augustto no slide 1, tipografia bold dourada, CTA slide final.','social'); setProgress('Briefing visual enviado...', 70); }],
+    [8000, () => { activateNode('caio'); addLog('Caio','Cris','ENTREGA: 8 slides 1080x1350, paleta AURA (#0a0a0a + #c9a84c), contraste 5.2:1 (WCAG AA), hierarquia clara, CTA em fundo dourado invertido.','social'); setProgress('Arte pronta!', 85); }],
+    [9500, () => { activateNode('maestro'); flyMessage('cris','maestro','#c9a84c'); addLog('Maestro','Time','Conteudo de emergencia produzido: 3 carrosseis + 2 Reels. Publicar amanha. Monitorar taxa de qualificacao nos proximos 7 dias.','maestro'); setProgress('Simulacao completa!', 100); }],
+    [11500, () => { deactivateAll(); clearSim(); }]
+  ];
+  steps.forEach(([delay, fn]) => scheduleAction(delay, fn));
+}
+
+function simMeta() {
+  const steps = [
+    [500, () => { activateNode('erick'); addLog('ErickGrana','Sistema','TRACKER: Semana atual R$84K de R$217K (38.7%). Dia: quinta-feira. Ritmo ABAIXO da meta.','financeiro'); setProgress('ErickGrana detectou desvio...', 10); }],
+    [2000, () => { activateNode('jub'); flyMessage('erick','jub','#f08a5d'); addLog('Jubsuporte','Time','ALERTA MEDIA — Meta semanal < 50% ate quinta. Sem venda Premium esta semana. Pipeline: 3 sessoes agendadas.','financeiro'); setProgress('Jubsuporte emitiu alerta...', 25); }],
+    [3500, () => { activateNode('luciana'); flyMessage('jub','luciana','#f08a5d'); addLog('Luciana','Maestro','ANALISE: Taxa de fechamento caiu de 35% para 22% nas ultimas 2 semanas. Correlacao: mudanca no perfil dos leads (mais iniciantes, menos ICP).','financeiro'); setProgress('Luciana analisou causa...', 40); }],
+    [5000, () => { activateNode('maestro'); flyMessage('luciana','maestro','#c9a84c'); addLog('Maestro','Sistema','DIAGNOSTICO: Gargalo em QUALIFICACAO. Laura esta aceitando leads fora do ICP. Acao: recalibrar criterios da Laura + Cris ajustar conteudo para atrair perfil correto.','maestro'); setProgress('Maestro diagnosticou...', 55); }],
+    [6500, () => { flyMessage('maestro','laura','#0f9b8e'); activateNode('laura'); addLog('Maestro','Laura','AJUSTE: Reforcar criterio ICP. Desclassificar leads sem resultado comprovado. Priorizar leads com faturamento > R$500K/ano.','maestro'); setProgress('Laura recalibrada...', 70); }],
+    [8000, () => { flyMessage('maestro','cris','#e94560'); activateNode('cris'); addLog('Maestro','Cris','AJUSTE: Conteudo de atracao deve filtrar melhor. Usar linguagem de "empresario com resultado" nao "iniciante querendo comecar". Ganchos de dor de RECONHECIMENTO, nao de APRENDIZADO.','maestro'); setProgress('Cris reorientada...', 85); }],
+    [9500, () => { activateNode('maestro'); addLog('Maestro','Augustto','REPORT: Meta em risco. Causa: perfil de leads desalinhado. Acoes tomadas: Laura recalibrada + Cris redirecionada. 3 sessoes pendentes podem recuperar se fecharem. Decisao necessaria: aprovar campanha emergencial R$2K em ads?','maestro'); setProgress('Simulacao completa!', 100); }],
+    [11500, () => { deactivateAll(); clearSim(); }]
+  ];
+  steps.forEach(([delay, fn]) => scheduleAction(delay, fn));
+}
+
+function simCompleto() {
+  const allSteps = [];
+  let t = 500;
+  const add = (delay, fn) => { t += delay; allSteps.push([t, fn]); };
+
+  // FASE 1: CONTEUDO ATRAI
+  add(0, () => { activateNode('cris'); addLog('Cris','Squad','Pauta semanal: 3 carrosseis Bloco Posicionamento + 2 Reels. Objetivo: atracao de empresarios com resultado.','social'); setProgress('Fase 1: Conteudo...', 5); });
+  add(1200, () => { activateNode('bonner'); flyMessage('cris','bonner','#e94560'); addLog('Bonner','Cris','Copy: "O mercado nao te paga pelo que voce sabe. Paga pelo que percebe." Pronta.','social'); setProgress('Copy produzida...', 8); });
+  add(1200, () => { activateNode('caio'); flyMessage('cris','caio','#e94560'); addLog('Caio','Cris','Arte: carrossel 7 slides, dark premium, WCAG AA. Entregue.','social'); setProgress('Arte produzida...', 12); });
+
+  // FASE 2: LEAD ENTRA
+  add(1500, () => { stats.leads++; updateStats(); activateNode('laura'); addLog('Lead','Laura','Novo lead via Instagram: "Ana, CEO, 12 anos de experiencia, faturamento R$2M"','sucesso'); setProgress('Fase 2: Lead entra...', 18); });
+  add(1500, () => { activateNode('laura'); addLog('Laura','Ana','"O que te trouxe ate a gente agora?"','sucesso'); setProgress('Laura qualificando...', 22); });
+  add(1500, () => { addLog('Ana','Laura','"Sou boa no que faco mas o mercado nao me ve no tamanho certo"','sucesso'); setProgress('Diagnostico de dor...', 28); });
+  add(1500, () => { activateNode('laura'); addLog('Laura','Ana','Posicionamento nao e marketing. E identidade. Quando voce nao consegue se posicionar, e porque ainda nao decidiu quem e para o mercado.','sucesso'); setProgress('Espelho entregue...', 32); });
+  add(1500, () => { stats.qualif++; updateStats(); flyMessage('laura','gabriel','#0f9b8e'); addLog('Laura','Gabriel','DOSSIE: Ana, CEO, R$2M faturamento, dor de posicionamento. QUALIFICADA. Score ICP: 9/10.','sucesso'); setProgress('Lead qualificada!', 38); });
+
+  // FASE 3: VENDA
+  add(1500, () => { activateNode('gabriel'); flyMessage('gabriel','augustto','#6c5ce7'); addLog('Gabriel','Augustto','Sessao agendada com Ana. Dossie completo. Lead muito quente — perfil Premium.','humano'); setProgress('Fase 3: Sessao...', 42); });
+  add(1500, () => { activateNode('augustto'); addLog('Augustto','Ana','Sessao estrategica realizada. 45 min. Ana identificou o padrao de invisibilidade. FECHOU PREMIUM R$33K!','humano'); stats.vendas++; stats.receita += 33000; updateStats(); setProgress('VENDA PREMIUM!', 48); });
+
+  // FASE 4: FINANCEIRO REGISTRA
+  add(1200, () => { activateNode('erick'); flyMessage('augustto','erick','#f08a5d'); addLog('ErickGrana','Time','VENDA: Premium R$33K | Closer: Augustto | Tracker atualizado. Meta mes: +3.8%','financeiro'); setProgress('Fase 4: Registro...', 52); });
+  add(1200, () => { activateNode('luciana'); flyMessage('erick','luciana','#f08a5d'); addLog('Luciana','Maestro','Analise: ticket medio subiu para R$28K. CAC desta venda: R$1.200. ROI: 27.5x. Canal: organico (conteudo da Cris).','financeiro'); setProgress('Analise financeira...', 56); });
+
+  // FASE 5: ONBOARDING
+  add(1500, () => { activateNode('salomao'); flyMessage('erick','salomao','#0f9b8e'); addLog('Salomao','Ana','Seja bem-vinda, Ana. Vou enviar seu Kit de Inicio. Antes: "O que precisa mudar em voce para que os proximos 90 dias sejam diferentes?"','sucesso'); setProgress('Fase 5: Onboarding...', 62); });
+  add(1200, () => { activateNode('pedro'); flyMessage('salomao','pedro','#0f9b8e'); addLog('PedroSup','Sistema','Ana registrada. Dossie Laura importado. Taxa de ativacao: monitorando. Status: VERDE. Encontro 1 em 21 dias.','sucesso'); setProgress('Monitoramento ativo...', 66); });
+
+  // FASE 6: 3 SEMANAS DEPOIS - ENCONTRO 1
+  add(1800, () => { activateNode('pedro'); flyMessage('pedro','augustto','#0f9b8e'); addLog('PedroSup','Augustto','DOSSIE PRE-ENCONTRO 1 — Ana. Presenca: 3/3 aulas. Exercicios: 3/3. Status: VERDE. Participacao alta. Ponto de atencao: resiste a exposicao em video.','sucesso'); setProgress('Fase 6: Encontro 1...', 72); });
+  add(1500, () => { activateNode('augustto'); addLog('Augustto','Ana','Encontro 1 realizado: Espelho de Identidade. Padrao identificado: teto interno de visibilidade. Ativacao definida: gravar 1 video por semana.','humano'); setProgress('Ativacao definida!', 76); });
+  add(1200, () => { activateNode('salomao'); flyMessage('augustto','salomao','#0f9b8e'); addLog('Salomao','Ana','No encontro de ontem, voces definiram uma ativacao: gravar 1 video por semana. Nao espere o momento perfeito. Como pretende comecar?','sucesso'); setProgress('Reforco pos-encontro...', 80); });
+
+  // FASE 7: MAESTRO CONSOLIDA
+  add(1800, () => { activateNode('maestro'); flyMessage('pedro','maestro','#c9a84c'); flyMessage('erick','maestro','#c9a84c'); flyMessage('cris','maestro','#c9a84c'); setProgress('Fase 7: Maestro consolida...', 88); });
+  add(1200, () => { addLog('Maestro','Augustto','REPORT SEMANAL: Saude SAUDAVEL | Receita: R$33K (+15% da meta) | Funil: 8 leads, 4 qualif, 2 agendados, 1 fechado | Alunos: 100% verde | Conteudo: carrossel Posicionamento viralizou (2.3K saves) | Acao: manter ritmo, escalar conteudo organico.','maestro'); setProgress('Report semanal entregue!', 95); });
+
+  // FASE 8: JUB MONITORA
+  add(1500, () => { activateNode('jub'); addLog('Jubsuporte','Sistema','Health check: 0 anomalias detectadas. Churn Fire Class: 2.8% (EXCELENTE). Meta no caminho. Proxima avaliacao em 7 dias.','financeiro'); setProgress('Simulacao completa!', 100); });
+  add(2000, () => { deactivateAll(); clearSim(); });
+
+  allSteps.forEach(([delay, fn]) => scheduleAction(delay, fn));
+}
+</script>
+
+</body>
+</html>

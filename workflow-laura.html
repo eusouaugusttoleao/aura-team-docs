@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow Laura — Mentoria AURA | Sellect Intelligence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0f;
+    color: #e4e4f0;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(139,92,246,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(192,132,252,0.1) 0%, transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .badge {
+    display: inline-block;
+    background: rgba(139,92,246,0.15);
+    border: 1px solid rgba(139,92,246,0.3);
+    color: #c084fc;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 0%, #c084fc 50%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: #a0a0b0;
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 36px;
+    font-weight: 800;
+    color: #8b5cf6;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #a0a0b0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    color: #8b5cf6;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+
+  .section-desc {
+    color: #a0a0b0;
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 700px;
+    margin-bottom: 50px;
+  }
+
+  /* DUAL MODE FLOW */
+  .flow-container {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    margin-top: 40px;
+    position: relative;
+  }
+
+  .flow-column {
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+  }
+
+  .flow-lead {
+    background: linear-gradient(180deg, rgba(139,92,246,0.1) 0%, rgba(139,92,246,0.02) 100%);
+    border: 1px solid rgba(139,92,246,0.2);
+  }
+
+  .flow-aluno {
+    background: linear-gradient(180deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.02) 100%);
+    border: 1px solid rgba(34,197,94,0.2);
+  }
+
+  .flow-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .flow-center::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, rgba(139,92,246,0.3), transparent);
+  }
+
+  .flow-icon-center {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #1a1a24;
+    border: 2px solid #8b5cf6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    z-index: 1;
+  }
+
+  .flow-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .flow-header-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 14px;
+  }
+
+  .flow-lead .flow-header-icon { background: rgba(139,92,246,0.2); }
+  .flow-aluno .flow-header-icon { background: rgba(34,197,94,0.2); }
+
+  .flow-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .flow-header p {
+    font-size: 13px;
+    color: #a0a0b0;
+    margin-top: 4px;
+  }
+
+  .flow-step {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+  }
+
+  .flow-step:hover {
+    background: rgba(255,255,255,0.06);
+    transform: translateX(4px);
+  }
+
+  .flow-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .flow-lead .flow-step-num { background: rgba(139,92,246,0.2); color: #c084fc; }
+  .flow-aluno .flow-step-num { background: rgba(34,197,94,0.2); color: #22c55e; }
+
+  .flow-step-text {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .flow-step-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .tag-claude { background: rgba(139,92,246,0.2); color: #c084fc; }
+  .tag-uazapi { background: rgba(34,197,94,0.2); color: #22c55e; }
+  .tag-sheets { background: rgba(245,158,11,0.2); color: #f59e0b; }
+  .tag-whisper { background: rgba(59,130,246,0.2); color: #60a5fa; }
+
+  /* TRIGGER ENTRY */
+  .trigger-box {
+    background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(192,132,252,0.05));
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trigger-box::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+  }
+
+  .trigger-box h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .trigger-box p {
+    color: #a0a0b0;
+    font-size: 14px;
+  }
+
+  .trigger-path {
+    display: inline-block;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(139,92,246,0.2);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #c084fc;
+    margin-top: 12px;
+  }
+
+  /* APP PREVIEW */
+  .app-section {
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .app-screen {
+    background: #1a1a24;
+    border: 1px solid #2a2a3a;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .app-screen:hover {
+    transform: translateY(-8px);
+    border-color: #8b5cf6;
+    box-shadow: 0 20px 40px rgba(139,92,246,0.15);
+  }
+
+  .app-screen-header {
+    padding: 16px;
+    border-bottom: 1px solid #2a2a3a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .app-screen-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .app-screen-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .app-screen-body {
+    padding: 20px;
+    min-height: 200px;
+  }
+
+  .app-mock-element {
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .app-mock-bar {
+    height: 6px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+  }
+
+  .app-mock-text {
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+
+  .app-mock-text.short { width: 60%; }
+  .app-mock-text.medium { width: 80%; }
+
+  /* SHEETS CONFIG */
+  .sheets-section {
+    margin-top: 60px;
+  }
+
+  .sheets-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #2a2a3a;
+    margin-top: 30px;
+  }
+
+  .sheets-table th {
+    background: #1a1a24;
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a0a0b0;
+    border-bottom: 1px solid #2a2a3a;
+  }
+
+  .sheets-table td {
+    padding: 12px 20px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #e4e4f0;
+  }
+
+  .sheets-table tr:last-child td { border-bottom: none; }
+
+  .sheets-table tbody tr:hover {
+    background: rgba(139,92,246,0.05);
+  }
+
+  .col-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .col-key { background: rgba(139,92,246,0.15); color: #c084fc; }
+  .col-data { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .col-status { background: rgba(34,197,94,0.15); color: #22c55e; }
+  .col-json { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+  /* TAGS DE DETECCAO */
+  .tags-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .tag-card {
+    background: #1a1a24;
+    border: 1px solid #2a2a3a;
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+
+  .tag-card:hover {
+    border-color: #8b5cf6;
+  }
+
+  .tag-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .tag-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .tag-card code {
+    font-family: monospace;
+    font-size: 12px;
+    background: rgba(0,0,0,0.3);
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .tag-card p {
+    font-size: 13px;
+    color: #a0a0b0;
+    line-height: 1.6;
+  }
+
+  /* PENDENCIAS */
+  .pending-list {
+    margin-top: 30px;
+  }
+
+  .pending-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: #1a1a24;
+    border: 1px solid #2a2a3a;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+  }
+
+  .pending-item:hover {
+    border-color: #8b5cf6;
+    transform: translateX(4px);
+  }
+
+  .pending-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .pending-icon.todo { background: rgba(245,158,11,0.15); }
+  .pending-icon.done { background: rgba(34,197,94,0.15); }
+
+  .pending-text {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .pending-status {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .status-todo { background: rgba(245,158,11,0.15); color: #f59e0b; }
+  .status-done { background: rgba(34,197,94,0.15); color: #22c55e; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid #1a1a24;
+  }
+
+  footer p {
+    color: #555;
+    font-size: 13px;
+  }
+
+  footer .brand {
+    font-size: 16px;
+    font-weight: 700;
+    color: #8b5cf6;
+    margin-bottom: 8px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .flow-container { grid-template-columns: 1fr; }
+    .flow-center { display: none; }
+    .flow-column { margin-bottom: 20px; }
+    .app-grid { grid-template-columns: repeat(2, 1fr); }
+    .tags-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-direction: column; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="badge">Sellect Intelligence</div>
+    <h1>Workflow Laura<br>Dual Mode</h1>
+    <p>Sistema inteligente que identifica automaticamente se o contato e um <strong>lead</strong> ou um <strong>aluno ativo</strong> da Mentoria AURA, e adapta o comportamento da Laura em tempo real.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Modos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Tags IA</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">21</div>
+        <div class="stat-label">Nodes n8n</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Telas App</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRIGGER -->
+<section>
+  <div class="section-label">Entrada</div>
+  <div class="section-title">Ponto de Entrada Unico</div>
+  <div class="section-desc">Toda mensagem do WhatsApp entra pelo mesmo webhook. O sistema faz o roteamento automatico.</div>
+
+  <div class="trigger-box">
+    <h3>WhatsApp Trigger (UazAPI Webhook)</h3>
+    <p>Recebe todas as mensagens — texto, audio, imagem, video, sticker</p>
+    <div class="trigger-path">POST /webhook/whatsapp-webhook</div>
+  </div>
+</section>
+
+<!-- DUAL MODE -->
+<section>
+  <div class="section-label">Roteamento Inteligente</div>
+  <div class="section-title">Lead vs Aluno — Fluxos Paralelos</div>
+  <div class="section-desc">Apos extrair os dados da mensagem, o sistema busca o telefone em duas abas do Google Sheets simultaneamente.</div>
+
+  <div class="flow-container">
+    <!-- LEAD -->
+    <div class="flow-column flow-lead">
+      <div class="flow-header">
+        <div class="flow-header-icon">🎯</div>
+        <h3>Modo Lead</h3>
+        <p>Qualificacao Estrategica</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-text">Buscar na aba "leads"</div>
+        <span class="flow-step-tag tag-sheets">Sheets</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-text">Lead existe? Se nao, criar</div>
+        <span class="flow-step-tag tag-sheets">Sheets</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-text">Preparar contexto + historico</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">4</div>
+        <div class="flow-step-text">System Prompt: Qualificacao</div>
+        <span class="flow-step-tag tag-claude">Claude</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">5</div>
+        <div class="flow-step-text">Aguardar digitacao (3s)</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">6</div>
+        <div class="flow-step-text">Claude API — Laura SDR</div>
+        <span class="flow-step-tag tag-claude">Claude</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">7</div>
+        <div class="flow-step-text">Processar resposta + tags</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">8</div>
+        <div class="flow-step-text">Enviar WhatsApp</div>
+        <span class="flow-step-tag tag-uazapi">UazAPI</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">9</div>
+        <div class="flow-step-text">Atualizar Sheets</div>
+        <span class="flow-step-tag tag-sheets">Sheets</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">10</div>
+        <div class="flow-step-text">Qualificado? → Dossie</div>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="flow-center">
+      <div class="flow-icon-center">⚡</div>
+    </div>
+
+    <!-- ALUNO -->
+    <div class="flow-column flow-aluno">
+      <div class="flow-header">
+        <div class="flow-header-icon">🎓</div>
+        <h3>Modo Aluno</h3>
+        <p>Suporte Ativo</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-text">Buscar na aba "alunos"</div>
+        <span class="flow-step-tag tag-sheets">Sheets</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-text">Aluno ativo? Rotear</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-text">Preparar contexto (bloco, plano)</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">4</div>
+        <div class="flow-step-text">System Prompt: Suporte</div>
+        <span class="flow-step-tag tag-claude">Claude</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">5</div>
+        <div class="flow-step-text">Aguardar digitacao (2s)</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">6</div>
+        <div class="flow-step-text">Claude API — Laura Suporte</div>
+        <span class="flow-step-tag tag-claude">Claude</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">7</div>
+        <div class="flow-step-text">Processar resposta + tags</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">8</div>
+        <div class="flow-step-text">Enviar WhatsApp</div>
+        <span class="flow-step-tag tag-uazapi">UazAPI</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">9</div>
+        <div class="flow-step-text">Atualizar aba alunos</div>
+        <span class="flow-step-tag tag-sheets">Sheets</span>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">10</div>
+        <div class="flow-step-text">Escalar? → Rose</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAGS IA -->
+<section>
+  <div class="section-label">Inteligencia</div>
+  <div class="section-title">Tags de Deteccao Automatica</div>
+  <div class="section-desc">O Claude insere tags ocultas na resposta que o sistema detecta para acionar automacoes. O lead/aluno nunca ve as tags.</div>
+
+  <div class="tags-grid">
+    <div class="tag-card">
+      <div class="tag-card-header">
+        <div class="tag-card-icon" style="background:rgba(34,197,94,0.15)">✅</div>
+        <h4>Lead Qualificado</h4>
+      </div>
+      <code style="color:#22c55e">[STATUS:QUALIFICADO]</code>
+      <p>Lead tem resultado, sente dissonancia de percepcao e tem maturidade. Dispara Workflow 03 (Dossie + Gabriel).</p>
+    </div>
+    <div class="tag-card">
+      <div class="tag-card-header">
+        <div class="tag-card-icon" style="background:rgba(239,68,68,0.15)">❌</div>
+        <h4>Fora do ICP</h4>
+      </div>
+      <code style="color:#ef4444">[STATUS:FORA_ICP]</code>
+      <p>Lead nao se encaixa no perfil ideal. Status atualizado no Sheets, sem follow-up agressivo.</p>
+    </div>
+    <div class="tag-card">
+      <div class="tag-card-header">
+        <div class="tag-card-icon" style="background:rgba(245,158,11,0.15)">⚠️</div>
+        <h4>Escalar Suporte</h4>
+      </div>
+      <code style="color:#f59e0b">[SUPORTE:ESCALAR]</code>
+      <p>Laura nao consegue resolver o problema do aluno. Notifica Rose (sucesso do cliente) via WhatsApp.</p>
+    </div>
+    <div class="tag-card">
+      <div class="tag-card-header">
+        <div class="tag-card-icon" style="background:rgba(239,68,68,0.15)">🚨</div>
+        <h4>Retencao</h4>
+      </div>
+      <code style="color:#ef4444">[SUPORTE:RETENCAO]</code>
+      <p>Aluno expressa insatisfacao ou desejo de cancelar. Alerta urgente para Rose com prioridade maxima.</p>
+    </div>
+  </div>
+</section>
+
+<!-- APP -->
+<section class="app-section">
+  <div class="section-label">Aplicativo Mobile</div>
+  <div class="section-title">App Suporte Aluno AURA</div>
+  <div class="section-desc">React Native + Expo + TypeScript. Design dark premium alinhado com a marca AURA. 4 telas principais.</div>
+
+  <div class="app-grid">
+    <div class="app-screen">
+      <div class="app-screen-header">
+        <div class="app-screen-dot" style="background:#8b5cf6"></div>
+        <div class="app-screen-title">Inicio</div>
+      </div>
+      <div class="app-screen-body">
+        <div class="app-mock-element">
+          <div class="app-mock-text medium"></div>
+          <div class="app-mock-text short"></div>
+          <div class="app-mock-bar" style="background:linear-gradient(90deg,#8b5cf6 25%,#252533 25%);height:8px;border-radius:4px"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="app-mock-element" style="text-align:center;padding:16px 8px">
+            <div style="font-size:20px;margin-bottom:4px">▶️</div>
+            <div class="app-mock-text" style="margin:4px auto 0;width:70%"></div>
+          </div>
+          <div class="app-mock-element" style="text-align:center;padding:16px 8px">
+            <div style="font-size:20px;margin-bottom:4px">📅</div>
+            <div class="app-mock-text" style="margin:4px auto 0;width:70%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-screen">
+      <div class="app-screen-header">
+        <div class="app-screen-dot" style="background:#c084fc"></div>
+        <div class="app-screen-title">Modulos</div>
+      </div>
+      <div class="app-screen-body">
+        <div class="app-mock-element" style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;border-radius:8px;background:rgba(139,92,246,0.2);flex-shrink:0"></div>
+          <div style="flex:1">
+            <div class="app-mock-text medium"></div>
+            <div class="app-mock-text short" style="margin:0"></div>
+          </div>
+        </div>
+        <div class="app-mock-element" style="display:flex;align-items:center;gap:10px;opacity:0.5">
+          <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.05);flex-shrink:0"></div>
+          <div style="flex:1">
+            <div class="app-mock-text medium"></div>
+            <div class="app-mock-text short" style="margin:0"></div>
+          </div>
+        </div>
+        <div class="app-mock-element" style="display:flex;align-items:center;gap:10px;opacity:0.3">
+          <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.05);flex-shrink:0"></div>
+          <div style="flex:1">
+            <div class="app-mock-text medium"></div>
+            <div class="app-mock-text short" style="margin:0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-screen">
+      <div class="app-screen-header">
+        <div class="app-screen-dot" style="background:#22c55e"></div>
+        <div class="app-screen-title">Suporte</div>
+      </div>
+      <div class="app-screen-body">
+        <div style="background:rgba(255,255,255,0.04);border-radius:12px 12px 12px 4px;padding:10px 14px;margin-bottom:10px;max-width:85%">
+          <div class="app-mock-text"></div>
+          <div class="app-mock-text medium" style="margin:0"></div>
+        </div>
+        <div style="background:rgba(139,92,246,0.3);border-radius:12px 12px 4px 12px;padding:10px 14px;margin-bottom:10px;max-width:70%;margin-left:auto">
+          <div class="app-mock-text"></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04);border-radius:12px 12px 12px 4px;padding:10px 14px;max-width:85%">
+          <div class="app-mock-text"></div>
+          <div class="app-mock-text short" style="margin:0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-screen">
+      <div class="app-screen-header">
+        <div class="app-screen-dot" style="background:#f59e0b"></div>
+        <div class="app-screen-title">Perfil</div>
+      </div>
+      <div class="app-screen-body">
+        <div style="text-align:center;margin-bottom:16px">
+          <div style="width:50px;height:50px;border-radius:50%;border:2px solid #8b5cf6;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:20px">👤</div>
+          <div class="app-mock-text" style="width:50%;margin:0 auto 4px"></div>
+          <div class="app-mock-text short" style="width:30%;margin:0 auto"></div>
+        </div>
+        <div class="app-mock-element" style="display:flex;justify-content:space-around">
+          <div style="text-align:center"><div style="color:#8b5cf6;font-weight:700">3</div><div class="app-mock-text" style="width:30px;margin:4px auto 0"></div></div>
+          <div style="text-align:center"><div style="color:#8b5cf6;font-weight:700">1</div><div class="app-mock-text" style="width:30px;margin:4px auto 0"></div></div>
+          <div style="text-align:center"><div style="color:#8b5cf6;font-weight:700">12h</div><div class="app-mock-text" style="width:30px;margin:4px auto 0"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHEETS -->
+<section class="sheets-section">
+  <div class="section-label">Dados</div>
+  <div class="section-title">Nova Aba: alunos</div>
+  <div class="section-desc">Estrutura necessaria no Google Sheets para o roteamento funcionar. Criar a aba "alunos" com estas colunas:</div>
+
+  <table class="sheets-table">
+    <thead>
+      <tr>
+        <th>Coluna</th>
+        <th>Tipo</th>
+        <th>Descricao</th>
+        <th>Exemplo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="col-tag col-key">id</span></td>
+        <td>string</td>
+        <td>Identificador unico do aluno</td>
+        <td>ALU-001</td>
+      </tr>
+      <tr>
+        <td><span class="col-tag col-data">nome</span></td>
+        <td>string</td>
+        <td>Nome completo</td>
+        <td>Maria Silva</td>
+      </tr>
+      <tr>
+        <td><span class="col-tag col-key">telefone</span></td>
+        <td>string</td>
+        <td>Numero com DDI (chave de busca)</td>
+        <td>5511999887766</td>
+      </tr>
+      <tr>
+        <td><span class="col-tag col-data">plano</span></td>
+        <td>string</td>
+        <td>Tipo de plano contratado</td>
+        <td>premium</td>
+      </tr>
+      <tr>
+        <td><span class="col-tag col-data">bloco_atual</span></td>
+        <td>number</td>
+        <td>Bloco da jornada (1 a 4)</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td><span class="col-tag col-status">status</span></td>
+        <td>string</td>
+        <td>Status do aluno</td>
+        <td>ativo</td>
+      </tr>
+      <tr>
+        <td><span class="col-tag col-json">historico_suporte</span></td>
+        <td>JSON</td>
+        <td>Array de mensagens do suporte</td>
+        <td>[]</td>
+      </tr>
+      <tr>
+        <td><span class="col-tag col-data">ultimo_contato_suporte</span></td>
+        <td>datetime</td>
+        <td>Data do ultimo contato com suporte</td>
+        <td>2026-03-31T10:00:00Z</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PENDENCIAS -->
+<section>
+  <div class="section-label">Proximos Passos</div>
+  <div class="section-title">Checklist de Implementacao</div>
+
+  <div class="pending-list">
+    <div class="pending-item">
+      <div class="pending-icon done">✅</div>
+      <div class="pending-text">Workflow 02 atualizado com dual mode (Lead + Aluno)</div>
+      <span class="pending-status status-done">Feito</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon done">✅</div>
+      <div class="pending-text">System Prompt de suporte ao aluno criado</div>
+      <span class="pending-status status-done">Feito</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon done">✅</div>
+      <div class="pending-text">App Suporte Aluno (React Native + Expo)</div>
+      <span class="pending-status status-done">Feito</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon done">✅</div>
+      <div class="pending-text">Roteamento automatico + escalacao para Rose</div>
+      <span class="pending-status status-done">Feito</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon todo">📋</div>
+      <div class="pending-text">Criar aba "alunos" no Google Sheets</div>
+      <span class="pending-status status-todo">Pendente</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon todo">📋</div>
+      <div class="pending-text">Substituir ROSE_PHONE no workflow</div>
+      <span class="pending-status status-todo">Pendente</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon todo">📋</div>
+      <div class="pending-text">Importar workflow atualizado no n8n.cloud</div>
+      <span class="pending-status status-todo">Pendente</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon todo">📋</div>
+      <div class="pending-text">Instalar Xcode para teste iOS nativo</div>
+      <span class="pending-status status-todo">Pendente</span>
+    </div>
+    <div class="pending-item">
+      <div class="pending-icon todo">📋</div>
+      <div class="pending-text">Login na conta Google no AntiGravity</div>
+      <span class="pending-status status-todo">Pendente</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">AURA × Sellect Intelligence</div>
+  <p>Workflow Laura Dual Mode — Gerado em 31/03/2026</p>
+</footer>
+
+</body>
+</html>
