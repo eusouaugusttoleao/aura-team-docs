@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA App — Especificacao Completa de Produto</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e4e4f0;line-height:1.7}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 20px;overflow-x:auto}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;gap:0}
+  .nav-inner::-webkit-scrollbar{display:none}
+  .nav a{padding:14px 18px;font-size:12px;font-weight:600;color:#777;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:all .3s}
+  .nav a:hover,.nav a.active{color:#d4a04a;border-bottom-color:#d4a04a}
+
+  /* HERO */
+  .hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(212,160,74,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 50%,rgba(139,92,246,.06) 0%,transparent 50%)}
+  .hero-content{position:relative;z-index:1;max-width:800px}
+  .badge{display:inline-block;background:rgba(212,160,74,.12);border:1px solid rgba(212,160,74,.25);color:#d4a04a;padding:6px 20px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px}
+  .hero h1{font-size:clamp(32px,6vw,56px);font-weight:900;line-height:1.05;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,#d4a04a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{font-size:16px;color:#888;max-width:600px;margin:0 auto 40px;line-height:1.7}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:600px;width:100%}
+  .stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 8px;text-align:center}
+  .stat-num{font-size:28px;font-weight:800;color:#d4a04a}
+  .stat-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+  /* SECTIONS */
+  .section{max-width:900px;margin:0 auto;padding:80px 24px}
+  .section-num{font-size:11px;font-weight:700;color:#d4a04a;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+  .section h2{font-size:clamp(24px,3.5vw,36px);font-weight:800;color:#fff;margin-bottom:8px}
+  .section h3{font-size:18px;font-weight:700;color:#d4a04a;margin:32px 0 12px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06)}
+  .section h4{font-size:14px;font-weight:700;color:#fff;margin:20px 0 8px}
+  .section p{color:#a0a0b0;margin-bottom:14px}
+  .section ul,.section ol{margin-left:20px;margin-bottom:16px;color:#a0a0b0}
+  .section li{margin-bottom:6px}
+  .section li strong{color:#e4e4f0}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(212,160,74,.3),transparent);margin:60px 0}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:13px}
+  th{background:#1a1a2e;color:#d4a04a;padding:10px 14px;text-align:left;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06);color:#a0a0b0}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  td strong{color:#e4e4f0}
+
+  /* CARDS */
+  .module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:24px 0}
+  .module-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-top:3px solid #d4a04a;border-radius:12px;padding:24px;transition:all .3s}
+  .module-card:hover{background:rgba(255,255,255,.05);border-color:rgba(212,160,74,.3);transform:translateY(-2px)}
+  .module-card h4{color:#d4a04a;margin:0 0 8px;font-size:14px;border:none;padding:0}
+  .module-card p{font-size:13px;color:#888;margin-bottom:12px}
+  .module-card .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:10px;padding:3px 10px;border-radius:20px;background:rgba(212,160,74,.1);color:#d4a04a;font-weight:600}
+
+  /* CYCLE CARDS */
+  .cycle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
+  .cycle-card{padding:20px;border-radius:12px;text-align:center}
+  .cycle-card.c1{background:rgba(200,169,81,.08);border:1px solid rgba(200,169,81,.2)}
+  .cycle-card.c2{background:rgba(91,141,239,.08);border:1px solid rgba(91,141,239,.2)}
+  .cycle-card.c3{background:rgba(239,91,91,.08);border:1px solid rgba(239,91,91,.2)}
+  .cycle-card h4{margin:0 0 4px;border:none;padding:0}
+  .cycle-card.c1 h4{color:#C8A951}
+  .cycle-card.c2 h4{color:#5B8DEF}
+  .cycle-card.c3 h4{color:#EF5B5B}
+  .cycle-card p{font-size:12px;color:#888;margin:0}
+  .cycle-card .period{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+
+  /* BOXES */
+  .box{background:rgba(212,160,74,.06);border:1px solid rgba(212,160,74,.15);border-left:3px solid #d4a04a;border-radius:8px;padding:16px 20px;margin:16px 0}
+  .box p{color:#c0b090;margin-bottom:4px}
+  .box strong{color:#d4a04a}
+
+  /* ONBOARDING */
+  .step-grid{display:flex;flex-direction:column;gap:12px;margin:20px 0}
+  .step{display:flex;gap:16px;align-items:flex-start;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:16px}
+  .step-num{min-width:36px;height:36px;line-height:36px;text-align:center;background:rgba(212,160,74,.15);color:#d4a04a;border-radius:8px;font-size:14px;font-weight:800}
+  .step-content h4{margin:0 0 4px;padding:0;border:none;font-size:14px}
+  .step-content p{font-size:13px;margin:0}
+
+  /* COLORS */
+  .color-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
+  .color-swatch{border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+  .color-swatch .swatch{height:50px}
+  .color-swatch .info{padding:8px 10px;background:rgba(255,255,255,.03);font-size:11px}
+  .color-swatch .info strong{display:block;color:#e4e4f0;font-size:10px;margin-bottom:2px}
+  .color-swatch .info span{color:#777}
+
+  /* ROADMAP */
+  .phase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0}
+  .phase{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px}
+  .phase .phase-label{font-size:10px;font-weight:700;color:#d4a04a;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+  .phase h4{margin:0 0 6px;padding:0;border:none;color:#fff;font-size:15px}
+  .phase p{font-size:12px;color:#777;margin:0}
+
+  /* FOOTER */
+  .footer{text-align:center;padding:40px 24px;border-top:1px solid rgba(255,255,255,.06);margin-top:60px}
+  .footer p{font-size:11px;color:#555}
+  .footer strong{color:#d4a04a}
+
+  @media(max-width:768px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .cycle-grid{grid-template-columns:1fr}
+    .nav a{padding:12px 14px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#visao">Visao</a>
+    <a href="#tech">Tech</a>
+    <a href="#modulos">Modulos</a>
+    <a href="#extras">Extras</a>
+    <a href="#integracao">Integracao</a>
+    <a href="#metricas">Metricas</a>
+    <a href="#onboarding">Onboarding</a>
+    <a href="#design">Design</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#recomendacoes">Recomendacoes</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="badge">Especificacao de Produto</div>
+    <h1>AURA App</h1>
+    <p>Plataforma digital de suporte aos mentorados do programa Mentoria AURA. O companheiro diario de transformacao pessoal e profissional.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">Modulos</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Pilares</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">Meses</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">Extras</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. VISÃO EXECUTIVA -->
+<div class="section" id="visao">
+  <div class="section-num">Secao 01</div>
+  <h2>Visao Executiva</h2>
+
+  <h3>Proposito</h3>
+  <p>O AURA App funciona como plataforma digital de suporte aos mentorados do programa Mentoria AURA. A ferramenta traduz tres pilares — <strong>Autoimagem, Comunicacao e Presenca</strong> — em recursos praticos e interativos que acompanham o aluno durante seis meses de mentoria e depois.</p>
+  <p>O aplicativo atua como "espelho estrategico" do mentorado: reflete posicao atual, projeta objetivos futuros e ilumina o caminho entre esses dois pontos.</p>
+
+  <h3>Posicionamento no Ecossistema</h3>
+  <table>
+    <tr><th>Produto</th><th>Valor</th><th>Integracao com App</th></tr>
+    <tr><td><strong>Mentoria AURA</strong></td><td>R$ 20k-50k</td><td>Encontros ao vivo onde o app captura e operacionaliza cada aprendizado</td></tr>
+    <tr><td><strong>Ative Seu Poder</strong></td><td>R$ 1.000</td><td>As 7 Pedras do Poder formam base conceitual que o app transforma em ferramentas acionaveis</td></tr>
+    <tr><td><strong>Fire Class</strong></td><td>R$ 37-77/mes</td><td>Conteudo continuo integrado ao plano de desenvolvimento</td></tr>
+    <tr><td><strong>Fireflix</strong></td><td>R$ 300</td><td>O quadro de metas dentro do app expande esta solucao</td></tr>
+  </table>
+
+  <h3>Arquitetura dos Ciclos</h3>
+  <div class="cycle-grid">
+    <div class="cycle-card c1">
+      <div class="period">Meses 1-2</div>
+      <h4>Ciclo 1 — Autoimagem</h4>
+      <p>Autoconhecimento, DISC, valores, identidade, crencas</p>
+    </div>
+    <div class="cycle-card c2">
+      <div class="period">Meses 3-4</div>
+      <h4>Ciclo 2 — Comunicacao</h4>
+      <p>Narrativa pessoal, PUV, influencia, expressao</p>
+    </div>
+    <div class="cycle-card c3">
+      <div class="period">Meses 5-6</div>
+      <h4>Ciclo 3 — Presenca</h4>
+      <p>Posicionamento, autoridade, escala, legado</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 2. ARQUITETURA TÉCNICA -->
+<div class="section" id="tech">
+  <div class="section-num">Secao 02</div>
+  <h2>Arquitetura Tecnica</h2>
+
+  <h3>Stack Recomendada</h3>
+  <table>
+    <tr><th>Camada</th><th>Tecnologia</th><th>Justificativa</th></tr>
+    <tr><td><strong>Frontend Mobile</strong></td><td>React Native / Flutter</td><td>Cross-platform (iOS + Android), hot reload</td></tr>
+    <tr><td><strong>Frontend Web</strong></td><td>Next.js + Tailwind CSS</td><td>SSR, performance, design system flexivel</td></tr>
+    <tr><td><strong>Backend / API</strong></td><td>Node.js + Supabase</td><td>Real-time, auth nativo, Storage integrado</td></tr>
+    <tr><td><strong>Banco de Dados</strong></td><td>PostgreSQL + Redis</td><td>Relacional robusto + cache de alta performance</td></tr>
+    <tr><td><strong>Notificacoes</strong></td><td>OneSignal / FCM</td><td>Push segmentado por ciclo e gatilhos comportamentais</td></tr>
+    <tr><td><strong>Analytics</strong></td><td>Mixpanel / Amplitude</td><td>Funis, cohorts, eventos customizados</td></tr>
+    <tr><td><strong>Automacoes</strong></td><td>n8n</td><td>Webhooks, integracao ClickUp, alertas</td></tr>
+  </table>
+
+  <h3>Modelo de Dados Principal</h3>
+  <div class="module-grid">
+    <div class="module-card"><h4>User</h4><p>Dados do mentorado, ciclo atual, perfil DISC, foto, bio</p></div>
+    <div class="module-card"><h4>DISCProfile</h4><p>Scores D/I/S/C, perfil dominante, relatorio, data</p></div>
+    <div class="module-card"><h4>Goal</h4><p>Metas FIRE FLIX: titulo, pilar, prazo, status, milestones</p></div>
+    <div class="module-card"><h4>PUVDraft</h4><p>Versoes da Proposta Unica de Valor, feedback</p></div>
+    <div class="module-card"><h4>Task</h4><p>Atividade da agenda, recorrencia, vinculo com meta</p></div>
+    <div class="module-card"><h4>ActionPlan90</h4><p>Plano 90 dias, fases de 30d, revisoes</p></div>
+    <div class="module-card"><h4>AuraScore</h4><p>Pontuacao composta diaria/semanal</p></div>
+    <div class="module-card"><h4>JournalEntry</h4><p>Reflexoes diarias, tags emocionais, pilar</p></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 3. MÓDULOS -->
+<div class="section" id="modulos">
+  <div class="section-num">Secao 03</div>
+  <h2>Modulos e Ferramentas</h2>
+  <p>8 modulos principais que formam o nucleo do AURA App.</p>
+
+  <h3>3.1 Perfil Comportamental DISC</h3>
+  <p>Ferramenta de autoconhecimento baseada na metodologia DISC. Primeiro modulo ativado no onboarding, serve como base para personalizar toda a experiencia.</p>
+  <ul>
+    <li><strong>Assessment interativo</strong> — 28 pares de palavras/frases, interface drag & drop, 12-15 minutos</li>
+    <li><strong>Grafico radar</strong> — 4 eixos DISC com percentuais, perfil dominante e secundario</li>
+    <li><strong>Relatorio personalizado</strong> — pontos fortes, pontos cegos, estilo de comunicacao, gatilhos de estresse</li>
+    <li><strong>Orientacoes AURA</strong> — recomendacoes de como potencializar cada pilar por perfil DISC</li>
+    <li><strong>Historico</strong> — refazer a cada 2 meses, sobreposicao de graficos para ver evolucao</li>
+    <li><strong>Card compartilhavel</strong> — perfil DISC pronto para Instagram Stories</li>
+  </ul>
+
+  <h3>3.2 Quadro de Metas — FIRE FLIX</h3>
+  <p>Vision board digital com rastreamento ativo de progresso.</p>
+  <ul>
+    <li><strong>Board visual</strong> — grid com cards (imagem, titulo, prazo, barra de progresso)</li>
+    <li><strong>Categorizacao por pilar</strong> — Autoimagem, Comunicacao ou Presenca com filtro visual</li>
+    <li><strong>Areas de vida</strong> — saude, financas, relacionamentos, carreira, espiritualidade, legado</li>
+    <li><strong>Milestones</strong> — sub-etapas com check, visao fragmentada do caminho</li>
+    <li><strong>Progress ring</strong> — anel animado que preenche com os milestones</li>
+    <li><strong>Celebracao</strong> — confetes dourados e feedback ao completar meta</li>
+    <li><strong>Meta-foto</strong> — captura "antes e depois"</li>
+  </ul>
+
+  <h3>3.3 Proposta Unica de Valor (PUV)</h3>
+  <p>Wizard guiado de 7 etapas baseado nas 7 Pedras do Poder para construir posicionamento pessoal.</p>
+  <table>
+    <tr><th>Etapa</th><th>Tema</th><th>Descricao</th></tr>
+    <tr><td><strong>1</strong></td><td>Quem sou</td><td>Identidade, valores, DISC</td></tr>
+    <tr><td><strong>2</strong></td><td>Quem sirvo</td><td>Publico-alvo, avatar, dores e desejos</td></tr>
+    <tr><td><strong>3</strong></td><td>O que entrego</td><td>Transformacao, nao produto</td></tr>
+    <tr><td><strong>4</strong></td><td>Como entrego</td><td>Metodo, processo, diferenciais</td></tr>
+    <tr><td><strong>5</strong></td><td>Prova social</td><td>Resultados, depoimentos, cases</td></tr>
+    <tr><td><strong>6</strong></td><td>Narrativa</td><td>Frase de posicionamento, tagline, elevator pitch</td></tr>
+    <tr><td><strong>7</strong></td><td>Revisao e ativacao</td><td>Card final compartilhavel</td></tr>
+  </table>
+  <p>Inclui versionamento, card visual gerado automaticamente, feedback do mentor e templates por nicho.</p>
+
+  <h3>3.4 Agenda de Produtividade</h3>
+  <p>Organizador semanal orientado por transformacao, nao um calendario generico.</p>
+  <ul>
+    <li><strong>Blocos de tempo por pilar</strong> — cores dos pilares AURA (dourado, azul, vermelho)</li>
+    <li><strong>Ritual matinal</strong> — 30-60min customizavel (meditacao, exercicio, leitura, gratidao)</li>
+    <li><strong>Revisao noturna</strong> — 3 vitorias, 1 aprendizado, intencao para amanha</li>
+    <li><strong>Tarefas vinculadas a metas</strong> — conexao direta com FIRE FLIX</li>
+    <li><strong>Visao semanal</strong> — equilibrio entre pilares com alerta</li>
+    <li><strong>Sugestoes por DISC</strong> — ajustes personalizados por perfil</li>
+    <li><strong>Google Calendar</strong> — sincronizacao bidirecional</li>
+    <li><strong>Streak</strong> — contador de dias consecutivos (7, 21, 30, 60, 90)</li>
+  </ul>
+
+  <h3>3.5 Biblioteca de Livros</h3>
+  <p>Acervo curado por pilar e ciclo com progresso, anotacoes e recomendacoes por DISC.</p>
+  <ul>
+    <li>Status de leitura (4 estados) + progresso por pagina</li>
+    <li>Notas, destaques e rating pessoal</li>
+    <li>Desafio mensal de leitura + recomendacoes por DISC</li>
+    <li>Link para compra (afiliado Amazon)</li>
+  </ul>
+
+  <h3>3.6 Acervo de Documentarios</h3>
+  <p>Catalogo por temas (lideranca, criatividade, resiliencia, empreendedorismo), tagueado por pilar, com guia de reflexao (3 perguntas) e indicacao de plataforma.</p>
+
+  <h3>3.7 Acervo de Filmes</h3>
+  <p>Mesmo padrao + conexao tematica com nota do mentor, analise de personagem e "Noite AURA" semanal gamificada no AURA Score.</p>
+
+  <h3>3.8 Plano de Acao de 90 Dias</h3>
+  <p>3 sprints de 30 dias com revisoes quinzenais.</p>
+  <ul>
+    <li><strong>Template guiado</strong> — wizard em 5 passos (Visao, Sprint 1, Sprint 2, Sprint 3, Metricas)</li>
+    <li><strong>Visao de sprint</strong> — acoes, responsavel, prazo, status</li>
+    <li><strong>Revisao quinzenal</strong> — perguntas guiadas (avancou? travou? mudar?)</li>
+    <li><strong>Replanejamento</strong> — realocar acoes entre sprints sem perder historico</li>
+    <li><strong>Export PDF</strong> — plano completo profissional para compartilhar</li>
+    <li><strong>Conexao com mentor</strong> — visualiza e comenta via painel admin</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- 4. EXTRAS -->
+<div class="section" id="extras">
+  <div class="section-num">Secao 04</div>
+  <h2>Modulos Adicionais Propostos</h2>
+
+  <div class="module-grid">
+    <div class="module-card">
+      <h4>Diario AURA</h4>
+      <p>Journaling guiado com prompts rotativos por ciclo, tag emocional (5 estados), insights apos 30 dias, exportacao PDF mensal.</p>
+      <div class="tags"><span class="tag">Autoimagem</span><span class="tag">Journaling</span></div>
+    </div>
+    <div class="module-card">
+      <h4>AURA Score</h4>
+      <p>Gamificacao com 5 niveis: Faiscante, Incandescente, Radiante, Magnetico, AURA. Pontuacao por tarefas, leituras, metas e streaks.</p>
+      <div class="tags"><span class="tag">Transversal</span><span class="tag">Gamificacao</span></div>
+    </div>
+    <div class="module-card">
+      <h4>Mural de Ativacoes</h4>
+      <p>Afirmacoes, mantras pessoais como wallpaper, visualizacoes guiadas em audio (5-10min) pelo mentor.</p>
+      <div class="tags"><span class="tag">Autoimagem</span><span class="tag">Presenca</span></div>
+    </div>
+    <div class="module-card">
+      <h4>Painel do Mentor</h4>
+      <p>Dashboard admin: cards por aluno, AURA Score, drill-down, feedback direto, alertas de inatividade, relatorios de turma.</p>
+      <div class="tags"><span class="tag">Operacao</span><span class="tag">Admin</span></div>
+    </div>
+    <div class="module-card">
+      <h4>Comunidade AURA</h4>
+      <p>Feed social privado: conquistas compartilhadas, forum, desafios semanais do mentor, integracao com AURA Score.</p>
+      <div class="tags"><span class="tag">Comunicacao</span><span class="tag">Presenca</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 5. INTEGRAÇÃO -->
+<div class="section" id="integracao">
+  <div class="section-num">Secao 05</div>
+  <h2>Experiencia Integrada</h2>
+
+  <div class="box">
+    <p><strong>Principio fundamental:</strong> Nenhuma ferramenta opera isoladamente. Cada acao em qualquer modulo reverbera nos demais, criando um ecossistema coeso de transformacao.</p>
+  </div>
+
+  <h3>Fluxo de Dados entre Modulos</h3>
+  <table>
+    <tr><th>Origem</th><th>Destino</th><th>Dado/Acao</th></tr>
+    <tr><td><strong>DISC</strong></td><td>Agenda</td><td>Sugestoes personalizadas de produtividade por perfil</td></tr>
+    <tr><td><strong>DISC</strong></td><td>PUV</td><td>Pontos fortes naturais como input para posicionamento</td></tr>
+    <tr><td><strong>DISC</strong></td><td>Livros/Docs/Filmes</td><td>Recomendacoes priorizadas por perfil</td></tr>
+    <tr><td><strong>FIRE FLIX</strong></td><td>Agenda</td><td>Metas se desdobram em tarefas diarias</td></tr>
+    <tr><td><strong>FIRE FLIX</strong></td><td>Plano 90d</td><td>Metas sincronizam bidirecionalmente</td></tr>
+    <tr><td><strong>PUV</strong></td><td>FIRE FLIX</td><td>PUV validada gera metas de implementacao</td></tr>
+    <tr><td><strong>Plano 90d</strong></td><td>Agenda</td><td>Acoes do sprint viram tarefas da semana</td></tr>
+    <tr><td><strong>Todos</strong></td><td>AURA Score</td><td>Conclusoes pontuam no score</td></tr>
+    <tr><td><strong>Todos</strong></td><td>Painel Mentor</td><td>Visao consolidada do progresso</td></tr>
+  </table>
+
+  <div class="box">
+    <p><strong>Loop de reforco positivo:</strong> DISC gera PUV mais afinada, que gera metas mais precisas no FIRE FLIX, que se desdobram em tarefas na Agenda, que ao serem concluidas aumentam o AURA Score, que motiva consistencia, que gera mais dados para o mentor orientar melhor.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 6. MÉTRICAS -->
+<div class="section" id="metricas">
+  <div class="section-num">Secao 06</div>
+  <h2>Metricas e Indicadores</h2>
+
+  <h3>Metricas do Aluno</h3>
+  <table>
+    <tr><th>Metrica</th><th>Descricao</th><th>Frequencia</th></tr>
+    <tr><td><strong>AURA Score</strong></td><td>Pontuacao composta de engajamento e progresso</td><td>Tempo real</td></tr>
+    <tr><td><strong>Nivel AURA</strong></td><td>De Faiscante a AURA (5 niveis)</td><td>Progressivo</td></tr>
+    <tr><td><strong>Streak</strong></td><td>Dias consecutivos com tarefa concluida</td><td>Diario</td></tr>
+    <tr><td><strong>Equilibrio AURA</strong></td><td>Radar de distribuicao entre 3 pilares</td><td>Semanal</td></tr>
+    <tr><td><strong>Taxa de Metas</strong></td><td>% concluidas vs. criadas</td><td>Mensal</td></tr>
+    <tr><td><strong>Evolucao DISC</strong></td><td>Comparacao entre ciclos</td><td>Bimestral</td></tr>
+  </table>
+
+  <h3>Metricas do Mentor (Painel Admin)</h3>
+  <table>
+    <tr><th>Metrica</th><th>Descricao</th><th>Acao</th></tr>
+    <tr><td><strong>DAU/WAU</strong></td><td>Alunos ativos diarios e semanais</td><td>Identificar inativos</td></tr>
+    <tr><td><strong>Engajamento</strong></td><td>% de uso por modulo</td><td>Otimizar subutilizados</td></tr>
+    <tr><td><strong>NPS</strong></td><td>Net Promoter Score periodico</td><td>Medir satisfacao</td></tr>
+    <tr><td><strong>Churn</strong></td><td>Alunos que pararam de usar</td><td>Intervir antes</td></tr>
+    <tr><td><strong>Correlacao Score x Resultado</strong></td><td>AURA Score vs. resultados reais</td><td>Validar gamificacao</td></tr>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- 7. ONBOARDING -->
+<div class="section" id="onboarding">
+  <div class="section-num">Secao 07</div>
+  <h2>Fluxo de Onboarding</h2>
+  <p>Jornada de entrada nos primeiros 20 minutos — progressiva, pessoal e envolvente.</p>
+
+  <div class="step-grid">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Boas-vindas (2 min)</h4>
+        <p>Video curto do Augustto (30-60s). "Voce nao baixou um app. Voce abriu a porta de um processo de transformacao." Config basica: nome, foto, area, objetivo.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Assessment DISC (12-15 min)</h4>
+        <p>"Antes de comecarmos, vamos entender quem voce e." Questionario completo com interface ludica e apresentacao animada do perfil ao final.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Primeira Meta (3 min)</h4>
+        <p>"Qual e a transformacao mais importante que voce quer viver nos proximos 90 dias?" Meta vinculada ao Plano de Acao automaticamente.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Ritual de Ativacao (2 min)</h4>
+        <p>Configurar ritual matinal: selecao rapida de 3-5 habitos (meditacao, exercicio, leitura, visualizacao, gratidao) + horario de notificacao.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Tour Guiado (3 min)</h4>
+        <p>Tour interativo com frases de valor. PUV = "Aqui voce descobre como o mundo vai lembrar de voce."</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Nurturing — Primeira Semana</h3>
+  <table>
+    <tr><th>Dia</th><th>Acao</th></tr>
+    <tr><td><strong>Dia 1</strong></td><td>Notificacao do ritual matinal + primeira entrada no diario</td></tr>
+    <tr><td><strong>Dia 2</strong></td><td>Sugestao de primeiro livro baseada no DISC</td></tr>
+    <tr><td><strong>Dia 3</strong></td><td>Convite para iniciar a PUV (Etapa 1 apenas)</td></tr>
+    <tr><td><strong>Dia 4</strong></td><td>Primeiro documentario sugerido + lembrete de progresso</td></tr>
+    <tr><td><strong>Dia 5</strong></td><td>Celebracao streak de 5 dias + primeiro marco AURA Score</td></tr>
+    <tr><td><strong>Dia 7</strong></td><td>Revisao semanal guiada + mensagem motivacional do mentor</td></tr>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- 8. DESIGN -->
+<div class="section" id="design">
+  <div class="section-num">Secao 08</div>
+  <h2>Design e Identidade Visual</h2>
+  <p>O app deve transmitir sofisticacao, poder e acolhimento. Estetica premium, nao generica.</p>
+
+  <h3>Paleta de Cores</h3>
+  <div class="color-grid">
+    <div class="color-swatch"><div class="swatch" style="background:#0D0D0D"></div><div class="info"><strong>Fundo Principal</strong><span>#0D0D0D</span></div></div>
+    <div class="color-swatch"><div class="swatch" style="background:#1A1A1A"></div><div class="info"><strong>Fundo Secundario</strong><span>#1A1A1A</span></div></div>
+    <div class="color-swatch"><div class="swatch" style="background:#C8A951"></div><div class="info"><strong>Dourado AURA</strong><span>#C8A951</span></div></div>
+    <div class="color-swatch"><div class="swatch" style="background:#A88B3D"></div><div class="info"><strong>Dourado Escuro</strong><span>#A88B3D</span></div></div>
+    <div class="color-swatch"><div class="swatch" style="background:#C8A951"></div><div class="info"><strong>Pilar Autoimagem</strong><span>Dourado</span></div></div>
+    <div class="color-swatch"><div class="swatch" style="background:#5B8DEF"></div><div class="info"><strong>Pilar Comunicacao</strong><span>Azul #5B8DEF</span></div></div>
+    <div class="color-swatch"><div class="swatch" style="background:#EF5B5B"></div><div class="info"><strong>Pilar Presenca</strong><span>Vermelho #EF5B5B</span></div></div>
+    <div class="color-swatch"><div class="swatch" style="background:#4CAF50"></div><div class="info"><strong>Sucesso</strong><span>#4CAF50</span></div></div>
+  </div>
+
+  <h3>Tipografia</h3>
+  <table>
+    <tr><th>Uso</th><th>Fonte</th><th>Estilo</th></tr>
+    <tr><td><strong>Headlines</strong></td><td>Playfair Display / Cormorant Garamond</td><td>Serifada, elegante</td></tr>
+    <tr><td><strong>Corpo</strong></td><td>DM Sans / Satoshi</td><td>Sans-serif, moderna, legivel</td></tr>
+    <tr><td><strong>Numeros/Dados</strong></td><td>JetBrains Mono / Space Mono</td><td>Monospace, precisa</td></tr>
+  </table>
+
+  <h3>Principios de UI/UX</h3>
+  <ul>
+    <li>Dark theme como padrao (com opcao light)</li>
+    <li>Micro-animacoes em cada interacao</li>
+    <li>Feedback tatil (haptic) em conquistas</li>
+    <li>Cards com glassmorphism sutil e bordas douradas</li>
+    <li>Iconografia customizada (diamante, fogo, leao, coroa)</li>
+    <li>Espacamento generoso — sem telas congestionadas</li>
+    <li>Tab bar inferior: Home, Metas, Agenda, Conteudo, Perfil</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- 9. ROADMAP -->
+<div class="section" id="roadmap">
+  <div class="section-num">Secao 09</div>
+  <h2>Roadmap de Desenvolvimento</h2>
+
+  <div class="phase-grid">
+    <div class="phase">
+      <div class="phase-label">Semanas 1-8</div>
+      <h4>MVP (v1.0)</h4>
+      <p>Onboarding, DISC, FIRE FLIX, Agenda, AURA Score basico</p>
+    </div>
+    <div class="phase">
+      <div class="phase-label">Semanas 9-12</div>
+      <h4>v1.1</h4>
+      <p>Plano 90 dias, PUV (wizard), Diario AURA</p>
+    </div>
+    <div class="phase">
+      <div class="phase-label">Semanas 13-16</div>
+      <h4>v1.2</h4>
+      <p>Livros, Documentarios, Filmes, Painel do Mentor basico</p>
+    </div>
+    <div class="phase">
+      <div class="phase-label">Semanas 17-22</div>
+      <h4>v2.0</h4>
+      <p>Comunidade AURA, Mural, integracoes (Calendar, n8n)</p>
+    </div>
+  </div>
+
+  <h3>Equipe Minima</h3>
+  <table>
+    <tr><th>Papel</th><th>Qtd</th><th>Responsabilidade</th></tr>
+    <tr><td><strong>Product Manager</strong></td><td>1</td><td>Roadmap, priorizacao, alinhamento com mentor</td></tr>
+    <tr><td><strong>UI/UX Designer</strong></td><td>1</td><td>Design system, telas, testes de usabilidade</td></tr>
+    <tr><td><strong>Dev Frontend</strong></td><td>1-2</td><td>App iOS + Android (React Native/Flutter)</td></tr>
+    <tr><td><strong>Dev Backend</strong></td><td>1</td><td>API, banco, logica de negocio, integracoes</td></tr>
+    <tr><td><strong>QA</strong></td><td>1 (part-time)</td><td>Testes, bugs, regressao</td></tr>
+  </table>
+
+  <h3>KPIs de Lancamento (Primeiros 90 Dias)</h3>
+  <ul>
+    <li><strong>Ativacao:</strong> 90% completam onboarding na primeira semana</li>
+    <li><strong>Retencao D7:</strong> 80% voltam no 7o dia</li>
+    <li><strong>Retencao D30:</strong> 65% usam 3x/semana no 30o dia</li>
+    <li><strong>Engajamento:</strong> media 4+ sessoes semanais</li>
+    <li><strong>NPS:</strong> acima de 70 no dia 30</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- 10. RECOMENDAÇÕES -->
+<div class="section" id="recomendacoes">
+  <div class="section-num">Secao 10</div>
+  <h2>Recomendacoes Estrategicas</h2>
+
+  <div class="box">
+    <p><strong>Diferencial competitivo:</strong> O AURA App nao e um app de habitos generico nem uma plataforma de cursos. E um companheiro de transformacao desenhado para um programa premium especifico. O aluno que paga R$ 20-50k espera uma experiencia digital a altura.</p>
+  </div>
+
+  <h3>Implementacao</h3>
+  <ul>
+    <li><strong>Comece pelo MVP brutal:</strong> DISC + FIRE FLIX + Agenda. Esses tres modulos sozinhos ja entregam valor massivo.</li>
+    <li><strong>Teste com turma piloto:</strong> lance com 5-10 mentorados, colete feedback por 30 dias, ajuste, depois abra.</li>
+    <li><strong>Mentor e o produto:</strong> a presenca do Augustto no app (audios, videos, comentarios) cria a magia.</li>
+    <li><strong>Dados desde o dia 1:</strong> cada interacao e um dado. Em 6 meses tera dataset poderoso para provar ROI.</li>
+    <li><strong>App como argumento de venda:</strong> "Voce nao esta contratando uma mentoria. Esta entrando em um ecossistema de transformacao com tecnologia propria."</li>
+  </ul>
+
+  <h3>Visao de Futuro</h3>
+  <ul>
+    <li>Versao standalone como produto SaaS de desenvolvimento pessoal</li>
+    <li>Integracao com IA generativa para coaching automatico (Diario + DISC)</li>
+    <li>Marketplace de mentores certificados usando a plataforma</li>
+    <li>White-label para outros mentores e coaches</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p><strong>Sellect Intelligence</strong> — AURA App — Especificacao Completa de Produto<br>
+  Documento interno e confidencial. Abril 2026</p>
+</div>
+
+<script>
+// Active nav on scroll
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+// Smooth scroll
+navLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>

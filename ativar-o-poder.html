@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ativar o Poder — Augustto Leão</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9922A;
+    --gold-light: #E8B84B;
+    --ember: #8B1A1A;
+    --ember-deep: #5A0E0E;
+    --cream: #F5EDD8;
+    --cream-dark: #E8D9B8;
+    --charcoal: #1A1612;
+    --charcoal-mid: #2D2520;
+    --smoke: #9A8E7E;
+    --white: #FAF6EE;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--charcoal);
+    color: var(--cream);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ── PRESENTATION SHELL ── */
+  #presentation {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(20px);
+    padding: 60px;
+    overflow: hidden;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  .slide.exit {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  /* ── DECORATIVE ELEMENTS ── */
+  .bg-texture {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(ellipse at 15% 85%, rgba(139,26,26,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 15%, rgba(201,146,42,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .gold-line {
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    margin: 20px auto;
+  }
+
+  .gold-line-left {
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    margin: 20px 0;
+  }
+
+  .corner-ornament {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    pointer-events: none;
+  }
+  .corner-ornament.tl { top: 30px; left: 30px; border-top: 1px solid rgba(201,146,42,0.3); border-left: 1px solid rgba(201,146,42,0.3); }
+  .corner-ornament.br { bottom: 30px; right: 30px; border-bottom: 1px solid rgba(201,146,42,0.3); border-right: 1px solid rgba(201,146,42,0.3); }
+
+  /* ── TYPOGRAPHY ── */
+  .display-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .display-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .slide-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .slide-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .big-idea {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--cream);
+    text-align: center;
+    max-width: 780px;
+  }
+
+  .big-idea strong {
+    font-weight: 600;
+    font-style: normal;
+    color: var(--gold-light);
+  }
+
+  .body-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(245,237,216,0.8);
+    text-align: center;
+    max-width: 680px;
+  }
+
+  .highlight-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--cream);
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.5;
+    position: relative;
+    padding: 0 40px;
+  }
+
+  .highlight-quote::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -10px;
+    font-size: 5rem;
+    color: var(--gold);
+    opacity: 0.3;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1;
+  }
+
+  /* ── LAYOUT BLOCKS ── */
+  .three-col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .four-col {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .card {
+    background: rgba(201,146,42,0.05);
+    border: 1px solid rgba(201,146,42,0.2);
+    border-top: 2px solid var(--gold);
+    padding: 28px 24px;
+    text-align: center;
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .card:hover { background: rgba(201,146,42,0.1); }
+
+  .card-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: rgba(201,146,42,0.25);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .card-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.7);
+    line-height: 1.6;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    width: 100%;
+    max-width: 900px;
+    align-items: center;
+  }
+
+  .left-text {
+    text-align: left;
+  }
+
+  .list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .list-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .list-text {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(245,237,216,0.85);
+  }
+
+  .list-text strong {
+    font-weight: 600;
+    color: var(--cream);
+  }
+
+  /* ── SPECIAL SLIDES ── */
+
+  /* Cover */
+  #slide-0 {
+    background: var(--charcoal);
+  }
+  #slide-0 .lion-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 50% 60%, rgba(139,26,26,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 0%, rgba(201,146,42,0.1) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  #slide-0 .cover-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+  #slide-0 .cover-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(245,237,216,0.6);
+    margin-top: 24px;
+    letter-spacing: 0.05em;
+  }
+  #slide-0 .cover-author {
+    margin-top: 48px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+  #slide-0 .cover-author span {
+    color: var(--gold-light);
+  }
+
+  /* Divider / Section intro */
+  .section-intro {
+    background: var(--ember-deep);
+  }
+  .section-intro .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12rem;
+    font-weight: 300;
+    color: rgba(201,146,42,0.08);
+    position: absolute;
+    line-height: 1;
+    bottom: 20px;
+    right: 40px;
+    pointer-events: none;
+  }
+  .section-intro .section-title-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    line-height: 0.85;
+    text-align: left;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .section-intro .section-title-big em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .section-intro .section-body {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.6);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-top: 24px;
+    text-align: left;
+    align-self: flex-start;
+  }
+
+  /* Timing bar */
+  .timing-badge {
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    border: 1px solid rgba(154,142,126,0.3);
+    padding: 6px 14px;
+  }
+
+  /* Progress dots */
+  #progress {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(201,146,42,0.25);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .dot.active {
+    background: var(--gold);
+    transform: scale(1.4);
+  }
+
+  /* Navigation */
+  #nav {
+    position: fixed;
+    bottom: 28px;
+    right: 48px;
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+    background: rgba(201,146,42,0.1);
+    border: 1px solid rgba(201,146,42,0.3);
+    color: var(--gold);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .nav-btn:hover {
+    background: rgba(201,146,42,0.2);
+    border-color: var(--gold);
+  }
+
+  /* Slide counter */
+  #slide-counter {
+    position: fixed;
+    bottom: 40px;
+    left: 48px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: rgba(201,146,42,0.5);
+    z-index: 100;
+  }
+
+  /* ── ARCHETYPE CARDS ── */
+  .archetype-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 760px;
+    width: 100%;
+  }
+
+  .arch-card {
+    border: 1px solid rgba(201,146,42,0.15);
+    padding: 24px;
+    background: rgba(201,146,42,0.03);
+    text-align: left;
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .arch-card:hover {
+    background: rgba(201,146,42,0.08);
+    border-color: rgba(201,146,42,0.35);
+  }
+
+  .arch-emoji {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .arch-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+
+  .arch-desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.7);
+    line-height: 1.6;
+  }
+
+  /* ── 3 CAMADAS ── */
+  .camadas {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 700px;
+    width: 100%;
+  }
+
+  .camada-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: center;
+    border-left: 2px solid var(--gold);
+    padding: 20px 0 20px 28px;
+    background: rgba(201,146,42,0.03);
+    transition: background 0.3s;
+  }
+
+  .camada-row:hover { background: rgba(201,146,42,0.08); }
+
+  .camada-code {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .camada-content {}
+  .camada-title {
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .camada-text {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.7);
+    line-height: 1.5;
+  }
+
+  /* ── VAC ── */
+  .vac-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .vac-block {
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .vac-block:nth-child(1) { background: rgba(201,146,42,0.08); }
+  .vac-block:nth-child(2) { background: rgba(139,26,26,0.1); }
+  .vac-block:nth-child(3) { background: rgba(201,146,42,0.05); }
+
+  .vac-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+
+  .vac-title {
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .vac-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.65);
+    line-height: 1.6;
+  }
+
+  /* ── MAAC ── */
+  .maac-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 840px;
+    width: 100%;
+  }
+
+  .maac-card {
+    padding: 28px 20px;
+    border: 1px solid rgba(201,146,42,0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .maac-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  }
+
+  .maac-icon {
+    font-size: 2rem;
+    margin-bottom: 14px;
+  }
+
+  .maac-title {
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .maac-items {
+    list-style: none;
+  }
+  .maac-items li {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.7);
+    line-height: 1.8;
+    border-bottom: 1px solid rgba(201,146,42,0.08);
+    padding: 4px 0;
+  }
+  .maac-items li:last-child { border-bottom: none; }
+
+  /* ── OVERVIEW ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    max-width: 960px;
+    width: 100%;
+    border: 1px solid rgba(201,146,42,0.2);
+  }
+
+  .ov-block {
+    padding: 32px 24px;
+    border-right: 1px solid rgba(201,146,42,0.15);
+    text-align: center;
+  }
+  .ov-block:last-child { border-right: none; }
+
+  .ov-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(201,146,42,0.2);
+    line-height: 1;
+  }
+
+  .ov-title {
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 10px 0 12px;
+  }
+
+  .ov-time {
+    font-size: 0.72rem;
+    color: rgba(245,237,216,0.5);
+    margin-bottom: 12px;
+  }
+
+  .ov-desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.65);
+    line-height: 1.6;
+  }
+
+  /* ── CLOSING ── */
+  #slide-closing {
+    background: linear-gradient(180deg, var(--charcoal) 0%, var(--ember-deep) 100%);
+  }
+
+  .cta-box {
+    border: 1px solid rgba(201,146,42,0.35);
+    padding: 32px 48px;
+    text-align: center;
+    margin-top: 32px;
+    background: rgba(201,146,42,0.05);
+    max-width: 560px;
+  }
+
+  .cta-handle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .cta-sub {
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,237,216,0.5);
+  }
+
+  /* ── DIAGNOSTICO ── */
+  .diag-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 840px;
+    width: 100%;
+  }
+
+  .diag-card {
+    padding: 28px 20px;
+    text-align: center;
+    border: 1px solid rgba(201,146,42,0.15);
+    background: rgba(201,146,42,0.04);
+    position: relative;
+  }
+
+  .diag-score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: rgba(201,146,42,0.2);
+    margin-bottom: 4px;
+  }
+
+  .diag-label {
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .diag-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.65);
+    line-height: 1.6;
+  }
+
+  /* ── LIONS ── */
+  .lions-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .lion-card {
+    padding: 36px 32px;
+    text-align: center;
+  }
+
+  .lion-card:nth-child(1) { background: rgba(201,146,42,0.05); border: 1px solid rgba(201,146,42,0.15); }
+  .lion-card:nth-child(2) { background: rgba(139,26,26,0.1); border: 1px solid rgba(139,26,26,0.3); }
+
+  .lion-emoji { font-size: 3rem; margin-bottom: 16px; display: block; }
+
+  .lion-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  .lion-role {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .lion-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgba(245,237,216,0.65);
+    line-height: 1.7;
+  }
+
+  /* Keyframes */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide.active > * {
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .slide.active > *:nth-child(2) { animation-delay: 0.08s; }
+  .slide.active > *:nth-child(3) { animation-delay: 0.16s; }
+  .slide.active > *:nth-child(4) { animation-delay: 0.24s; }
+  .slide.active > *:nth-child(5) { animation-delay: 0.32s; }
+  .slide.active > *:nth-child(6) { animation-delay: 0.40s; }
+
+  /* Keyboard hint */
+  #hint {
+    position: fixed;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(201,146,42,0.3);
+    z-index: 100;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="hint">← → ou clique nas setas para navegar</div>
+<div id="slide-counter">01 / 20</div>
+
+<div id="presentation">
+
+  <!-- ── SLIDE 0 — CAPA ── -->
+  <div class="slide active" id="slide-0">
+    <div class="lion-bg"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="cover-eyebrow">Palestra · Evento de Advogados</div>
+    <div class="display-title">Ativar o<br><em>Poder</em></div>
+    <span class="gold-line"></span>
+    <div class="cover-sub">Identidade · Persuasão · Posicionamento · Poder</div>
+    <div class="cover-author">por <span>Augustto Leão</span> &nbsp;·&nbsp; 60 minutos</div>
+  </div>
+
+  <!-- ── SLIDE 1 — VISÃO GERAL ── -->
+  <div class="slide" id="slide-1">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="section-label">Estrutura da Palestra</div>
+    <div class="slide-title" style="margin-bottom:32px;">O Mapa dos <em>60 Minutos</em></div>
+    <div class="overview-grid">
+      <div class="ov-block">
+        <div class="ov-num">00</div>
+        <div class="ov-title">Abertura</div>
+        <div class="ov-time">8 min</div>
+        <div class="ov-desc">Impacto, diagnóstico e quebra de padrão</div>
+      </div>
+      <div class="ov-block">
+        <div class="ov-num">01</div>
+        <div class="ov-title">Identidade</div>
+        <div class="ov-time">12 min</div>
+        <div class="ov-desc">Quem você é antes de falar</div>
+      </div>
+      <div class="ov-block">
+        <div class="ov-num">02</div>
+        <div class="ov-title">Persuasão</div>
+        <div class="ov-time">12 min</div>
+        <div class="ov-desc">A arte de influenciar com ética</div>
+      </div>
+      <div class="ov-block">
+        <div class="ov-num">03</div>
+        <div class="ov-title">Posicionamento</div>
+        <div class="ov-time">12 min</div>
+        <div class="ov-desc">Seu lugar no mercado</div>
+      </div>
+    </div>
+    <div style="margin-top: 16px;" class="overview-grid">
+      <div class="ov-block" style="grid-column: 1/3; border-right: 1px solid rgba(201,146,42,0.15);">
+        <div class="ov-num">04</div>
+        <div class="ov-title">Poder</div>
+        <div class="ov-time">10 min</div>
+        <div class="ov-desc">A decisão que muda tudo</div>
+      </div>
+      <div class="ov-block" style="grid-column: 3/5;">
+        <div class="ov-num">05</div>
+        <div class="ov-title">Fechamento</div>
+        <div class="ov-time">6 min</div>
+        <div class="ov-desc">Ativação + CTA + momento final</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 2 — ABERTURA: PROVOCAÇÃO ── -->
+  <div class="slide" id="slide-2">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">00:00 – 02:30</div>
+    <div class="section-label">Abertura</div>
+    <div class="big-idea">"A sala que não te vê<br><strong>não te contrata."</strong></div>
+    <span class="gold-line"></span>
+    <div class="body-text" style="margin-top: 8px;">
+      Antes de eu abrir a boca — vocês já formaram uma opinião sobre mim.<br>
+      Isso é o poder da presença. É exatamente sobre isso que vamos falar hoje.
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3 — ABERTURA: DIAGNÓSTICO ── -->
+  <div class="slide" id="slide-3">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">02:30 – 04:30</div>
+    <div class="section-label">Diagnóstico Inicial · 0 a 10</div>
+    <div class="slide-title" style="margin-bottom: 28px;">As <em>3 Pedras</em> do Diagnóstico</div>
+    <div class="diag-row">
+      <div class="diag-card">
+        <div class="diag-score">1</div>
+        <div class="diag-label">Autoimagem</div>
+        <div class="diag-desc">Como você se percebe e projeta no mercado. Sua marca pessoal interna.</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-score">2</div>
+        <div class="diag-label">Performance</div>
+        <div class="diag-desc">Sua capacidade de executar, entregar e gerar resultados consistentes.</div>
+      </div>
+      <div class="diag-card">
+        <div class="diag-score">3</div>
+        <div class="diag-label">Posicionamento</div>
+        <div class="diag-desc">Como o mercado te enxerga e o quanto está disposto a pagar por você.</div>
+      </div>
+    </div>
+    <div class="body-text" style="margin-top: 24px; font-style: italic;">
+      "A maioria de vocês é melhor do que a nota que acabou de dar.<br>O problema não é competência. É <strong style="color: var(--gold-light);">ativação.</strong>"
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4 — OS DOIS LEÕES ── -->
+  <div class="slide" id="slide-4">
+    <div class="bg-texture"></div>
+    <div class="timing-badge">04:30 – 06:00</div>
+    <div class="section-label">A Metáfora Fundacional</div>
+    <div class="slide-title" style="margin-bottom: 28px;">Qual <em>Leão</em> é você hoje?</div>
+    <div class="lions-row">
+      <div class="lion-card">
+        <span class="lion-emoji">🦁</span>
+        <div class="lion-name">Simba</div>
+        <div class="lion-role">Filho de Rei · Identidade esquecida</div>
+        <div class="lion-desc">Acreditou que era um suricato. Usava menos de 10% do seu potencial. Até olhar para o reflexo e reconhecer quem realmente era.</div>
+      </div>
+      <div class="lion-card">
+        <span class="lion-emoji">🔒</span>
+        <div class="lion-name">Alex</div>
+        <div class="lion-role">Leão do zoológico · Poder em gaiola</div>
+        <div class="lion-desc">É rei de nada. Ganha bem, mas mora numa gaiola. Esqueceu que tem poder de governar o que é seu por natureza.</div>
+      </div>
+    </div>
+    <div class="body-text" style="margin-top: 20px; font-style: italic; color: var(--gold-light);">
+      "Qual dos dois você é hoje?"
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5 — APRESENTAÇÃO PESSOAL ── -->
+  <div class="slide" id="slide-5">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">06:00 – 08:00</div>
+    <div class="section-label">Quem é Augustto Leão</div>
+    <div class="slide-title" style="max-width: 700px; margin-bottom: 32px;"><em>Arquiteto</em> de Presença<br>e Autoridade</div>
+    <div class="three-col" style="max-width: 840px;">
+      <div class="card">
+        <div class="card-number">13</div>
+        <div class="card-title">Começou com</div>
+        <div class="card-desc">Panfleteiro na periferia de Brasília. A origem define a força.</div>
+      </div>
+      <div class="card">
+        <div class="card-number">100k</div>
+        <div class="card-title">Pessoas treinadas</div>
+        <div class="card-desc">CMO de uma das maiores empresas de vendas diretas do Brasil.</div>
+      </div>
+      <div class="card">
+        <div class="card-number">500k</div>
+        <div class="card-title">Investimento em formação</div>
+        <div class="card-desc">Mais de R$ 500 mil em educação, método e construção de expertise.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6 — SEÇÃO: IDENTIDADE ── -->
+  <div class="slide section-intro" id="slide-6">
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">08:00 – 20:00</div>
+    <div class="section-label">Bloco 01</div>
+    <div class="section-title-big" style="width: 100%; max-width: 1000px;">Identi<em>dade</em></div>
+    <div class="section-body">Quem você é antes de falar. Porque presença comunica antes das palavras — e constrói autoridade antes do argumento.</div>
+    <div class="section-number">01</div>
+  </div>
+
+  <!-- ── SLIDE 7 — BIG IDEA IDENTIDADE ── -->
+  <div class="slide" id="slide-7">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">08:00 – 10:00</div>
+    <div class="section-label">Bloco 01 · Big Idea</div>
+    <div class="big-idea">"Competência sem percepção<br><strong>não existe."</strong></div>
+    <span class="gold-line"></span>
+    <div class="body-text">
+      Você pode ser o advogado mais brilhante desta cidade. Mas se o mercado não enxerga isso —<br>
+      se sua presença não comunica isso — você não existe.<br><br>
+      <span style="color: var(--gold-light);">Percepção não é vaidade. Percepção é estratégia.</span>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 8 — MAAC ── -->
+  <div class="slide" id="slide-8">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">10:00 – 14:00</div>
+    <div class="section-label">Ferramenta #ASP · MAAC</div>
+    <div class="slide-title" style="margin-bottom: 28px;">Mapa de Auto Avaliação<br>da <em>Comunicação</em></div>
+    <div class="maac-row">
+      <div class="maac-card">
+        <div class="maac-icon">🎙️</div>
+        <div class="maac-title">Voz</div>
+        <ul class="maac-items">
+          <li>Qualidade vocal</li>
+          <li>Respiração</li>
+          <li>Articulação</li>
+          <li>Ritmo e pausas</li>
+        </ul>
+      </div>
+      <div class="maac-card">
+        <div class="maac-icon">🦴</div>
+        <div class="maac-title">Corpo</div>
+        <ul class="maac-items">
+          <li>Postura</li>
+          <li>Gestos</li>
+          <li>Contato visual</li>
+          <li>Embalagem (roupa)</li>
+        </ul>
+      </div>
+      <div class="maac-card">
+        <div class="maac-icon">⚡</div>
+        <div class="maac-title">Emoção</div>
+        <ul class="maac-items">
+          <li>Confiança</li>
+          <li>Presença real</li>
+          <li>Intenção</li>
+          <li>Estado interno</li>
+        </ul>
+      </div>
+    </div>
+    <div class="body-text" style="margin-top: 20px;">
+      Quando as três dimensões estão alinhadas, você se torna <span style="color: var(--gold-light);">impossível de ignorar.</span>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 9 — SEÇÃO: PERSUASÃO ── -->
+  <div class="slide section-intro" id="slide-9">
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">20:00 – 32:00</div>
+    <div class="section-label">Bloco 02</div>
+    <div class="section-title-big">Persua<em>são</em></div>
+    <div class="section-body">A arte de influenciar com ética. Todo advogado vende — a diferença é se você faz isso com intenção ou por acidente.</div>
+    <div class="section-number">02</div>
+  </div>
+
+  <!-- ── SLIDE 10 — BIG IDEA PERSUASÃO ── -->
+  <div class="slide" id="slide-10">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">20:00 – 22:00</div>
+    <div class="section-label">Bloco 02 · Big Idea</div>
+    <div class="big-idea">"Vender não é feio.<br><strong>É o resultado da sua autoridade."</strong></div>
+    <span class="gold-line"></span>
+    <div class="body-text">
+      Todo advogado vende. Todo dia.<br>
+      Vende sua tese ao juiz. Vende sua proposta ao cliente. Vende sua credibilidade ao sócio.<br><br>
+      <span style="color: var(--gold-light);">A diferença é se você faz isso com intenção — ou por acidente.</span>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 11 — VAC ── -->
+  <div class="slide" id="slide-11">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">22:00 – 26:00</div>
+    <div class="section-label">Ferramenta #ASP · Método VAC</div>
+    <div class="slide-title" style="margin-bottom: 28px;">As <em>3 Camadas</em> da Persuasão</div>
+    <div class="vac-row">
+      <div class="vac-block">
+        <div class="vac-letter">V</div>
+        <div class="vac-title">Visual</div>
+        <div class="vac-desc">Os primeiros 7 segundos formam 55% da impressão. Roupa, postura e contato visual. Não é superficialidade — é estratégia.</div>
+      </div>
+      <div class="vac-block">
+        <div class="vac-letter">A</div>
+        <div class="vac-title">Auditivo</div>
+        <div class="vac-desc">Tom de voz, ritmo, pausas. A senoide da sua voz determina se as pessoas te escutam ou fingem que escutam.</div>
+      </div>
+      <div class="vac-block">
+        <div class="vac-letter">C</div>
+        <div class="vac-title">Cinestésico</div>
+        <div class="vac-desc">Rapport emocional. Adaptar-se ao estado da outra pessoa. O melhor advogado não é o que fala mais — é o que sabe quando escutar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 12 — SEÇÃO: POSICIONAMENTO ── -->
+  <div class="slide section-intro" id="slide-12">
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">32:00 – 44:00</div>
+    <div class="section-label">Bloco 03</div>
+    <div class="section-title-big">Posicio<em>namento</em></div>
+    <div class="section-body">Seu lugar no mercado. Ou você constrói sua marca — ou o mercado constrói por você. E o mercado não vai contar a melhor versão da sua história.</div>
+    <div class="section-number">03</div>
+  </div>
+
+  <!-- ── SLIDE 13 — BIG IDEA POSICIONAMENTO ── -->
+  <div class="slide" id="slide-13">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">32:00 – 34:00</div>
+    <div class="section-label">Bloco 03 · Big Idea</div>
+    <div class="big-idea">"O mercado paga mais por quem<br><strong>se posiciona</strong> do que por<br>quem mais sabe."</div>
+    <span class="gold-line"></span>
+    <div class="body-text">
+      Não existe vácuo de percepção.<br>
+      Ou você constrói sua marca — ou o mercado constrói por você.
+    </div>
+  </div>
+
+  <!-- ── SLIDE 14 — ARQUÉTIPOS ── -->
+  <div class="slide" id="slide-14">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">34:00 – 38:00</div>
+    <div class="section-label">Ferramenta #ASP · Arquétipos de Marca Pessoal</div>
+    <div class="slide-title" style="margin-bottom: 24px;">Qual é o seu <em>Arquétipo</em>?</div>
+    <div class="archetype-grid">
+      <div class="arch-card">
+        <span class="arch-emoji">⚔️</span>
+        <div class="arch-name">O Herói</div>
+        <div class="arch-desc">Briga pelas causas impossíveis. Autoridade conquistada na batalha. Pega os casos difíceis — e vence.</div>
+      </div>
+      <div class="arch-card">
+        <span class="arch-emoji">📚</span>
+        <div class="arch-name">O Sábio</div>
+        <div class="arch-desc">Referência técnica. Quem sabe mais. É a pessoa que todos ligam quando não entendem alguma coisa.</div>
+      </div>
+      <div class="arch-card">
+        <span class="arch-emoji">👑</span>
+        <div class="arch-name">O Governante</div>
+        <div class="arch-desc">Comanda. Estratégia e controle. Lidera equipes, estrutura escritórios e define direcionamentos.</div>
+      </div>
+      <div class="arch-card">
+        <span class="arch-emoji">💡</span>
+        <div class="arch-name">O Criador</div>
+        <div class="arch-desc">Soluções inovadoras. Diferente do padrão. Pensa fora da caixa jurídica — e cria onde outros veem impossível.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 15 — SEÇÃO: PODER ── -->
+  <div class="slide section-intro" id="slide-15">
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">44:00 – 54:00</div>
+    <div class="section-label">Bloco 04</div>
+    <div class="section-title-big"><em>Poder</em></div>
+    <div class="section-body">A decisão que muda tudo. Poder não é cargo. Não é título. É a capacidade de colocar em ação tudo aquilo que você crê que é capaz.</div>
+    <div class="section-number">04</div>
+  </div>
+
+  <!-- ── SLIDE 16 — BIG IDEA PODER ── -->
+  <div class="slide" id="slide-16">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="timing-badge">44:00 – 46:30</div>
+    <div class="section-label">Bloco 04 · Big Idea</div>
+    <div class="big-idea">"Poder não é cargo.<br><strong>Poder é quem você<br>decidiu ser."</strong></div>
+    <span class="gold-line"></span>
+    <div class="body-text">
+      Poder é a capacidade de colocar em ação tudo aquilo que você crê que é capaz.<br>
+      É energia suprema. <span style="color: var(--gold-light);">É uma decisão.</span>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 17 — 3 CAMADAS ── -->
+  <div class="slide" id="slide-17">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">46:30 – 50:00</div>
+    <div class="section-label">Ferramenta · A Pergunta das 3 Camadas</div>
+    <div class="slide-title" style="margin-bottom: 28px;">RES · SIS · <em>ID</em></div>
+    <div class="camadas">
+      <div class="camada-row">
+        <div class="camada-code">RES</div>
+        <div class="camada-content">
+          <div class="camada-title">Resultado</div>
+          <div class="camada-text">Que resultado você quer mas ainda não atingiu? Seja específico — número e prazo. "Quero triplicar meu faturamento" não basta.</div>
+        </div>
+      </div>
+      <div class="camada-row">
+        <div class="camada-code">SIS</div>
+        <div class="camada-content">
+          <div class="camada-title">Sistêmico</div>
+          <div class="camada-text">Quais sistemas você pode influenciar para chegar lá? Relacionamentos, processos, canais, parcerias. Onde você tem alavancagem?</div>
+        </div>
+      </div>
+      <div class="camada-row" style="border-left-color: var(--gold-light);">
+        <div class="camada-code" style="color: var(--gold-light);">ID</div>
+        <div class="camada-content">
+          <div class="camada-title" style="color: var(--gold-light);">Identidade — O Ouro</div>
+          <div class="camada-text">Quem você precisa <em>decidir ser</em> para conquistar isso? Não o que precisa fazer — quem precisa ser. Comportamento segue identidade. Sempre.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 18 — SÍNTESE ── -->
+  <div class="slide" id="slide-18">
+    <div class="bg-texture"></div>
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">54:00 – 57:00</div>
+    <div class="section-label">Fechamento · Síntese</div>
+    <div class="slide-title" style="margin-bottom: 28px;">O que você <em>ativou</em> hoje</div>
+    <div class="four-col" style="max-width: 960px;">
+      <div class="card">
+        <div class="card-number">01</div>
+        <div class="card-title">Identidade</div>
+        <div class="card-desc">Quem você é antes de falar. MAAC — Voz, Corpo e Emoção alinhados.</div>
+      </div>
+      <div class="card">
+        <div class="card-number">02</div>
+        <div class="card-title">Persuasão</div>
+        <div class="card-desc">Como você influencia com ética. VAC + Rapport. Vender sem vender.</div>
+      </div>
+      <div class="card">
+        <div class="card-number">03</div>
+        <div class="card-title">Posicionamento</div>
+        <div class="card-desc">Onde você está no mercado. Seu arquétipo de marca.</div>
+      </div>
+      <div class="card">
+        <div class="card-number">04</div>
+        <div class="card-title">Poder</div>
+        <div class="card-desc">A decisão de colocar tudo em ação. RES, SIS, ID.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 19 — MOMENTO FINAL ── -->
+  <div class="slide" id="slide-closing" id="slide-19">
+    <div class="corner-ornament tl"></div>
+    <div class="corner-ornament br"></div>
+    <div class="timing-badge">57:00 – 60:00</div>
+    <div class="section-label">O Momento do Leão</div>
+    <div class="big-idea" style="max-width: 680px; margin-bottom: 24px;">
+      "Você sabe quem você é?"
+    </div>
+    <span class="gold-line"></span>
+    <div class="body-text" style="max-width: 600px; margin-top: 16px; margin-bottom: 32px;">
+      A diferença entre o Simba no início e o Simba no final não foi treino.<br>
+      Não foi estudo. Não foi sorte.<br><br>
+      Foi uma <span style="color: var(--gold-light); font-weight: 500;">decisão.</span><br><br>
+      O mercado está esperando pela versão ativada de você.<br>
+      <em>Quando você vai decidir ativar o seu poder?</em>
+    </div>
+    <div class="cta-box">
+      <div class="cta-handle">@augusttoleaoo</div>
+      <div class="cta-sub">Continue a jornada · Mentoria AURA</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Progress & Navigation -->
+<div id="progress"></div>
+<div id="nav">
+  <button class="nav-btn" id="btn-prev">←</button>
+  <button class="nav-btn" id="btn-next">→</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('slide-counter');
+  const progressEl = document.getElementById('progress');
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    progressEl.appendChild(dot);
+  });
+
+  function goTo(n) {
+    const prev = slides[current];
+    prev.classList.add('exit');
+    setTimeout(() => {
+      prev.classList.remove('active', 'exit');
+    }, 400);
+
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+
+    // Update dots
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+
+    // Update counter
+    const num = String(current + 1).padStart(2, '0');
+    const total = String(slides.length).padStart(2, '0');
+    counter.textContent = `${num} / ${total}`;
+  }
+
+  document.getElementById('btn-next').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('btn-prev').addEventListener('click', () => goTo(current - 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') goTo(current + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+  });
+</script>
+</body>
+</html>
