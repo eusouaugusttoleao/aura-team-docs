@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validação Hormozi — Antes e Depois | Mentoria AURA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e4e4f0;line-height:1.6}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 20px;overflow-x:auto}
+  .nav-inner{max-width:1400px;margin:0 auto;display:flex;gap:0}
+  .nav-inner::-webkit-scrollbar{display:none}
+  .nav a{padding:14px 16px;font-size:12px;font-weight:600;color:#777;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:all .3s}
+  .nav a:hover,.nav a.active{color:#d4a04a;border-bottom-color:#d4a04a}
+
+  /* HERO */
+  .hero{padding:60px 24px 40px;text-align:center;max-width:1000px;margin:0 auto}
+  .badge{display:inline-block;background:rgba(212,160,74,.12);border:1px solid rgba(212,160,74,.25);color:#d4a04a;padding:6px 20px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
+  .hero h1{font-size:clamp(32px,5vw,48px);font-weight:900;line-height:1.05;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,#d4a04a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{font-size:15px;color:#888;max-width:600px;margin:0 auto 40px}
+
+  /* SCORES */
+  .scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto 60px;padding:0 24px}
+  .score-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px;position:relative;overflow:hidden}
+  .score-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e94560,#d4a04a,#0f9b8e)}
+  .score-doc{font-size:11px;font-weight:700;color:#d4a04a;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+  .score-dims{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .score-dim{background:rgba(0,0,0,.2);border-radius:10px;padding:14px 12px;text-align:center}
+  .score-dim-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:600}
+  .score-transition{display:flex;align-items:center;justify-content:center;gap:8px}
+  .score-num{font-size:26px;font-weight:900;line-height:1}
+  .score-num.before{color:#e94560}
+  .score-num.after{color:#0f9b8e}
+  .score-arrow{font-size:18px;color:#d4a04a}
+  .score-max{font-size:12px;color:#555;font-weight:600;margin-left:2px}
+
+  /* SECTIONS */
+  .section{max-width:1400px;margin:0 auto;padding:60px 24px}
+  .section-header{text-align:center;margin-bottom:40px}
+  .section-num{font-size:11px;font-weight:700;color:#d4a04a;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+  .section-header h2{font-size:clamp(24px,3.5vw,36px);font-weight:800;color:#fff;margin-bottom:8px}
+  .section-header p{color:#888;font-size:14px;max-width:600px;margin:0 auto}
+
+  /* COMPARISON */
+  .compare{margin-bottom:32px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;overflow:hidden}
+  .compare-title{background:rgba(212,160,74,.08);border-bottom:1px solid rgba(212,160,74,.15);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+  .compare-title h3{font-size:15px;color:#d4a04a;font-weight:700;margin:0}
+  .compare-tag{font-size:10px;padding:4px 10px;background:rgba(212,160,74,.15);color:#d4a04a;border-radius:20px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+  .compare-body{display:grid;grid-template-columns:1fr 1fr}
+  .side{padding:24px}
+  .side.before{background:rgba(233,69,96,.04);border-right:1px solid rgba(255,255,255,.06)}
+  .side.after{background:rgba(15,155,142,.04)}
+  .side-label{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;padding:4px 10px;border-radius:20px}
+  .side.before .side-label{background:rgba(233,69,96,.12);color:#e94560}
+  .side.after .side-label{background:rgba(15,155,142,.12);color:#0f9b8e}
+  .side-content{font-size:13px;color:#c0c0cc;line-height:1.7}
+  .side-content p{margin-bottom:10px}
+  .side-content strong{color:#e4e4f0}
+  .side-content em{color:#d4a04a;font-style:normal;font-weight:600}
+  .side-content ul{margin-left:16px;margin-bottom:10px}
+  .side-content li{margin-bottom:4px;font-size:12px}
+  .side-content blockquote{border-left:2px solid rgba(255,255,255,.1);padding-left:12px;margin:8px 0;color:#999;font-style:italic;font-size:12px}
+  .side-content code{background:rgba(0,0,0,.3);padding:1px 6px;border-radius:4px;font-size:11px;color:#d4a04a}
+  .fix-box{background:rgba(212,160,74,.06);border-top:1px solid rgba(212,160,74,.15);padding:14px 24px;font-size:12px;color:#999}
+  .fix-box strong{color:#d4a04a}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+  th{background:rgba(0,0,0,.3);color:#d4a04a;padding:6px 8px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.04);color:#999;font-size:11px}
+  td strong{color:#d4a04a}
+
+  /* SUMMARY */
+  .summary{max-width:1000px;margin:40px auto 0;padding:0 24px}
+  .summary h2{font-size:24px;color:#fff;margin-bottom:20px;text-align:center}
+  .issues-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:40px}
+  .issues-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px}
+  .issues-card h4{color:#e94560;font-size:13px;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;font-weight:700}
+  .issues-card ol{margin:0;padding-left:20px;color:#c0c0cc;font-size:13px}
+  .issues-card li{margin-bottom:8px;line-height:1.5}
+
+  /* PLAN */
+  .plan{max-width:1000px;margin:40px auto;padding:0 24px}
+  .plan h2{font-size:24px;color:#fff;margin-bottom:20px;text-align:center}
+  .plan-blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .plan-block{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px}
+  .plan-block.urgent{border-color:rgba(233,69,96,.3);background:rgba(233,69,96,.04)}
+  .plan-block.important{border-color:rgba(212,160,74,.3);background:rgba(212,160,74,.04)}
+  .plan-block.pending{border-color:rgba(91,141,239,.2);background:rgba(91,141,239,.03)}
+  .plan-block h4{font-size:12px;color:#d4a04a;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;font-weight:700}
+  .plan-block.urgent h4{color:#e94560}
+  .plan-block.pending h4{color:#5B8DEF}
+  .plan-block ul{list-style:none;padding:0;margin:0}
+  .plan-block li{padding:6px 0;color:#c0c0cc;font-size:13px;display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,.04)}
+  .plan-block li:last-child{border-bottom:none}
+  .check{color:#0f9b8e;flex-shrink:0;font-weight:700}
+  .wait{color:#5B8DEF;flex-shrink:0;font-weight:700}
+
+  /* DIVIDER */
+  .divider{max-width:1200px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,160,74,.3),transparent);margin:40px auto}
+
+  /* FOOTER */
+  .footer{text-align:center;padding:40px 24px;border-top:1px solid rgba(255,255,255,.06);margin-top:40px;color:#555;font-size:11px}
+  .footer strong{color:#d4a04a}
+
+  @media(max-width:768px){
+    .compare-body{grid-template-columns:1fr}
+    .side.before{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+    .issues-grid{grid-template-columns:1fr}
+    .scores{grid-template-columns:1fr}
+    .section{padding:40px 16px}
+  }
+
+  @media print{
+    .nav{display:none}
+    .compare-body{grid-template-columns:1fr 1fr}
+    body{background:#fff;color:#000}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#hero">Visão Geral</a>
+    <a href="#notas">Notas</a>
+    <a href="#issues">Desalinhamentos</a>
+    <a href="#pagina">Página de Vendas</a>
+    <a href="#pdf">PDF de Consciência</a>
+    <a href="#plano">Plano de Ação</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="badge">Validação Hormozi</div>
+  <h1>Antes vs Depois<br>Página de Vendas + PDF de Consciência</h1>
+  <p>Diagnóstico completo com reescrita Hormozi-grade e alinhamento com a Jornada AURA 12 Semanas (4 blocos oficiais + 4 encontros individuais).</p>
+</div>
+
+<!-- SCORES -->
+<div class="scores" id="notas">
+
+  <div class="score-card">
+    <div class="score-doc">Página de Vendas</div>
+    <div class="score-dims">
+      <div class="score-dim">
+        <div class="score-dim-label">Comunicação</div>
+        <div class="score-transition">
+          <span class="score-num before">3</span>
+          <span class="score-arrow">→</span>
+          <span class="score-num after">5</span>
+          <span class="score-max">/5</span>
+        </div>
+      </div>
+      <div class="score-dim">
+        <div class="score-dim-label">Vendas</div>
+        <div class="score-transition">
+          <span class="score-num before">2</span>
+          <span class="score-arrow">→</span>
+          <span class="score-num after">5</span>
+          <span class="score-max">/5</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="score-card">
+    <div class="score-doc">PDF de Consciência</div>
+    <div class="score-dims">
+      <div class="score-dim">
+        <div class="score-dim-label">Comunicação</div>
+        <div class="score-transition">
+          <span class="score-num before">4</span>
+          <span class="score-arrow">→</span>
+          <span class="score-num after">5</span>
+          <span class="score-max">/5</span>
+        </div>
+      </div>
+      <div class="score-dim">
+        <div class="score-dim-label">Vendas</div>
+        <div class="score-transition">
+          <span class="score-num before">3</span>
+          <span class="score-arrow">→</span>
+          <span class="score-num after">5</span>
+          <span class="score-max">/5</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ISSUES SUMMARY -->
+<div class="summary" id="issues">
+  <h2>14 Desalinhamentos Identificados</h2>
+  <div class="issues-grid">
+
+    <div class="issues-card">
+      <h4>Página de Vendas — 7 Problemas</h4>
+      <ol>
+        <li><strong>Ordem dos 4 blocos TROCADA</strong> — está Identidade/Comunicação/Presença/Posicionamento. Oficial é Autoimagem → Posicionamento → Comunicação Magnética → Autoridade em Movimento</li>
+        <li><strong>Acrônimo AURA com 2 significados</strong> na mesma página</li>
+        <li><strong>4 Encontros Individuais invisíveis</strong> — diferencial do Premium R$33K</li>
+        <li><strong>Zero Value Stack</strong> — sem preço, sem bônus quantificados</li>
+        <li><strong>Zero garantia</strong> — violação básica Hormozi</li>
+        <li><strong>Zero prova social</strong> — sem depoimentos ou números</li>
+        <li><strong>CTA redundante</strong> — 2 botões dizendo a mesma coisa</li>
+      </ol>
+    </div>
+
+    <div class="issues-card">
+      <h4>PDF de Consciência — 7 Problemas</h4>
+      <ol>
+        <li><strong>Typo pág 2:</strong> "exicação" → "exibição"</li>
+        <li><strong>Fluxograma pág 5</strong> com nomenclatura divergente (Identidade/Conexão/Apresentação/Percepção)</li>
+        <li><strong>Semana 2 mal rotulada</strong> ("Frequência Magnética" no bloco Autoimagem)</li>
+        <li><strong>4 Encontros Individuais ausentes</strong> do percurso</li>
+        <li><strong>Estrategista sem nome</strong> — [Nome] placeholder</li>
+        <li><strong>Pág 19 literalmente vazia</strong> — "Espaço reservado para depoimentos"</li>
+        <li><strong>Sem CTA final</strong> — termina em reflexão, não em ação</li>
+      </ol>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PÁGINA DE VENDAS -->
+<div class="section" id="pagina">
+
+  <div class="section-header">
+    <div class="section-num">Documento 01</div>
+    <h2>Página de Vendas</h2>
+    <p>6 seções reescritas com filtro Hormozi + alinhamento Jornada oficial</p>
+  </div>
+
+  <!-- HERO -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>1.1 — Hero / Headline</h3>
+      <span class="compare-tag">Crítico</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES</div>
+        <div class="side-content">
+          <p><strong>"ATIVE SEU POSICIONAMENTO E DOMINE A COMUNICAÇÃO INTENCIONAL"</strong></p>
+          <p>DÊ VOZ À SUA VERDADE. ATIVE SUA COMUNICAÇÃO, PRESENÇA E POSICIONAMENTO.</p>
+          <p>Você já construiu resultados, mas ainda sente que sua voz, presença e imagem não alcançam o respeito e a valorização que você merece?</p>
+          <p>Ative sua AURA (Autoridade Magnética)...</p>
+          <ul>
+            <li>ATIVAÇÃO</li>
+            <li>UNICIDADE</li>
+            <li>RESPEITO</li>
+            <li>AUTORIDADE</li>
+          </ul>
+          <p><code>[BOTÃO] → QUERO VER SE ESTOU APTO</code></p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS</div>
+        <div class="side-content">
+          <p><strong>Em 12 semanas, sua autoridade percebida cresce à altura da sua competência real.</strong></p>
+          <p>Para líderes e empresários com resultados que não são vistos no tamanho que deveriam ser.</p>
+          <p>Você construiu competência. Construiu resultado. Mas continua sendo tratado como uma opção — e não como <em>A referência</em> — no seu mercado, na sua mesa, na sua família.</p>
+          <p>A Mentoria AURA reconstrói sua <em>Autoimagem</em>, seu <em>Posicionamento</em>, sua <em>Comunicação Magnética</em> e sua <em>Autoridade em Movimento</em> nos 4 blocos da Jornada de 12 Semanas.</p>
+          <p>No final, você não fala melhor. Você ocupa o lugar certo.</p>
+          <p><code>[BOTÃO ÚNICO] → APLICAR PARA A SESSÃO ESTRATÉGICA</code></p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box">
+      <strong>Por que mudou:</strong> promessa específica com prazo (12 semanas), ICP nomeado na 2ª linha, 4 blocos oficiais em ordem correta, acrônimo único consistente, 1 CTA direto.
+    </div>
+  </div>
+
+  <!-- MÉTODO -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>1.2 — Método (Os 4 Blocos)</h3>
+      <span class="compare-tag">Crítico</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES — Ordem Trocada</div>
+        <div class="side-content">
+          <ul>
+            <li><strong>Identidade</strong> (Raiz)</li>
+            <li><strong>Comunicação</strong> (Tronco)</li>
+            <li><strong>Presença</strong> (Aura)</li>
+            <li><strong>Posicionamento</strong> (Fruto)</li>
+          </ul>
+          <p style="color:#e94560;font-size:11px;margin-top:12px">↑ Esta ordem não bate com a Jornada oficial</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS — Jornada Oficial</div>
+        <div class="side-content">
+          <p><strong>Bloco 1 — Autoimagem (Raiz)</strong><br>Reprogramação da forma como você se vê.</p>
+          <p><strong>Bloco 2 — Posicionamento (Estrutura)</strong><br>Definição do lugar único no mercado.</p>
+          <p><strong>Bloco 3 — Comunicação Magnética (Canal)</strong><br>Oratória, linguagem corporal, storytelling.</p>
+          <p><strong>Bloco 4 — Autoridade em Movimento (Colheita)</strong><br>Execução, vendas com autoridade, escala.</p>
+          <p style="color:#0f9b8e;font-size:11px;margin-top:12px">↑ Pular um bloco é o motivo de 90% das mentorias falharem</p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box">
+      <strong>Por que mudou:</strong> ordem correta Autoimagem → Posicionamento → Comunicação → Autoridade; metáfora progressiva Raiz → Estrutura → Canal → Colheita; justificativa do mecanismo.
+    </div>
+  </div>
+
+  <!-- TABELA JORNADA -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>1.3 — Tabela da Jornada (com 4 Encontros Individuais)</h3>
+      <span class="compare-tag">Crítico</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES</div>
+        <div class="side-content">
+          <table>
+            <tr><th>Bloco</th><th>Foco</th></tr>
+            <tr><td><strong>1. IDENTIDADE</strong></td><td>Como você se vê</td></tr>
+            <tr><td><strong>2. COMUNICAÇÃO</strong></td><td>Como se conecta</td></tr>
+            <tr><td><strong>3. PRESENÇA</strong></td><td>Como aparece</td></tr>
+            <tr><td><strong>4. POSICIONAMENTO</strong></td><td>Autoridade Máxima</td></tr>
+          </table>
+          <p style="color:#e94560;font-size:11px;margin-top:8px">Sem encontros individuais, sem semanas, ordem trocada.</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS</div>
+        <div class="side-content">
+          <table>
+            <tr><th>Bloco</th><th>Sem</th><th>Encontro 1:1 (Premium)</th></tr>
+            <tr><td><strong>1. AUTOIMAGEM</strong></td><td>1–3</td><td>Espelho de Identidade</td></tr>
+            <tr><td><strong>2. POSICIONAMENTO</strong></td><td>4–6</td><td>Arquitetura de Posicionamento</td></tr>
+            <tr><td><strong>3. COMUNICAÇÃO</strong></td><td>7–9</td><td>Calibragem de Comunicação</td></tr>
+            <tr><td><strong>4. AUTORIDADE EM MOVIMENTO</strong></td><td>10–12</td><td>Plano de Autoridade</td></tr>
+          </table>
+          <p style="color:#0f9b8e;font-size:11px;margin-top:8px">4 blocos oficiais + 4 encontros nomeados + semanas.</p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box">
+      <strong>Por que mudou:</strong> diferencial crítico do Premium (R$33K) que estava invisível agora aparece na oferta; adiciona prova estrutural (semanas).
+    </div>
+  </div>
+
+  <!-- VALUE STACK NOVO -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>1.4 — Value Stack (Seção NOVA)</h3>
+      <span class="compare-tag">Adicionar</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES — Não existe</div>
+        <div class="side-content">
+          <p style="color:#e94560">❌ Zero preço visível</p>
+          <p style="color:#e94560">❌ Zero valor standalone dos bônus</p>
+          <p style="color:#e94560">❌ Zero ancoragem</p>
+          <p style="color:#e94560">❌ Apenas promessa vaga de "6 dígitos mensais"</p>
+          <p style="margin-top:12px;font-size:11px">Hormozi rule: valor total declarado deve ser &gt; preço. Cria âncora antes de revelar o número.</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS</div>
+        <div class="side-content">
+          <table>
+            <tr><th>Entrega</th><th>Valor</th></tr>
+            <tr><td>12 aulas ao vivo em grupo</td><td><strong>R$ 12k</strong></td></tr>
+            <tr><td>4 Encontros Individuais Augustto</td><td><strong>R$ 24k</strong></td></tr>
+            <tr><td>Suporte WhatsApp 12 semanas</td><td><strong>R$ 3k</strong></td></tr>
+            <tr><td>Grupo Premium</td><td><strong>R$ 2k</strong></td></tr>
+            <tr><td>Ferramentas proprietárias</td><td><strong>R$ 8k</strong></td></tr>
+            <tr><td>Bônus DISC</td><td><strong>R$ 1,5k</strong></td></tr>
+            <tr><td>Bônus Workshop</td><td><strong>R$ 2,5k</strong></td></tr>
+            <tr><td>Bônus Primal Branding</td><td><strong>R$ 3k</strong></td></tr>
+            <tr><td>Bônus Agente IA</td><td><strong>R$ 4k</strong></td></tr>
+            <tr><td><strong>Valor total</strong></td><td><strong style="color:#0f9b8e">R$ 60k</strong></td></tr>
+            <tr><td><strong>Investimento</strong></td><td><strong style="color:#d4a04a">R$ 33k</strong></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box">
+      <strong>Por que adicionar:</strong> cada item tem nome + valor numérico; lead para de calcular valor, você faz por ele; âncora R$60k faz R$33k parecer inevitável.
+    </div>
+  </div>
+
+  <!-- GARANTIA NOVA -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>1.5 — Garantia (Seção NOVA)</h3>
+      <span class="compare-tag">Adicionar</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES — Não existe</div>
+        <div class="side-content">
+          <p style="color:#e94560">❌ Zero reversão de risco</p>
+          <p style="margin-top:12px;font-size:11px">Hormozi: garantia é obrigatória. Sem garantia, o lead carrega 100% do risco e desiste antes de clicar.</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS</div>
+        <div class="side-content">
+          <p><strong>Garantia de Ativação — 14 dias.</strong></p>
+          <p>Participe do primeiro encontro em grupo e do primeiro Encontro Individual (Espelho de Identidade). Se nas 2 primeiras semanas você sentir que a Jornada AURA não é a ferramenta que você precisa, devolvemos 100% do investimento. Sem perguntas, sem fricção.</p>
+          <p><strong>Por que 14 dias?</strong> Porque nas 2 primeiras semanas você já passa pelo Diagnóstico de Autoridade Percebida e pelo Espelho de Identidade. Em 14 dias você sabe se é para você.</p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box">
+      <strong>Por que adicionar:</strong> prazo ancorado em milestone real da Jornada (não 7/30 dias genéricos); justifica o prazo com mecanismo (remove gimmick).
+    </div>
+  </div>
+
+  <!-- CTA FINAL -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>1.6 — CTA Final</h3>
+      <span class="compare-tag">Reescrever</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES</div>
+        <div class="side-content">
+          <p>Saia da cegueira da falta de clareza. Realizaremos uma Sessão Estratégica para entender se você está à altura e no seu momento de participar deste movimento de ativação da sua AURA.</p>
+          <p>Não buscamos apenas alunos; selecionamos membros prontos para sustentar um <em style="color:#e94560">Posicionamento de 6 dígitos mensais</em>...</p>
+          <p><code>[BOTÃO] → SOLICITAR AVALIAÇÃO</code></p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS</div>
+        <div class="side-content">
+          <p><strong>Próximo passo: Sessão Estratégica (30 minutos).</strong></p>
+          <ul>
+            <li>1. Você preenche o formulário abaixo (3 min)</li>
+            <li>2. Nossa equipe contata em até 24h úteis via WhatsApp</li>
+            <li>3. Se houver fit, agendamos sua Sessão com Augustto ou Talita</li>
+            <li>4. Diagnosticamos sua autoridade percebida atual e definimos se é o próximo passo</li>
+          </ul>
+          <p>A Jornada AURA não é para quem está começando. É para quem já tem resultado e está pronto para o próximo patamar de percepção.</p>
+          <p><code>[BOTÃO ÚNICO] → APLICAR PARA A SESSÃO</code></p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box">
+      <strong>Por que mudou:</strong> remove promessa vazia "6 dígitos mensais" (Hormozi: nunca prometa o que não pode provar); explica o processo em 4 passos; menciona Talita por nome.
+    </div>
+  </div>
+
+</div>
+
+<div class="divider"></div>
+
+<!-- PDF DE CONSCIÊNCIA -->
+<div class="section" id="pdf">
+
+  <div class="section-header">
+    <div class="section-num">Documento 02</div>
+    <h2>PDF de Consciência</h2>
+    <p>5 correções cirúrgicas (PDF está 70% pronto — ajustes pontuais suficientes)</p>
+  </div>
+
+  <!-- TYPO -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>2.1 — Pág 2: Typo</h3>
+      <span class="compare-tag">Quick Fix</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES</div>
+        <div class="side-content">
+          <p>...é a transição da <strong style="color:#e94560">"exicação de valor"</strong> para a "emanação de autoridade".</p>
+          <p style="color:#e94560;font-size:11px;margin-top:8px">Typo em material premium de R$33K = fatal</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS</div>
+        <div class="side-content">
+          <p>...é a transição da <strong style="color:#0f9b8e">"exibição de valor"</strong> para a <em>"emanação de autoridade"</em>.</p>
+          <p><strong>Você para de provar e passa a irradiar.</strong></p>
+          <p style="color:#0f9b8e;font-size:11px;margin-top:8px">Corrige typo + frase síntese que ancora o conceito</p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box"><strong>Tempo:</strong> 30 segundos.</div>
+  </div>
+
+  <!-- ESTRATEGISTA -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>2.2 — Pág 4: Olhar do Estrategista</h3>
+      <span class="compare-tag">Crítico</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES</div>
+        <div class="side-content">
+          <blockquote>"Se este documento chegou até você, é porque identifiquei na sua aplicação o potencial para o próximo nível. Eu sou <strong style="color:#e94560">[Nome]</strong>, Estrategista da Sellect Intelligence..."</blockquote>
+          <p style="color:#e94560;font-size:11px;margin-top:8px">Placeholder [Nome] em material de R$33K = amadorismo</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS</div>
+        <div class="side-content">
+          <blockquote>"Se este documento chegou até você, é porque li sua aplicação e identifiquei o padrão que o Augustto pediu para eu separar no meio de <strong>100 inscrições por mês</strong>: líder com resultado real, mas com dissonância entre competência entregue e autoridade percebida.
+          <br><br>
+          Eu sou <strong>Talita</strong>, closer da Sellect Intelligence, e meu papel é calibrar se este é o momento certo da Jornada AURA pra você."</blockquote>
+          <p style="color:#0f9b8e;font-size:11px;margin-top:8px">Nome real + cargo oficial + escassez legítima (100/mês)</p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box"><strong>Tempo:</strong> 5 min. Consistente com o roteiro do time humano.</div>
+  </div>
+
+  <!-- FLUXOGRAMA -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>2.3 — Pág 5: Fluxograma dos Blocos</h3>
+      <span class="compare-tag">Crítico</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES — Divergente</div>
+        <div class="side-content">
+          <ol style="padding-left:20px">
+            <li><strong>IDENTIDADE</strong> — Como você se vê</li>
+            <li><strong>CONEXÃO</strong> — Como você se liga ao outro</li>
+            <li><strong>APRESENTAÇÃO</strong> — Como você se mostra</li>
+            <li><strong>PERCEPÇÃO</strong> — Como você é sentido</li>
+          </ol>
+          <p style="color:#e94560;font-size:11px;margin-top:8px">Nenhum destes nomes é oficial</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS — Oficial</div>
+        <div class="side-content">
+          <ol style="padding-left:20px">
+            <li><strong>AUTOIMAGEM</strong> — Como você se vê (Sem 1–3)</li>
+            <li><strong>POSICIONAMENTO</strong> — Lugar que ocupa (Sem 4–6)</li>
+            <li><strong>COMUNICAÇÃO MAGNÉTICA</strong> — Como chega (Sem 7–9)</li>
+            <li><strong>AUTORIDADE EM MOVIMENTO</strong> — Como te pagam (Sem 10–12)</li>
+          </ol>
+          <p><em>Pular um bloco é por que 90% das mentorias de "marca pessoal" falham. A ordem é o método.</em></p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box"><strong>Por que mudou:</strong> alinha com os 4 blocos oficiais; adiciona semanas; ancora "ordem é o método" como diferencial.</div>
+  </div>
+
+  <!-- PROVA SOCIAL -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>2.4 — Pág 19: Prova Social</h3>
+      <span class="compare-tag">Preencher</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES</div>
+        <div class="side-content">
+          <blockquote style="color:#e94560">"(Espaço reservado para 6 depoimentos selecionados focando em mudança de respeito, faturamento e clareza familiar)"</blockquote>
+          <p style="color:#e94560;font-size:11px;margin-top:8px">Literalmente vazio. Se o PDF é usado para vender, isso é um furo gigante.</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS — Template para preencher</div>
+        <div class="side-content">
+          <p><strong>Formato 1:</strong> Resultado Financeiro<br><em>Antes: R$X/mês → Depois: R$Y/mês. O que mudou: [1 frase].</em></p>
+          <p><strong>Formato 2:</strong> Resultado Relacional/Familiar<br><em>3-4 linhas sobre conversa/relação específica.</em></p>
+          <p><strong>Formato 3:</strong> Reconhecimento de Mercado<br><em>Convite/palco/mesa que não existia antes.</em></p>
+          <p><strong>3 Números do Movimento:</strong></p>
+          <ul>
+            <li>X empresários formados</li>
+            <li>Y% reportam aumento de autoridade em 90 dias</li>
+            <li>Z% recomendam (NPS)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box"><strong>Ação:</strong> Talita/Gabriel entrevistam 6 alunos e preenchem os 3 formatos (Hormozi anti-hype: nunca invente depoimentos).</div>
+  </div>
+
+  <!-- CTA FINAL PDF -->
+  <div class="compare">
+    <div class="compare-title">
+      <h3>2.5 — Pág 20: Reflexão Final + CTA</h3>
+      <span class="compare-tag">Adicionar</span>
+    </div>
+    <div class="compare-body">
+      <div class="side before">
+        <div class="side-label">× ANTES — Termina em reflexão</div>
+        <div class="side-content">
+          <p>...A pergunta não é se você é capaz, mas se você está pronto para deixar que o mundo finalmente veja quem você realmente é.</p>
+          <p style="color:#e94560;font-size:11px;margin-top:8px">Termina aqui. Sem CTA. PDF sem CTA = PDF que não vende.</p>
+        </div>
+      </div>
+      <div class="side after">
+        <div class="side-label">✓ DEPOIS — Com CTA</div>
+        <div class="side-content">
+          <p>...A pergunta não é se você é capaz, mas se você está pronto para deixar que o mundo finalmente veja quem você realmente é.</p>
+          <p style="border-top:1px solid rgba(212,160,74,.2);margin-top:12px;padding-top:12px"><strong>PRÓXIMO PASSO</strong></p>
+          <p>Se você leu até aqui, o Augustto já te olhou nos olhos pelo texto. O próximo passo é olhar nos olhos dele — literalmente — na Sessão Estratégica.</p>
+          <p>Acesse o link. Responda as 5 perguntas. Talita chama em até 24h úteis.</p>
+          <p><code>👉 aura.sellect.com.br/sessao</code></p>
+          <p>Ou WhatsApp direto: <code>wa.me/[número]</code> com a palavra <strong>AURA</strong>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="fix-box"><strong>Por que mudou:</strong> PDF ganha ponte de ação; 2 caminhos (formulário OU WhatsApp) reduzem fricção; menciona Talita consistente com Pág 4.</div>
+  </div>
+
+</div>
+
+<div class="divider"></div>
+
+<!-- PLANO DE AÇÃO -->
+<div class="plan" id="plano">
+  <h2>Plano de Implementação (Ordem de Prioridade)</h2>
+  <div class="plan-blocks">
+
+    <div class="plan-block urgent">
+      <h4>A — Correções críticas</h4>
+      <ul>
+        <li><span class="check">1.</span> Corrigir typo "exicação" (30s)</li>
+        <li><span class="check">2.</span> Substituir [Nome] por "Talita" (2min)</li>
+        <li><span class="check">3.</span> Reordenar os 4 blocos da página de vendas (10min)</li>
+        <li><span class="check">4.</span> Unificar acrônimo AURA (10min)</li>
+      </ul>
+    </div>
+
+    <div class="plan-block important">
+      <h4>B — Adições essenciais</h4>
+      <ul>
+        <li><span class="check">5.</span> Inserir tabela com 4 encontros (15min)</li>
+        <li><span class="check">6.</span> Criar Value Stack com preços (30min)</li>
+        <li><span class="check">7.</span> Escrever Garantia 14 dias (15min)</li>
+        <li><span class="check">8.</span> Unificar CTAs (15min)</li>
+      </ul>
+    </div>
+
+    <div class="plan-block pending">
+      <h4>C — Prova social (paralelo)</h4>
+      <ul>
+        <li><span class="wait">9.</span> Entrevistar 6 alunos e captar 3 depoimentos (3–5 dias)</li>
+        <li><span class="wait">10.</span> Levantar 3 números reais do movimento (2 dias)</li>
+      </ul>
+    </div>
+
+    <div class="plan-block important">
+      <h4>D — Alinhamento PDF</h4>
+      <ul>
+        <li><span class="check">11.</span> Reorganizar pág 6-17 por bloco + encontros (45min)</li>
+        <li><span class="check">12.</span> Adicionar CTA pág 20 (10min)</li>
+      </ul>
+    </div>
+
+    <div class="plan-block pending">
+      <h4>E — Pré-requisitos VSL</h4>
+      <ul>
+        <li><span class="wait">13.</span> Publicar versões corrigidas</li>
+        <li><span class="wait">14.</span> Validar com 3 leitores do ICP</li>
+        <li><span class="wait">15.</span> SÓ ENTÃO construir o VSL</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <p><strong>Validação Hormozi</strong> — Mentoria AURA<br>
+  Sellect Intelligence · Abril 2026<br>
+  Documento interno — uso do time</p>
+</div>
+
+<script>
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+navLinks.forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});
+}));
+</script>
+
+</body>
+</html>
