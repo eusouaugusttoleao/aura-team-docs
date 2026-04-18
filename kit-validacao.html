@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit de Validacao ICP — Mentoria AURA Premium</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#e4e4f0;line-height:1.7}
+
+  .nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);padding:0 20px;overflow-x:auto}
+  .nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:0}
+  .nav-inner::-webkit-scrollbar{display:none}
+  .nav a{padding:14px 16px;font-size:11px;font-weight:600;color:#777;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:all .3s}
+  .nav a:hover,.nav a.active{color:#d4a04a;border-bottom-color:#d4a04a}
+
+  .hero{padding:60px 24px 40px;text-align:center;max-width:900px;margin:0 auto}
+  .badge{display:inline-block;background:rgba(212,160,74,.12);border:1px solid rgba(212,160,74,.25);color:#d4a04a;padding:6px 20px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
+  .hero h1{font-size:clamp(28px,5vw,44px);font-weight:900;line-height:1.05;margin-bottom:14px;background:linear-gradient(135deg,#fff 0%,#d4a04a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{font-size:15px;color:#888;max-width:550px;margin:0 auto 30px}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:500px;margin:0 auto}
+  .hero-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 10px;text-align:center}
+  .hero-stat strong{display:block;font-size:24px;font-weight:800;color:#d4a04a}
+  .hero-stat span{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px}
+
+  .section{max-width:900px;margin:0 auto;padding:60px 24px}
+  .section-num{font-size:10px;font-weight:700;color:#d4a04a;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+  .section h2{font-size:clamp(22px,3.5vw,32px);font-weight:800;color:#fff;margin-bottom:20px}
+  .section h3{font-size:16px;font-weight:700;color:#d4a04a;margin:28px 0 10px}
+  .section p{color:#a0a0b0;margin-bottom:12px;font-size:14px}
+  .section ul,.section ol{margin-left:20px;margin-bottom:14px;color:#a0a0b0;font-size:14px}
+  .section li{margin-bottom:6px}
+  .section li strong{color:#e4e4f0}
+  .divider{max-width:900px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,160,74,.3),transparent);margin:20px auto}
+
+  /* VALIDADORES */
+  .val-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
+  .val-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-top:3px solid #d4a04a;border-radius:12px;padding:24px;text-align:center}
+  .val-card .num{font-size:36px;font-weight:900;color:rgba(212,160,74,.2);line-height:1;margin-bottom:8px}
+  .val-card h4{color:#fff;font-size:15px;margin-bottom:4px}
+  .val-card p{font-size:12px;color:#888;margin:0}
+
+  /* CONVITE */
+  .msg-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px;margin:20px 0;position:relative}
+  .msg-box::before{content:'WhatsApp';position:absolute;top:-10px;left:20px;background:#0a0a0f;padding:0 10px;font-size:10px;font-weight:700;color:#25D366;letter-spacing:2px;text-transform:uppercase}
+  .msg-box p{font-size:13px;color:#c0c0cc;margin-bottom:10px;line-height:1.7}
+  .msg-box .highlight{color:#d4a04a;font-weight:600}
+  .copy-hint{text-align:center;font-size:11px;color:#555;margin-top:10px}
+
+  /* TIMELINE */
+  .timeline{position:relative;margin:30px 0;padding-left:40px}
+  .timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#d4a04a,rgba(212,160,74,.1))}
+  .tl-item{position:relative;margin-bottom:24px;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px}
+  .tl-item::before{content:'';position:absolute;left:-32px;top:20px;width:12px;height:12px;border-radius:50%;background:#d4a04a;border:3px solid #0a0a0f}
+  .tl-time{font-size:11px;font-weight:700;color:#d4a04a;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+  .tl-item h4{font-size:14px;color:#fff;margin-bottom:4px}
+  .tl-item p{font-size:12px;color:#888;margin:0}
+  .tl-script{font-size:12px;color:#c0c0cc;font-style:italic;background:rgba(0,0,0,.2);border-left:2px solid rgba(212,160,74,.3);padding:10px 14px;margin-top:8px;border-radius:0 8px 8px 0;line-height:1.6}
+
+  /* PERGUNTAS */
+  .q-grid{display:flex;flex-direction:column;gap:14px;margin:20px 0}
+  .q-card{display:grid;grid-template-columns:48px 1fr;gap:16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;align-items:start}
+  .q-num{width:48px;height:48px;line-height:48px;text-align:center;background:rgba(212,160,74,.12);color:#d4a04a;border-radius:10px;font-size:18px;font-weight:900}
+  .q-content h4{font-size:14px;color:#fff;margin-bottom:6px}
+  .q-content p{font-size:12px;color:#888;margin:0;line-height:1.6}
+  .q-content .ask{font-size:13px;color:#c0c0cc;font-style:italic;margin-bottom:6px}
+  .q-tag{display:inline-block;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:6px}
+  .q-tag.pv{background:rgba(139,92,246,.12);color:#8b5cf6}
+  .q-tag.pdf{background:rgba(15,155,142,.12);color:#0f9b8e}
+  .q-tag.geral{background:rgba(212,160,74,.12);color:#d4a04a}
+
+  /* TABELA CONSOLIDAÇÃO */
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px}
+  th{background:rgba(212,160,74,.1);color:#d4a04a;padding:10px 12px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:#a0a0b0;vertical-align:top}
+  td:first-child{color:#e4e4f0;font-weight:600;font-size:11px;min-width:180px}
+  tr:hover td{background:rgba(255,255,255,.02)}
+
+  /* REGRAS */
+  .rule-grid{display:flex;flex-direction:column;gap:10px;margin:20px 0}
+  .rule{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+  .rule-if{background:rgba(233,69,96,.06);padding:14px 18px;font-size:13px;color:#e4e4f0;border-right:1px solid rgba(255,255,255,.06)}
+  .rule-then{background:rgba(15,155,142,.06);padding:14px 18px;font-size:13px;color:#e4e4f0}
+  .rule-if strong{color:#e94560}
+  .rule-then strong{color:#0f9b8e}
+  .rule-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px}
+  .rule-if .rule-label{color:#e94560}
+  .rule-then .rule-label{color:#0f9b8e}
+
+  /* CRONOGRAMA */
+  .crono-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+  .crono-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;text-align:center}
+  .crono-card.today{border-color:rgba(212,160,74,.4);background:rgba(212,160,74,.06)}
+  .crono-card .day{font-size:11px;font-weight:700;color:#d4a04a;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+  .crono-card p{font-size:12px;color:#a0a0b0;margin:0}
+
+  /* CHECKLIST */
+  .checklist{list-style:none;padding:0;margin:16px 0}
+  .checklist li{padding:8px 0 8px 28px;position:relative;color:#c0c0cc;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04)}
+  .checklist li::before{content:'';position:absolute;left:0;top:11px;width:16px;height:16px;border:2px solid rgba(212,160,74,.3);border-radius:4px}
+
+  .footer{text-align:center;padding:40px 24px;border-top:1px solid rgba(255,255,255,.06);margin-top:40px;color:#555;font-size:11px}
+  .footer strong{color:#d4a04a}
+
+  @media(max-width:768px){
+    .val-grid{grid-template-columns:1fr}
+    .hero-stats{grid-template-columns:1fr 1fr 1fr}
+    .q-card{grid-template-columns:40px 1fr;gap:12px}
+    .rule{grid-template-columns:1fr}
+    .rule-if{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+    .crono-grid{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#validadores">Validadores</a>
+    <a href="#convite">Convite</a>
+    <a href="#roteiro">Roteiro 30min</a>
+    <a href="#perguntas">10 Perguntas</a>
+    <a href="#planilha">Consolidacao</a>
+    <a href="#regras">Regras de Decisao</a>
+    <a href="#cronograma">Cronograma</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">Kit de Validacao ICP</div>
+  <h1>Mentoria AURA Premium<br>Validacao com 3 Leitores Reais</h1>
+  <p>Call sincrona de 30 minutos com cada validador. 10 perguntas calibradas Hormozi. Planilha de consolidacao com regra 2/3.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>3</strong><span>Validadores</span></div>
+    <div class="hero-stat"><strong>30</strong><span>Min / Call</span></div>
+    <div class="hero-stat"><strong>10</strong><span>Perguntas</span></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- VALIDADORES -->
+<div class="section" id="validadores">
+  <div class="section-num">Etapa 01</div>
+  <h2>Os 3 Validadores</h2>
+  <p>Perfil exato do ICP: empresario com resultado real que entende o valor de posicionamento e tem capacidade financeira para R$33k.</p>
+
+  <div class="val-grid">
+    <div class="val-card">
+      <div class="num">01</div>
+      <h4>Dono da ORIN Joias</h4>
+      <p>Empresario, mercado de luxo. ICP direto da AURA.</p>
+    </div>
+    <div class="val-card">
+      <div class="num">02</div>
+      <h4>Dona da Esmeraldas</h4>
+      <p>Empresaria com resultado. Gap de autoridade percebida provavel.</p>
+    </div>
+    <div class="val-card">
+      <div class="num">03</div>
+      <h4>Dono do GF Studio</h4>
+      <p>Empresario criativo. Precisa de posicionamento premium.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONVITE -->
+<div class="section" id="convite">
+  <div class="section-num">Etapa 02</div>
+  <h2>Mensagem de Convite</h2>
+  <p>Copiar, personalizar o [NOME] e enviar no WhatsApp para cada um dos 3.</p>
+
+  <div class="msg-box">
+    <p><span class="highlight">[NOME]</span>, tudo bem?</p>
+    <p>Preciso de 30 minutos seus — <strong>nao pra te vender nada.</strong></p>
+    <p>Estou finalizando o material de lancamento da Mentoria AURA Premium (o programa de 12 semanas do Augustto focado em autoridade e posicionamento para empresarios) e preciso de 3 leitores sinceros do ICP pra validar antes de publicar.</p>
+    <p>Voce e um dos 3 que escolhi porque te considero o perfil exato de quem esse material precisa conversar: <span class="highlight">empresario com resultado real que entende o valor de posicionamento.</span></p>
+    <p>O que vou fazer: te mostro 2 documentos na tela (pagina de vendas + PDF de apresentacao), voce le comigo e me fala — na lata — o que te convenceu, o que te fez duvidar e o que te fez querer fechar a aba.</p>
+    <p>Sem filtro. Se estiver ruim, preciso ouvir. Se estiver bom, preciso saber POR QUE esta bom.</p>
+    <p>Consegue encaixar 30 minutos essa semana? Pode ser Google Meet, qualquer horario.</p>
+  </div>
+  <p class="copy-hint">Personalizar [NOME] antes de enviar. Mandar HOJE.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ROTEIRO -->
+<div class="section" id="roteiro">
+  <div class="section-num">Etapa 03</div>
+  <h2>Roteiro da Call — 30 Minutos</h2>
+
+  <h3>Preparacao (antes de ligar)</h3>
+  <ul class="checklist">
+    <li>Abrir PV AURA VS. FINAL + PDF AURA VS. FINAL CLAUDE em abas separadas</li>
+    <li>Compartilhar tela no Google Meet</li>
+    <li>Pedir permissao pra gravar no inicio</li>
+    <li>Planilha de consolidacao aberta em outra aba</li>
+  </ul>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">Min 0–2</div>
+      <h4>Abertura e Contexto</h4>
+      <div class="tl-script">"Obrigado por separar esse tempo. Vou te mostrar o material de venda da Mentoria AURA Premium — um programa de R$33 mil, 12 semanas. Quero que voce leia como COMPRADOR, nao como meu amigo. Preciso de honestidade brutal, nao de educacao. Combinado?"</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">Min 2–12</div>
+      <h4>Documento 1: Pagina de Vendas (PV)</h4>
+      <p>Compartilhar tela. Rolar devagar secao por secao. Nao explicar. Nao defender. Ouvir e anotar.</p>
+      <div class="tl-script">"Vou rolar devagar. Me interrompe quando sentir algo — positivo ou negativo. Qualquer reacao e dado."</div>
+      <p style="margin-top:8px;font-size:11px;color:#d4a04a">A cada pausa natural, perguntar: "O que passou pela sua cabeca agora?"</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">Min 12–14</div>
+      <h4>5 Perguntas Hormozi sobre a PV</h4>
+      <p>Aplicar as perguntas P1 a P5 (ver secao abaixo).</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">Min 14–22</div>
+      <h4>Documento 2: PDF de Consciencia</h4>
+      <p>Trocar aba. Rolar as 20 paginas. Mesma dinamica: escutar, nao defender.</p>
+      <div class="tl-script">"Agora vou te mostrar o segundo material — esse o lead recebe ANTES da sessao estrategica. Pra aquecer e criar consciencia. Mesma dinamica: me interrompe quando sentir algo."</div>
+      <p style="margin-top:8px;font-size:11px;color:#d4a04a">Observar reacao especial na pag 4 (Talita) e no preco do Value Stack.</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">Min 22–27</div>
+      <h4>Perguntas Finais Abertas</h4>
+      <p>Aplicar P6 a P10 (ver secao abaixo).</p>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">Min 27–30</div>
+      <h4>Fechamento</h4>
+      <div class="tl-script">"Valeu demais pela honestidade. Esse feedback vai direto pro ajuste antes de publicar. Uma ultima coisa: se em algum momento voce quiser conhecer a Jornada AURA pra voce mesmo — nao como favor, como decisao de negocio — a porta esta aberta. Me avisa quando quiser."</div>
+      <p style="margin-top:8px;font-size:11px;color:#e94560">NAO VENDER. Deixar a semente. Desligar.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PERGUNTAS -->
+<div class="section" id="perguntas">
+  <div class="section-num">Etapa 04</div>
+  <h2>10 Perguntas Calibradas Hormozi</h2>
+  <p>Nao e "gostou?" generico. Cada pergunta caca um dado especifico.</p>
+
+  <div class="q-grid">
+    <div class="q-card">
+      <div class="q-num">1</div>
+      <div class="q-content">
+        <h4>Objecao Real</h4>
+        <p class="ask">"Se voce recebesse esse material agora e tivesse R$33 mil disponiveis, qual seria a PRIMEIRA razao pra NAO comprar?"</p>
+        <p>Caca a objecao #1 que a pagina nao esta enderecando. Se os 3 derem a mesma resposta, e um furo real.</p>
+        <span class="q-tag pv">Pagina de Vendas</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">2</div>
+      <div class="q-content">
+        <h4>Clareza da Oferta</h4>
+        <p class="ask">"Me explica com suas palavras: o que exatamente a pessoa recebe por R$33 mil?"</p>
+        <p>Se nao conseguir explicar, o Value Stack nao esta claro. Se explicar diferente, a pagina esta confusa.</p>
+        <span class="q-tag pv">Pagina de Vendas</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">3</div>
+      <div class="q-content">
+        <h4>Preco vs. Valor</h4>
+        <p class="ask">"R$33 mil te parece caro, justo ou barato pelo que esta sendo entregue? Por que?"</p>
+        <p>Testa se o anchor price (R$60k para R$33k) funcionou. Se disser "caro" mesmo depois do stack, recalibrar ancora.</p>
+        <span class="q-tag pv">Pagina de Vendas</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">4</div>
+      <div class="q-content">
+        <h4>Confianca</h4>
+        <p class="ask">"O que nessa pagina te fez confiar mais no Augustto? E o que te fez confiar menos — ou ficou faltando?"</p>
+        <p>Caca gaps de credibilidade. "Faltou numero de alunos" ou "faltou case financeiro" = ajuste cirurgico.</p>
+        <span class="q-tag pv">Pagina de Vendas</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">5</div>
+      <div class="q-content">
+        <h4>Acao</h4>
+        <p class="ask">"Se voce tivesse que decidir AGORA — agendar a sessao estrategica ou fechar a aba — qual das duas? Sem pensar muito."</p>
+        <p>Simulacao de decisao real. Se hesitar, perguntar "o que te faria decidir mais rapido?" — essa resposta vale ouro.</p>
+        <span class="q-tag pv">Pagina de Vendas</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">6</div>
+      <div class="q-content">
+        <h4>Impacto do PDF</h4>
+        <p class="ask">"Depois de ler esse PDF, voce sentiria mais vontade de agendar a sessao ou menos? O que pesou?"</p>
+        <p>Valida se o PDF aquece ou esfria. Se esfria, precisa reescrever.</p>
+        <span class="q-tag pdf">PDF de Consciencia</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">7</div>
+      <div class="q-content">
+        <h4>Detector de Hype</h4>
+        <p class="ask">"Teve algum momento que voce achou que era 'papo de coach'? Qual?"</p>
+        <p>Caca os trechos que soam genericos. Se os 3 apontarem o mesmo, reescrever com filtro Hormozi anti-hype.</p>
+        <span class="q-tag pdf">PDF de Consciencia</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">8</div>
+      <div class="q-content">
+        <h4>Prioridade</h4>
+        <p class="ask">"Se voce fosse refazer esse material do zero, o que mudaria PRIMEIRO?"</p>
+        <p>Identifica a acao de maior alavancagem na percepcao do ICP real.</p>
+        <span class="q-tag geral">Geral</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">9</div>
+      <div class="q-content">
+        <h4>Gaps</h4>
+        <p class="ask">"Tem alguma coisa que voce esperava ver e nao viu?"</p>
+        <p>Caca elementos ausentes que o ICP real espera e nos nao pensamos.</p>
+        <span class="q-tag geral">Geral</span>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">10</div>
+      <div class="q-content">
+        <h4>Indicacao (ouro)</h4>
+        <p class="ask">"Voce indicaria esse material pra um amigo empresario? Se sim, o que diria pra ele ao mandar o link?"</p>
+        <p>Se conseguir formular em 1 frase, essa frase pode virar headline de anuncio ou copy de ad.</p>
+        <span class="q-tag geral">Geral</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PLANILHA -->
+<div class="section" id="planilha">
+  <div class="section-num">Etapa 05</div>
+  <h2>Planilha de Consolidacao</h2>
+  <p>Preencher durante/depois de cada call. A coluna "Padrao?" e a decisao: se 2 de 3 dizem a mesma coisa, e ajuste obrigatorio.</p>
+
+  <table>
+    <tr>
+      <th>Pergunta</th>
+      <th>ORIN Joias</th>
+      <th>Esmeraldas</th>
+      <th>GF Studio</th>
+      <th>Padrao 2/3?</th>
+    </tr>
+    <tr><td><strong>P1:</strong> Razao pra NAO comprar</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P2:</strong> O que recebe por R$33k</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P3:</strong> Caro, justo ou barato?</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P4:</strong> Confianca + / Confianca -</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P5:</strong> Agendar ou fechar aba?</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P6:</strong> PDF: mais ou menos vontade?</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P7:</strong> Trecho "papo de coach"?</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P8:</strong> O que mudaria PRIMEIRO?</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P9:</strong> O que esperava e nao viu?</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td><strong>P10:</strong> Indicaria? Frase?</td><td></td><td></td><td></td><td></td></tr>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- REGRAS -->
+<div class="section" id="regras">
+  <div class="section-num">Etapa 06</div>
+  <h2>Regras de Decisao</h2>
+  <p>Sem subjetividade. Se 2 de 3 dizem X, faca Y.</p>
+
+  <div class="rule-grid">
+    <div class="rule">
+      <div class="rule-if"><span class="rule-label">Se 2/3 dizem</span><strong>Mesma objecao</strong> na P1</div>
+      <div class="rule-then"><span class="rule-label">Entao</span><strong>Reescrever</strong> a secao que gera a objecao antes de publicar</div>
+    </div>
+    <div class="rule">
+      <div class="rule-if"><span class="rule-label">Se 2/3 dizem</span><strong>"Caro"</strong> na P3</div>
+      <div class="rule-then"><span class="rule-label">Entao</span><strong>Recalibrar</strong> Value Stack (aumentar ancora, detalhar bonus ou rever preco)</div>
+    </div>
+    <div class="rule">
+      <div class="rule-if"><span class="rule-label">Se 2/3 apontam</span><strong>Mesmo trecho "papo de coach"</strong></div>
+      <div class="rule-then"><span class="rule-label">Entao</span><strong>Reescrever</strong> com filtro Hormozi anti-hype</div>
+    </div>
+    <div class="rule">
+      <div class="rule-if"><span class="rule-label">Se 2/3 dizem</span><strong>"Agendaria"</strong> na P5</div>
+      <div class="rule-then"><span class="rule-label">Entao</span><strong>Material aprovado</strong> — publicar</div>
+    </div>
+    <div class="rule">
+      <div class="rule-if"><span class="rule-label">Se 2/3 dizem</span><strong>"Fecharia a aba"</strong> na P5</div>
+      <div class="rule-then"><span class="rule-label">Entao</span><strong>PARAR.</strong> Diagnosticar antes de publicar. Me chamar de volta.</div>
+    </div>
+    <div class="rule">
+      <div class="rule-if"><span class="rule-label">Se 2/3</span><strong>Nao explicam</strong> o que recebe por R$33k (P2)</div>
+      <div class="rule-then"><span class="rule-label">Entao</span><strong>Value Stack</strong> precisa ser mais visual e simples</div>
+    </div>
+    <div class="rule">
+      <div class="rule-if"><span class="rule-label">Se</span><strong>Frase de indicacao (P10)</strong> consistente nos 3</div>
+      <div class="rule-then"><span class="rule-label">Entao</span><strong>Usar como headline</strong> de anuncio / ad copy</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CRONOGRAMA -->
+<div class="section" id="cronograma">
+  <div class="section-num">Etapa 07</div>
+  <h2>Cronograma</h2>
+
+  <div class="crono-grid">
+    <div class="crono-card today">
+      <div class="day">18/04</div>
+      <p>Enviar convite aos 3 validadores</p>
+    </div>
+    <div class="crono-card">
+      <div class="day">19–20/04</div>
+      <p>Agendar as 3 calls</p>
+    </div>
+    <div class="crono-card">
+      <div class="day">21–23/04</div>
+      <p>Executar as 3 calls de 30min</p>
+    </div>
+    <div class="crono-card">
+      <div class="day">23/04</div>
+      <p>Consolidar planilha + me enviar</p>
+    </div>
+    <div class="crono-card">
+      <div class="day">24/04</div>
+      <p>Ajustes finais baseado no feedback</p>
+    </div>
+    <div class="crono-card">
+      <div class="day">25/04</div>
+      <p>Publicar PV + PDF + Iniciar VSL</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p><strong>Kit de Validacao ICP</strong> — Mentoria AURA Premium<br>
+  Sellect Intelligence · Abril 2026<br>
+  Documento interno — uso do time</p>
+</div>
+
+<script>
+const sections=document.querySelectorAll('[id]');const navLinks=document.querySelectorAll('.nav a');
+window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.id});navLinks.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active')})});
+navLinks.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'})}));
+</script>
+
+</body>
+</html>
