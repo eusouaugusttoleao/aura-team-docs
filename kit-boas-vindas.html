@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Kit de Boas-vindas · Você cruzou a porta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Oswald:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:        #000000;
+    --charcoal:     #141414;
+    --white:        #ffffff;
+    --offwhite:     #fffbfb;
+    --gold:         #ffde59;
+    --teal:         #0097b2;
+    --violet:       #5e17eb;
+    --lime:         #7ed957;
+    --taupe:        #93877e;
+    --gray-mid:     #929292;
+    --gray-line:    #2a2a2a;
+
+    --font-display: 'Oswald', 'Barlow Condensed', Impact, sans-serif;
+    --font-hero:    'Barlow Condensed', 'Oswald', sans-serif;
+    --font-body:    'Lora', Georgia, serif;
+    --font-ui:      'Inter', -apple-system, sans-serif;
+
+    --radius: 6px;
+    --max:    1100px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  /* ============================================================ HEADER */
+  .topbar {
+    background: var(--black);
+    border-bottom: 1px solid var(--gray-line);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar .inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 0.24em;
+  }
+  .brand-sub {
+    font-family: var(--font-ui);
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--gray-mid);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .student-tag {
+    margin-left: auto;
+    font-family: var(--font-hero);
+    font-size: 12px;
+    color: var(--lime);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .student-tag::before {
+    content: "●";
+    color: var(--lime);
+    margin-right: 8px;
+    font-size: 14px;
+  }
+
+  /* ============================================================ HERO */
+  .hero {
+    padding: 88px 32px 96px;
+    border-bottom: 1px solid var(--gray-line);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero .inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero::before {
+    content: "△ AURA";
+    position: absolute;
+    top: 18%;
+    right: -2%;
+    font-family: var(--font-display);
+    font-size: 320px;
+    font-weight: 700;
+    color: var(--taupe);
+    opacity: 0.04;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero .ribbon {
+    display: inline-block;
+    font-family: var(--font-hero);
+    font-size: 13px;
+    color: var(--lime);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 8vw, 110px);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.012em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+  .hero .lede {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(20px, 1.8vw, 28px);
+    line-height: 1.5;
+    color: var(--gold);
+    max-width: 820px;
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+  .hero .signature {
+    font-family: var(--font-hero);
+    font-size: 14px;
+    color: var(--gray-mid);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .hero .signature strong {
+    color: var(--white);
+  }
+
+  /* ============================================================ CTA HOJE */
+  .cta-hoje {
+    max-width: var(--max);
+    margin: -48px auto 80px;
+    padding: 0 32px;
+    position: relative;
+    z-index: 5;
+  }
+  .cta-card {
+    background: linear-gradient(135deg, rgba(255, 222, 89, 0.12), rgba(94, 23, 235, 0.08));
+    border: 1px solid var(--gold);
+    padding: 40px 48px;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+    align-items: center;
+  }
+  .cta-card .info .pill {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--black);
+    padding: 5px 14px;
+    border-radius: var(--radius);
+    font-family: var(--font-hero);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .cta-card h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.05;
+    margin-bottom: 14px;
+    letter-spacing: -0.005em;
+  }
+  .cta-card .when {
+    font-family: var(--font-hero);
+    font-size: 16px;
+    color: var(--gray-mid);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .cta-card .when strong { color: var(--white); }
+  .cta-card .meet-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    color: var(--black);
+    padding: 16px 32px;
+    text-decoration: none;
+    font-family: var(--font-hero);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: var(--radius);
+    transition: all 0.15s;
+    border: 2px solid var(--white);
+  }
+  .cta-card .meet-link:hover {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+  .cta-card .countdown {
+    text-align: center;
+    background: var(--black);
+    border: 1px solid var(--gray-line);
+    padding: 28px 24px;
+    border-radius: var(--radius);
+  }
+  .cta-card .countdown .label {
+    font-family: var(--font-hero);
+    font-size: 11px;
+    color: var(--gray-mid);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .cta-card .countdown .num {
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .cta-card .countdown .sub {
+    font-family: var(--font-hero);
+    font-size: 12px;
+    color: var(--white);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  /* ============================================================ SECTIONS */
+  .section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 64px 32px;
+    border-bottom: 1px solid var(--gray-line);
+  }
+  .section-hash {
+    font-family: var(--font-hero);
+    font-size: 12px;
+    color: var(--violet);
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.2vw, 64px);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+  .section .sub {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(17px, 1.3vw, 22px);
+    color: var(--gold);
+    margin-bottom: 40px;
+    max-width: 780px;
+  }
+
+  /* ============================================================ CONTRATO */
+  .rules {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .rule {
+    background: var(--charcoal);
+    border-left: 4px solid var(--gold);
+    padding: 28px 32px;
+  }
+  .rule .num {
+    font-family: var(--font-display);
+    font-size: 56px;
+    color: var(--gold);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .rule .name {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: -0.005em;
+  }
+  .rule .desc {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--gray-mid);
+  }
+
+  /* ============================================================ AGENDA 12 AULAS */
+  .agenda {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--gray-line);
+    border: 1px solid var(--gray-line);
+  }
+  .agenda-bloco {
+    background: var(--black);
+    padding: 14px 24px;
+    font-family: var(--font-hero);
+    font-size: 12px;
+    color: var(--violet);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-bottom: 1px solid var(--gray-line);
+  }
+  .agenda-bloco strong { color: var(--gold); margin-right: 12px; }
+  .agenda-aula {
+    background: var(--charcoal);
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 80px 1fr 160px 100px;
+    align-items: center;
+    gap: 18px;
+  }
+  .agenda-aula .nm {
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .agenda-aula .ttl {
+    font-family: var(--font-display);
+    font-size: 19px;
+    color: var(--white);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .agenda-aula .dt {
+    font-family: var(--font-hero);
+    font-size: 13px;
+    color: var(--gray-mid);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .agenda-aula .marco {
+    font-family: var(--font-hero);
+    font-size: 11px;
+    color: var(--lime);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: right;
+  }
+  .agenda-aula.proxima {
+    background: linear-gradient(90deg, rgba(255,222,89,0.08), transparent);
+    border-left: 3px solid var(--gold);
+  }
+  .agenda-aula.proxima .dt {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ============================================================ SQUAD */
+  .squad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .agent {
+    background: var(--charcoal);
+    padding: 28px;
+    border: 1px solid var(--gray-line);
+    border-top: 4px solid var(--gray-line);
+    transition: all 0.15s;
+  }
+  .agent.principal { border-top-color: var(--gold); }
+  .agent.secundario { border-top-color: var(--teal); }
+  .agent.humano { border-top-color: var(--lime); }
+  .agent.exception { border-top-color: var(--violet); }
+
+  .agent .name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .agent .role {
+    font-family: var(--font-hero);
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .agent.secundario .role { color: var(--teal); }
+  .agent.humano .role { color: var(--lime); }
+  .agent.exception .role { color: var(--violet); }
+
+  .agent .desc {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--gray-mid);
+    line-height: 1.55;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .agent .when {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    background: var(--black);
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    display: inline-block;
+  }
+  .agent .when strong { color: var(--gold); font-weight: 600; }
+
+  /* ============================================================ RITUAIS */
+  .rituais {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--gray-line);
+    border: 1px solid var(--gray-line);
+  }
+  .ritual {
+    background: var(--charcoal);
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .ritual .icon {
+    font-family: var(--font-display);
+    font-size: 48px;
+    color: var(--gold);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .ritual.var-2 .icon { color: var(--violet); }
+  .ritual.var-3 .icon { color: var(--lime); }
+  .ritual.var-4 .icon { color: var(--teal); }
+  .ritual.var-5 .icon { color: var(--gold); }
+  .ritual.var-6 .icon { color: var(--violet); }
+  .ritual .name {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    margin-bottom: 6px;
+  }
+  .ritual .when {
+    font-family: var(--font-hero);
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .ritual .desc {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--gray-mid);
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  /* ============================================================ CHECKLIST PRÉ-AULA */
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .check {
+    background: var(--charcoal);
+    border-left: 3px solid var(--lime);
+    padding: 20px 26px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .check input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--lime);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    border-radius: 4px;
+  }
+  .check input[type="checkbox"]:checked {
+    background: var(--lime);
+  }
+  .check input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: -4px;
+    left: 4px;
+    color: var(--black);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .check label {
+    cursor: pointer;
+    font-family: var(--font-body);
+    color: var(--white);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .check label strong { color: var(--gold); }
+
+  /* ============================================================ LINKS */
+  .links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .link {
+    background: var(--charcoal);
+    border: 1px solid var(--gray-line);
+    padding: 24px 28px;
+    text-decoration: none;
+    color: var(--white);
+    transition: all 0.15s;
+    display: block;
+  }
+  .link:hover {
+    border-color: var(--gold);
+    background: #1a1a1a;
+  }
+  .link .icon {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .link .title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .link .desc {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--gray-mid);
+    font-style: italic;
+  }
+
+  /* ============================================================ FRASES-ÂNCORA */
+  .anchor-block {
+    background: var(--charcoal);
+    border: 1px solid var(--gold);
+    padding: 56px 48px;
+    text-align: center;
+    margin: 48px 0;
+  }
+  .anchor-block .quote {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(22px, 2.4vw, 36px);
+    line-height: 1.4;
+    color: var(--gold);
+    max-width: 820px;
+    margin: 0 auto 18px;
+    font-weight: 500;
+  }
+  .anchor-block .author {
+    font-family: var(--font-hero);
+    font-size: 12px;
+    color: var(--gray-mid);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ============================================================ FOOTER */
+  .footer {
+    background: var(--black);
+    padding: 64px 32px 48px;
+    text-align: center;
+    border-top: 1px solid var(--gray-line);
+  }
+  .footer .mark {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 0.24em;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .footer .quote {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .footer .meta {
+    font-family: var(--font-hero);
+    font-size: 11px;
+    color: var(--taupe);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ============================================================ RESPONSIVE */
+  @media (max-width: 820px) {
+    .topbar .inner { padding: 0 20px; gap: 12px; }
+    .brand-sub { display: none; }
+    .student-tag { font-size: 10px; }
+
+    .hero { padding: 56px 20px 64px; }
+    .hero::before { font-size: 160px; }
+
+    .cta-hoje { margin-top: -32px; padding: 0 20px; margin-bottom: 56px; }
+    .cta-card { grid-template-columns: 1fr; padding: 28px; gap: 24px; }
+    .cta-card .countdown { padding: 20px; }
+    .cta-card .countdown .num { font-size: 48px; }
+
+    .section { padding: 48px 20px; }
+
+    .rules, .squad, .rituais, .links { grid-template-columns: 1fr; }
+    .agenda-aula { grid-template-columns: 64px 1fr; }
+    .agenda-aula .dt, .agenda-aula .marco { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="inner">
+    <span class="brand-mark">△ AURA</span>
+    <span class="brand-sub">Mentoria · Kit de Boas-vindas</span>
+    <span class="student-tag">Acesso ativo · Turma 1 · 2026</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="inner">
+    <span class="ribbon">Você cruzou a porta</span>
+    <h1>Bem-vindo<br>à <em>AURA.</em></h1>
+    <p class="lede">"A Mentoria AURA não ensina o que você não sabe.<br>Ela te tira do que você não é."</p>
+    <p class="signature">— <strong>Augustto Leão</strong> · mentor</p>
+  </div>
+</section>
+
+<!-- CTA HOJE · PRÓXIMA AULA -->
+<div class="cta-hoje">
+  <div class="cta-card">
+    <div class="info">
+      <span class="pill">Sua próxima aula</span>
+      <h2>Aula 1 · O Espelho Interno</h2>
+      <div class="when"><strong>Sábado · 02/05/2026</strong> · 10:00–12:00 (BRT)</div>
+      <a class="meet-link" href="https://meet.google.com/ayj-ytvm-dmc" target="_blank" rel="noopener">
+        ▶ Entrar no Meet · 10:10 em ponto
+      </a>
+    </div>
+    <div class="countdown">
+      <div class="label">Marco</div>
+      <div class="num">1<small style="font-size: 0.4em; color: var(--gray-mid);">/12</small></div>
+      <div class="sub">Despertar do Espelho</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 1 · CONTRATO -->
+<section class="section">
+  <span class="section-hash"># Contrato Silencioso</span>
+  <h2>O que a AURA exige de você.</h2>
+  <p class="sub">4 regras. Sem brecha. Quem topa, sustenta. Quem não topa, sai antes da Aula 1 — sem julgamento, com reembolso integral.</p>
+
+  <div class="rules">
+    <div class="rule">
+      <div class="num">1</div>
+      <div class="name">Câmera ligada</div>
+      <div class="desc">Quem se esconde, não se vê. O primeiro espelho que você encara é o seu próprio rosto na tela.</div>
+    </div>
+    <div class="rule">
+      <div class="num">2</div>
+      <div class="name">Presença inteira</div>
+      <div class="desc">Celular fora da mesa. Não existe meia-presença na AURA.</div>
+    </div>
+    <div class="rule">
+      <div class="num">3</div>
+      <div class="name">Ferramenta executada</div>
+      <div class="desc">Toda aula tem uma ferramenta. Aula sem ferramenta é entretenimento — aqui não é.</div>
+    </div>
+    <div class="rule">
+      <div class="num">4</div>
+      <div class="name">Ritual respondido</div>
+      <div class="desc">Toda semana há um ritual no WhatsApp. Quem não responde, não é lembrado.</div>
+    </div>
+  </div>
+
+  <div class="anchor-block">
+    <div class="quote">"A AURA honra quem se compromete."</div>
+    <div class="author">— Princípio fundador</div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 2 · AGENDA 12 AULAS -->
+<section class="section">
+  <span class="section-hash"># Mapa da Travessia</span>
+  <h2>12 aulas. 4 blocos. 1 travessia.</h2>
+  <p class="sub">Encontros quinzenais aos sábados, 10:10 em ponto. Cada bloco encerra em 1 marco; cada marco abre a próxima porta.</p>
+
+  <div class="agenda">
+
+    <!-- BLOCO 1 -->
+    <div class="agenda-bloco"><strong>Bloco 1</strong> Autoimagem · A Pedra-Base</div>
+    <div class="agenda-aula proxima">
+      <div class="nm">Aula 1</div>
+      <div class="ttl">O Espelho Interno</div>
+      <div class="dt">Sáb 02/05/2026</div>
+      <div class="marco">Marco 1</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 2</div>
+      <div class="ttl">Crenças que Constroem Tetos</div>
+      <div class="dt">Sáb 16/05/2026</div>
+      <div class="marco">Marco 2</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 3</div>
+      <div class="ttl">Reconstrução do Valor Próprio</div>
+      <div class="dt">Sáb 30/05/2026</div>
+      <div class="marco">Marco 3</div>
+    </div>
+
+    <!-- BLOCO 2 -->
+    <div class="agenda-bloco"><strong>Bloco 2</strong> Posicionamento · A Voz que Cobra</div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 4</div>
+      <div class="ttl">Identidade de Marca Pessoal</div>
+      <div class="dt">Sáb 13/06/2026</div>
+      <div class="marco">Marco 4</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 5</div>
+      <div class="ttl">Precificação Estratégica</div>
+      <div class="dt">Sáb 27/06/2026</div>
+      <div class="marco">Marco 5</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 6</div>
+      <div class="ttl">Posicionamento de Mercado</div>
+      <div class="dt">Sáb 11/07/2026</div>
+      <div class="marco">Marco 6</div>
+    </div>
+
+    <!-- BLOCO 3 -->
+    <div class="agenda-bloco"><strong>Bloco 3</strong> Comunicação Magnética · A Presença em Movimento</div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 7</div>
+      <div class="ttl">Voz e Presença Verbal</div>
+      <div class="dt">Sáb 25/07/2026</div>
+      <div class="marco">Marco 7</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 8</div>
+      <div class="ttl">Storytelling de Autoridade</div>
+      <div class="dt">Sáb 08/08/2026</div>
+      <div class="marco">Marco 8</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 9</div>
+      <div class="ttl">Comunicação Magnética Aplicada</div>
+      <div class="dt">Sáb 22/08/2026</div>
+      <div class="marco">Marco 9</div>
+    </div>
+
+    <!-- BLOCO 4 -->
+    <div class="agenda-bloco"><strong>Bloco 4</strong> Autoridade em Movimento · A Travessia</div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 10</div>
+      <div class="ttl">Construção de Autoridade Pública</div>
+      <div class="dt">Sáb 05/09/2026</div>
+      <div class="marco">Marco 10</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 11</div>
+      <div class="ttl">Modelo de Receita Recorrente</div>
+      <div class="dt">Sáb 19/09/2026</div>
+      <div class="marco">Marco 11</div>
+    </div>
+    <div class="agenda-aula">
+      <div class="nm">Aula 12</div>
+      <div class="ttl">Selo de Travessia · Encerramento</div>
+      <div class="dt">Sáb 03/10/2026</div>
+      <div class="marco">Marco 12</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 3 · SQUAD -->
+<section class="section">
+  <span class="section-hash"># Squad AURA</span>
+  <h2>Quem fala com você.</h2>
+  <p class="sub">Mesmo número de WhatsApp · identidades diferentes · cada uma se apresenta pelo NOME no início da mensagem. Se o nome não aparecer, exija. Isso é AURA.</p>
+
+  <div class="squad">
+    <div class="agent principal">
+      <div class="name">Augustto</div>
+      <div class="role">Mentor · Áudio · raro</div>
+      <div class="desc">Aparece em momentos-chave. Toda sexta no Ritual de Declaração de Identidade — resposta pessoal em áudio. 1× por mês áudio coletivo.</div>
+      <div class="when"><strong>SEX 12h</strong> · áudio · 1×/semana</div>
+    </div>
+    <div class="agent secundario">
+      <div class="name">Salomão</div>
+      <div class="role">Tutor · Texto · diário</div>
+      <div class="desc">Quem mais aparece. Resumo da semana (seg), Check-in (qua), Renúncia (qui), agenda da próxima semana (sáb). Todo texto da rotina vem dele.</div>
+      <div class="when"><strong>SEG·QUA·QUI·SÁB</strong> · texto</div>
+    </div>
+    <div class="agent humano">
+      <div class="name">Rosi</div>
+      <div class="role">Humana · só se você sumir</div>
+      <div class="desc">Atendente humana. Não automação. Entra apenas se você ficar 48h sem responder ao squad — para entender o que houve.</div>
+      <div class="when"><strong>Acionada</strong> · 48h sem resposta</div>
+    </div>
+    <div class="agent exception">
+      <div class="name">Laura</div>
+      <div class="role">Pré-venda · indicação</div>
+      <div class="desc">Só fala com você se você indicar alguém ou tiver dúvida sobre acesso. Faz triagem de novos interessados na AURA.</div>
+      <div class="when">Acionada por indicação</div>
+    </div>
+    <div class="agent exception">
+      <div class="name">Erick · Luciana</div>
+      <div class="role">Financeiro</div>
+      <div class="desc">Erick cuida de renovação, comprovantes, ajustes de pagamento. Luciana confirma backoffice/contrato. Fala só sobre dinheiro.</div>
+      <div class="when">Acionados por dúvida $</div>
+    </div>
+    <div class="agent exception">
+      <div class="name">PedroSup</div>
+      <div class="role">Pedagógico · monitora</div>
+      <div class="desc">Acompanha seu engajamento. Se você ficar 2 rituais sem responder, ele alerta antes da Rosi entrar.</div>
+      <div class="when">Alerta automático</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 4 · RITUAIS -->
+<section class="section">
+  <span class="section-hash"># Rituais Semanais</span>
+  <h2>O ritmo da AURA.</h2>
+  <p class="sub">6 pulsos por semana. Cada um é curto. Juntos, eles sustentam a travessia entre as aulas — e não te deixam voltar a ser o que era.</p>
+
+  <div class="rituais">
+    <div class="ritual">
+      <div class="icon">1</div>
+      <div>
+        <div class="name">Resumo da Semana</div>
+        <div class="when">Seg · 8h · texto · Salomão</div>
+        <div class="desc">Salomão envia o que vem pela frente: aula, rituais, leituras, ferramentas. Você abre o WhatsApp já sabendo onde pisar.</div>
+      </div>
+    </div>
+    <div class="ritual var-2">
+      <div class="icon">2</div>
+      <div>
+        <div class="name">Check-in do Espelho</div>
+        <div class="when">Qua · 12h · texto · Salomão</div>
+        <div class="desc">Em 1 palavra: como você se descreveu hoje para alguém? Não 2 palavras. Uma só. A palavra que sair é o espelho falando.</div>
+      </div>
+    </div>
+    <div class="ritual var-3">
+      <div class="icon">3</div>
+      <div>
+        <div class="name">Renúncia Consciente</div>
+        <div class="when">Qui · 12h · texto · Salomão</div>
+        <div class="desc">A partir da Semana 2. O que você renunciou esta semana para sustentar a travessia? Anote. Salomão lê, Augustto seleciona algumas pra responder em áudio.</div>
+      </div>
+    </div>
+    <div class="ritual var-4">
+      <div class="icon">4</div>
+      <div>
+        <div class="name">Áudio do Mentor</div>
+        <div class="when">Qui · 18h · áudio · Augustto</div>
+        <div class="desc">Augustto responde em áudio às 1–2 renúncias mais marcantes da semana. Áudio direto, pessoal, com nome do aluno. Evento raro.</div>
+      </div>
+    </div>
+    <div class="ritual var-5">
+      <div class="icon">5</div>
+      <div>
+        <div class="name">Declaração de Identidade</div>
+        <div class="when">Sex · 12h · áudio · Augustto</div>
+        <div class="desc">Único ritual em que Augustto responde pessoalmente CADA aluno. Você grava 1 declaração curta; ele devolve em áudio personalizado.</div>
+      </div>
+    </div>
+    <div class="ritual var-6">
+      <div class="icon">6</div>
+      <div>
+        <div class="name">Aula AURA</div>
+        <div class="when">Sáb · 10:10 · ao vivo · Augustto</div>
+        <div class="desc">Encontro quinzenal. 2 horas. Câmera ligada. Sem atraso. Sem espera. Marco da quinzena registrado ao final.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 5 · CHECKLIST PRÉ-AULA 1 -->
+<section class="section">
+  <span class="section-hash"># Antes da Aula 1</span>
+  <h2>O que preparar agora.</h2>
+  <p class="sub">8 itens. 30 minutos no total. Você não chega na Aula 1 cru — chega afiado.</p>
+
+  <div class="checklist">
+    <div class="check">
+      <input type="checkbox" id="c1">
+      <label for="c1"><strong>1. Salve o link do Meet:</strong> <a href="https://meet.google.com/ayj-ytvm-dmc" target="_blank" rel="noopener" style="color: var(--gold);">meet.google.com/ayj-ytvm-dmc</a> (mesmo link recorrente das 12 aulas).</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="c2">
+      <label for="c2"><strong>2. Bloqueie sábado 02/05 · 10:00–12:00</strong> na sua agenda. Aviso na agenda do parceiro/equipe se aplicável.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="c3">
+      <label for="c3"><strong>3. Teste câmera + microfone</strong> 30 min antes da aula. Câmera ligada é regra do contrato.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="c4">
+      <label for="c4"><strong>4. Salve o número do squad AURA</strong> no WhatsApp como <em>"AURA · Squad"</em>. É por ele que tudo acontece entre as aulas.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="c5">
+      <label for="c5"><strong>5. Prepare 1 minuto de apresentação</strong> mental: quem é você · o que faz · por que está aqui. Não escreva. Pense.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="c6">
+      <label for="c6"><strong>6. Tenha papel + caneta na mesa</strong>. As ferramentas da Aula 1 (Mapa + Termostato + Espelho) pedem mão escrevendo.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="c7">
+      <label for="c7"><strong>7. Identifique 1 espelho físico em casa</strong> que você vai usar pelos próximos 7 dias na Experiência do Espelho (3s de olho no olho).</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="c8">
+      <label for="c8"><strong>8. Confirme no WhatsApp do squad</strong>: responda à mensagem de Salomão de boas-vindas com o emoji do leão 🦁 — é o seu sim ao contrato.</label>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 6 · LINKS E SUPORTE -->
+<section class="section">
+  <span class="section-hash"># Links Importantes</span>
+  <h2>Tudo que você precisa, num só lugar.</h2>
+  <p class="sub">Salve essa página. Use sempre que surgir dúvida sobre quando, onde, com quem.</p>
+
+  <div class="links">
+    <a class="link" href="https://meet.google.com/ayj-ytvm-dmc" target="_blank" rel="noopener">
+      <span class="icon">▶</span>
+      <div class="title">Meet recorrente</div>
+      <div class="desc">Link oficial das 12 aulas. Sempre o mesmo. Salve nos favoritos.</div>
+    </a>
+    <a class="link" href="#" target="_blank" rel="noopener">
+      <span class="icon">📄</span>
+      <div class="title">Contrato assinado</div>
+      <div class="desc">Sua via PDF do contrato AURA. Inclui cláusulas de IP, confidencialidade, formas de pagamento.</div>
+    </a>
+    <a class="link" href="#" target="_blank" rel="noopener">
+      <span class="icon">📘</span>
+      <div class="title">PDF da Mentoria</div>
+      <div class="desc">Documento oficial da AURA — Consciência. Releia antes de cada bloco.</div>
+    </a>
+    <a class="link" href="#" target="_blank" rel="noopener">
+      <span class="icon">💬</span>
+      <div class="title">WhatsApp do Squad</div>
+      <div class="desc">Canal único. Salomão · Augustto · Rosi · Erick · Luciana · Pedro · Laura.</div>
+    </a>
+    <a class="link" href="aura-12-aulas.ics" download>
+      <span class="icon">🗓</span>
+      <div class="title">Agenda · ICS</div>
+      <div class="desc">Baixe o calendário com as 12 aulas + lembretes 24h e 30min antes para Google/Apple Agenda.</div>
+    </a>
+    <a class="link" href="#" target="_blank" rel="noopener">
+      <span class="icon">⚠</span>
+      <div class="title">Suporte · Rosi</div>
+      <div class="desc">Falhou alguma coisa? Sumiu por motivo de força maior? Avise antes — Rosi entende.</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================ ANCHOR FINAL -->
+<section class="section" style="border-bottom: none;">
+  <div class="anchor-block" style="border-color: var(--violet); background: linear-gradient(135deg, rgba(94,23,235,0.1), rgba(255,222,89,0.06));">
+    <div class="quote">"Presença começa por ver.<br>A AURA começa hoje."</div>
+    <div class="author" style="color: var(--violet);">— Frase-fecho · Aula 1</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="mark">△ AURA</div>
+  <div class="quote">"A primeira porta abre aqui — e ela é a que sustenta todas as outras."</div>
+  <div class="meta">Mentoria AURA · Turma 1 · 2026 · Augustto Leão · Sellect Intelligence</div>
+</footer>
+
+<script>
+  // Persiste checklist no localStorage
+  document.querySelectorAll('.check input[type="checkbox"]').forEach(cb => {
+    const key = `aura-kit-${cb.id}`;
+    cb.checked = localStorage.getItem(key) === '1';
+    cb.addEventListener('change', () => localStorage.setItem(key, cb.checked ? '1' : '0'));
+  });
+</script>
+
+</body>
+</html>
