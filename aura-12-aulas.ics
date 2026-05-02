@@ -18,11 +18,11 @@ END:VTIMEZONE
 BEGIN:VEVENT
 UID:aura-aula-01-2026-05-02@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260502T100000
-DTEND;TZID=America/Sao_Paulo:20260502T120000
+DTSTART;TZID=America/Sao_Paulo:20260502T190000
+DTEND;TZID=America/Sao_Paulo:20260502T210000
 SUMMARY:AURA · Aula 1 · O Espelho Interno
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
-DESCRIPTION:Bloco 1 · Autoimagem · Marco 1 — Despertar do Espelho.\n\n10:10 em ponto. Sem atraso · sem espera.\nCâmera ligada. Presença inteira.\n\nFerramentas da semana: Mapa da Autoimagem · Termostato Financeiro · Experiência do Espelho.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
+DESCRIPTION:Bloco 1 · Autoimagem · Marco 1 — Despertar do Espelho.\n\n19:10 em ponto. Sem atraso · sem espera.\nCâmera ligada. Presença inteira.\n\nFerramentas da semana: Mapa da Autoimagem · Termostato Financeiro · Experiência do Espelho.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
 URL:https://meet.google.com/ayj-ytvm-dmc
 STATUS:CONFIRMED
 TRANSP:OPAQUE
@@ -33,15 +33,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 1 amanhã às 10:00
+DESCRIPTION:AURA · Aula 1 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-02-2026-05-16@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260516T100000
-DTEND;TZID=America/Sao_Paulo:20260516T120000
+DTSTART;TZID=America/Sao_Paulo:20260516T190000
+DTEND;TZID=America/Sao_Paulo:20260516T210000
 SUMMARY:AURA · Aula 2 · Crenças que Constroem Tetos
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 1 · Autoimagem · Marco 2 — Nomeação.\n\nLevar 3 momentos anotados em que a crença agiu na semana.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -55,15 +55,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 2 amanhã às 10:00
+DESCRIPTION:AURA · Aula 2 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-03-2026-05-30@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260530T100000
-DTEND;TZID=America/Sao_Paulo:20260530T120000
+DTSTART;TZID=America/Sao_Paulo:20260530T190000
+DTEND;TZID=America/Sao_Paulo:20260530T210000
 SUMMARY:AURA · Aula 3 · Reconstrução do Valor Próprio
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 1 · Autoimagem · Marco 3.\n\nEncerramento do Bloco 1 — pedra-base da travessia.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -77,15 +77,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 3 amanhã às 10:00
+DESCRIPTION:AURA · Aula 3 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-04-2026-06-13@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260613T100000
-DTEND;TZID=America/Sao_Paulo:20260613T120000
+DTSTART;TZID=America/Sao_Paulo:20260613T190000
+DTEND;TZID=America/Sao_Paulo:20260613T210000
 SUMMARY:AURA · Aula 4 · Identidade de Marca Pessoal
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 2 · Posicionamento · Marco 4.\n\nAbertura do Bloco 2 — A voz que cobra.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -99,15 +99,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 4 amanhã às 10:00
+DESCRIPTION:AURA · Aula 4 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-05-2026-06-27@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260627T100000
-DTEND;TZID=America/Sao_Paulo:20260627T120000
+DTSTART;TZID=America/Sao_Paulo:20260627T190000
+DTEND;TZID=America/Sao_Paulo:20260627T210000
 SUMMARY:AURA · Aula 5 · Precificação Estratégica
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 2 · Posicionamento · Marco 5.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -121,15 +121,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 5 amanhã às 10:00
+DESCRIPTION:AURA · Aula 5 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-06-2026-07-11@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260711T100000
-DTEND;TZID=America/Sao_Paulo:20260711T120000
+DTSTART;TZID=America/Sao_Paulo:20260711T190000
+DTEND;TZID=America/Sao_Paulo:20260711T210000
 SUMMARY:AURA · Aula 6 · Posicionamento de Mercado
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 2 · Posicionamento · Marco 6.\n\nEncerramento do Bloco 2.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -143,15 +143,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 6 amanhã às 10:00
+DESCRIPTION:AURA · Aula 6 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-07-2026-07-25@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260725T100000
-DTEND;TZID=America/Sao_Paulo:20260725T120000
+DTSTART;TZID=America/Sao_Paulo:20260725T190000
+DTEND;TZID=America/Sao_Paulo:20260725T210000
 SUMMARY:AURA · Aula 7 · Voz e Presença Verbal
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 3 · Comunicação Magnética · Marco 7.\n\nAbertura do Bloco 3 — A presença em movimento.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -165,15 +165,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 7 amanhã às 10:00
+DESCRIPTION:AURA · Aula 7 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-08-2026-08-08@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260808T100000
-DTEND;TZID=America/Sao_Paulo:20260808T120000
+DTSTART;TZID=America/Sao_Paulo:20260808T190000
+DTEND;TZID=America/Sao_Paulo:20260808T210000
 SUMMARY:AURA · Aula 8 · Storytelling de Autoridade
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 3 · Comunicação Magnética · Marco 8.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -187,15 +187,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 8 amanhã às 10:00
+DESCRIPTION:AURA · Aula 8 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-09-2026-08-22@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260822T100000
-DTEND;TZID=America/Sao_Paulo:20260822T120000
+DTSTART;TZID=America/Sao_Paulo:20260822T190000
+DTEND;TZID=America/Sao_Paulo:20260822T210000
 SUMMARY:AURA · Aula 9 · Comunicação Magnética Aplicada
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 3 · Comunicação Magnética · Marco 9.\n\nEncerramento do Bloco 3 — gravação que será comparada com a apresentação individual da Aula 1.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -209,15 +209,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 9 amanhã às 10:00
+DESCRIPTION:AURA · Aula 9 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-10-2026-09-05@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260905T100000
-DTEND;TZID=America/Sao_Paulo:20260905T120000
+DTSTART;TZID=America/Sao_Paulo:20260905T190000
+DTEND;TZID=America/Sao_Paulo:20260905T210000
 SUMMARY:AURA · Aula 10 · Construção de Autoridade Pública
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 4 · Autoridade em Movimento · Marco 10.\n\nAbertura do Bloco 4 — A travessia.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -231,15 +231,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 10 amanhã às 10:00
+DESCRIPTION:AURA · Aula 10 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-11-2026-09-19@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20260919T100000
-DTEND;TZID=America/Sao_Paulo:20260919T120000
+DTSTART;TZID=America/Sao_Paulo:20260919T190000
+DTEND;TZID=America/Sao_Paulo:20260919T210000
 SUMMARY:AURA · Aula 11 · Modelo de Receita Recorrente
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 4 · Autoridade em Movimento · Marco 11.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -253,15 +253,15 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 11 amanhã às 10:00
+DESCRIPTION:AURA · Aula 11 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:aura-aula-12-2026-10-03@aura-mentoria.sellect
 DTSTAMP:20260501T180000Z
-DTSTART;TZID=America/Sao_Paulo:20261003T100000
-DTEND;TZID=America/Sao_Paulo:20261003T120000
+DTSTART;TZID=America/Sao_Paulo:20261003T190000
+DTEND;TZID=America/Sao_Paulo:20261003T210000
 SUMMARY:AURA · Aula 12 · Selo de Travessia
 LOCATION:https://meet.google.com/ayj-ytvm-dmc
 DESCRIPTION:Bloco 4 · Autoridade em Movimento · Marco 12.\n\nEncerramento da Mentoria AURA — selo de travessia.\n\nLink Meet: https://meet.google.com/ayj-ytvm-dmc
@@ -275,7 +275,7 @@ TRIGGER:-PT30M
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:AURA · Aula 12 amanhã às 10:00
+DESCRIPTION:AURA · Aula 12 amanhã às 19:00
 TRIGGER:-P1D
 END:VALARM
 END:VEVENT
