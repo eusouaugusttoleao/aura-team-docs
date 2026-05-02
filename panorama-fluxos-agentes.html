@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA — Panorama dos Fluxos de Atendimento</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-card: #14141c;
+    --bg-card-2: #1a1a24;
+    --gold: #d4af37;
+    --gold-dim: #8a7224;
+    --bronze: #b08d57;
+    --text: #e8e8ec;
+    --text-dim: #9a9aa8;
+    --green: #4ade80;
+    --yellow: #facc15;
+    --red: #ef4444;
+    --blue: #60a5fa;
+    --purple: #c084fc;
+    --border: #2a2a38;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    padding: 40px 20px;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(212,175,55,0.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(176,141,87,0.04) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 40px 20px 60px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+  .header .brand {
+    font-size: 14px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+  .header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f5d76e, var(--gold), var(--bronze));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .header .sub {
+    color: var(--text-dim);
+    font-size: 16px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .header .meta {
+    margin-top: 24px;
+    display: inline-flex;
+    gap: 24px;
+    padding: 12px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .header .meta strong { color: var(--gold); margin-left: 6px; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 80px 0 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-title .num {
+    background: var(--gold);
+    color: var(--bg);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .section-sub {
+    color: var(--text-dim);
+    margin-bottom: 32px;
+    max-width: 800px;
+  }
+
+  /* Escada de valor */
+  .escada {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .escada { grid-template-columns: repeat(2, 1fr); } }
+  .produto {
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s;
+  }
+  .produto:hover { transform: translateY(-4px); border-color: var(--gold-dim); }
+  .produto::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--bronze));
+  }
+  .produto .nivel {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .produto .nome { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .produto .preco {
+    font-size: 22px;
+    color: var(--gold);
+    font-weight: 700;
+    margin: 12px 0;
+  }
+  .produto .desc { font-size: 13px; color: var(--text-dim); }
+
+  /* Agentes - cards */
+  .agente {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .agente.agente-laura { border-left: 4px solid var(--purple); }
+  .agente.agente-salomao { border-left: 4px solid var(--gold); }
+  .agente.agente-pedrosup { border-left: 4px solid var(--blue); }
+  .agente.agente-erick { border-left: 4px solid var(--green); }
+  .agente.agente-luciana { border-left: 4px solid #f97316; }
+  .agente.agente-jubsuporte { border-left: 4px solid var(--red); }
+  .agente.agente-maestro { border-left: 4px solid var(--gold); border-width: 2px; }
+  .agente.agente-cris { border-left: 4px solid var(--purple); }
+  .agente.agente-leiloca { border-left: 4px solid #14b8a6; }
+
+  .agente-head {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .avatar {
+    width: 70px; height: 70px;
+    background: linear-gradient(135deg, var(--gold), var(--bronze));
+    color: var(--bg);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 800;
+  }
+  .agente-laura .avatar { background: linear-gradient(135deg, #c084fc, #7c3aed); color: white;}
+  .agente-pedrosup .avatar { background: linear-gradient(135deg, #60a5fa, #2563eb); color: white;}
+  .agente-erick .avatar { background: linear-gradient(135deg, #4ade80, #16a34a); color: white;}
+  .agente-luciana .avatar { background: linear-gradient(135deg, #fb923c, #ea580c); color: white;}
+  .agente-jubsuporte .avatar { background: linear-gradient(135deg, #f87171, #dc2626); color: white;}
+  .agente-cris .avatar { background: linear-gradient(135deg, #c084fc, #a855f7); color: white;}
+  .agente-leiloca .avatar { background: linear-gradient(135deg, #2dd4bf, #0d9488); color: white;}
+
+  .agente-info h3 {
+    font-size: 24px;
+    margin-bottom: 4px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .agente-info .role {
+    color: var(--text-dim);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(212,175,55,0.15);
+    color: var(--gold);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .badge.bg-green { background: rgba(74,222,128,0.15); color: var(--green); }
+  .badge.bg-blue { background: rgba(96,165,250,0.15); color: var(--blue); }
+  .badge.bg-purple { background: rgba(192,132,252,0.15); color: var(--purple); }
+  .badge.bg-red { background: rgba(239,68,68,0.15); color: var(--red); }
+
+  .agente-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 800px) { .agente-grid { grid-template-columns: 1fr; } }
+
+  .info-block {
+    background: var(--bg-card-2);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .info-block h4 {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .info-block ul { list-style: none; }
+  .info-block li {
+    padding: 6px 0;
+    color: var(--text);
+    font-size: 14px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .info-block li:last-child { border: 0; }
+  .info-block li::before {
+    content: '▸';
+    color: var(--gold);
+    margin-right: 8px;
+  }
+  .info-block.proibido li::before { content: '✕'; color: var(--red); }
+  .info-block.faz li::before { content: '✓'; color: var(--green); }
+
+  /* Chat simulation */
+  .chat-demo {
+    background: #0d1418;
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 24px;
+    border: 1px solid var(--border);
+  }
+  .chat-demo .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #1f2c33;
+    margin-bottom: 16px;
+  }
+  .chat-demo .chat-header .icon {
+    width: 14px; height: 14px;
+    background: #25d366;
+    border-radius: 50%;
+  }
+  .chat-demo .chat-header span {
+    color: #aebac1;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .msg {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+  .msg.lead {
+    background: #202c33;
+    color: #e9edef;
+    border-radius: 12px 12px 12px 4px;
+    margin-right: auto;
+  }
+  .msg.agente {
+    background: #005c4b;
+    color: #e9edef;
+    border-radius: 12px 12px 4px 12px;
+    margin-left: auto;
+  }
+  .msg .timestamp {
+    display: block;
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+    text-align: right;
+  }
+  .msg .label {
+    display: inline-block;
+    font-size: 9px;
+    background: rgba(255,255,255,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* Fluxo */
+  .fluxo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 24px 0;
+    padding: 20px;
+    background: var(--bg-card-2);
+    border-radius: 12px;
+    overflow-x: auto;
+  }
+  .fluxo-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+    position: relative;
+  }
+  .fluxo-step.start { border-color: var(--blue); }
+  .fluxo-step.end { border-color: var(--green); }
+  .fluxo-step.decision { border-color: var(--gold); }
+  .fluxo-arrow { color: var(--gold); font-size: 18px; }
+
+  /* Cobranca / fluxo de venda */
+  .funnel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 800px) { .funnel { grid-template-columns: 1fr; } }
+  .funnel-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+  }
+  .funnel-step .step-num {
+    position: absolute;
+    top: -12px; left: 16px;
+    background: var(--gold);
+    color: var(--bg);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+  }
+  .funnel-step h5 {
+    margin-top: 8px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: var(--gold);
+  }
+  .funnel-step p { font-size: 13px; color: var(--text-dim); }
+
+  /* Cronograma */
+  .cronograma {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    overflow-x: auto;
+  }
+  .cronograma table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .cronograma th {
+    text-align: left;
+    padding: 12px 8px;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border);
+  }
+  .cronograma td {
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cronograma tr:hover td { background: var(--bg-card-2); }
+  .cronograma .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .pill-realtime { background: rgba(74,222,128,0.15); color: var(--green); }
+  .pill-daily { background: rgba(96,165,250,0.15); color: var(--blue); }
+  .pill-weekly { background: rgba(192,132,252,0.15); color: var(--purple); }
+
+  /* Validacao */
+  .validacao {
+    background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(176,141,87,0.05));
+    border: 1px solid var(--gold-dim);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 60px;
+  }
+  .validacao h3 {
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+  .validacao .checkitem {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+  }
+  .validacao .checkitem:last-child { border: 0; }
+  .validacao input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .validacao label {
+    flex: 1;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .validacao label strong { color: var(--gold); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 60px 20px 20px;
+    color: var(--text-dim);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+  }
+
+  /* Anchor nav */
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    margin: -40px -20px 40px;
+    z-index: 100;
+  }
+  .nav-bar .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    font-size: 13px;
+  }
+  .nav-bar a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .nav-bar a:hover { color: var(--gold); background: var(--bg-card); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="#produtos">📊 Produtos</a>
+      <a href="#funil">🎯 Funil</a>
+      <a href="#laura">💜 Laura</a>
+      <a href="#salomao">🟡 Salomão</a>
+      <a href="#pedrosup">🔵 PedroSup</a>
+      <a href="#erick">🟢 ErickGrana</a>
+      <a href="#luciana">🟠 Luciana</a>
+      <a href="#jubsuporte">🔴 Jubsuporte</a>
+      <a href="#maestro">👑 Maestro</a>
+      <a href="#cris">📝 Squad Conteúdo</a>
+      <a href="#leiloca">📋 Leiloca</a>
+      <a href="#cronograma">⏰ Cronograma</a>
+      <a href="#validacao">✓ Validação</a>
+    </div>
+  </nav>
+
+  <div class="header">
+    <div class="brand">A · U · R · A</div>
+    <h1>Panorama dos Fluxos de Atendimento</h1>
+    <p class="sub">Mapa completo de como os 11 agentes da Mentoria AURA conversam com leads, alunos e o time. Use este documento para validar antes de subir os fluxos em produção.</p>
+    <div class="meta">
+      <span>Versão <strong>1.0</strong></span>
+      <span>Agentes <strong>11</strong></span>
+      <span>Workflows <strong>17</strong></span>
+      <span>Modelo <strong>WhatsApp + IA</strong></span>
+    </div>
+  </div>
+
+  <!-- ===== ESCADA DE VALOR ===== -->
+  <h2 class="section-title" id="produtos"><span class="num">1</span>Escada de Valor (Modelo de Cobrança)</h2>
+  <p class="section-sub">5 produtos em diferentes níveis de ticket. O agente <strong>Laura</strong> qualifica leads e direciona para o produto certo. <strong>ErickGrana</strong> processa todo pagamento.</p>
+
+  <div class="escada">
+    <div class="produto">
+      <div class="nivel">NÍVEL 1 — ENTRADA</div>
+      <div class="nome">Fireflix</div>
+      <div class="preco">R$ 300</div>
+      <div class="desc">Produto de entrada, baixo atrito. Conteúdo on-demand para gerar primeira conversão.</div>
+    </div>
+    <div class="produto">
+      <div class="nivel">NÍVEL 2 — INFOPRODUTO</div>
+      <div class="nome">Ative seu Poder</div>
+      <div class="preco">R$ 1.000</div>
+      <div class="desc">Curso completo. Aquecimento para Mentoria. Permite parcelar e gerar dados para qualificação.</div>
+    </div>
+    <div class="produto">
+      <div class="nivel">NÍVEL 3 — DIAGNÓSTICO</div>
+      <div class="nome">Sessão Estratégica</div>
+      <div class="preco">R$ 5.000</div>
+      <div class="desc">1:1 com Augustto. Diagnóstico profundo + roadmap de 90 dias. Funciona como bridge para Mentoria.</div>
+    </div>
+    <div class="produto">
+      <div class="nivel">NÍVEL 4 — HIGH TICKET</div>
+      <div class="nome">Mentoria Áurea</div>
+      <div class="preco">R$ 20K – 50K</div>
+      <div class="desc">Programa principal. 12 semanas, 4 blocos. Modalidades: <strong>Premium R$33K</strong> (12 grupo + 4 individuais) ou <strong>Grupo R$7K</strong>.</div>
+    </div>
+    <div class="produto">
+      <div class="nivel">NÍVEL 5 — RECORRÊNCIA</div>
+      <div class="nome">Fire Class</div>
+      <div class="preco">R$ 37–77/mês</div>
+      <div class="desc">Comunidade + aulas mensais. MRR. Pós-mentoria + alunos do Ative seu Poder podem migrar.</div>
+    </div>
+  </div>
+
+  <!-- ===== FUNIL ===== -->
+  <h2 class="section-title" id="funil"><span class="num">2</span>Funil de Atendimento (Como o Lead Vira Aluno)</h2>
+  <p class="section-sub">Toda mensagem WhatsApp passa primeiro pelo <strong>WF-00-R Router Central</strong> que decide quem responde baseado no status do contato.</p>
+
+  <div class="funnel">
+    <div class="funnel-step">
+      <div class="step-num">1</div>
+      <h5>Captação</h5>
+      <p>Tráfego (anúncio, indicação, orgânico) → Typebot ou WhatsApp direto. Gera lead na aba <code>contatos</code>.</p>
+    </div>
+    <div class="funnel-step">
+      <div class="step-num">2</div>
+      <h5>Qualificação Laura</h5>
+      <p><strong>Laura</strong> conversa via WhatsApp, qualifica DISC, identifica dor, valida fit. Não vende — agenda.</p>
+    </div>
+    <div class="funnel-step">
+      <div class="step-num">3</div>
+      <h5>Sessão com Augustto</h5>
+      <p>Lead qualificado entra em call com Augustto/Talita. Apresentação Premium R$33K ou Grupo R$7K.</p>
+    </div>
+    <div class="funnel-step">
+      <div class="step-num">4</div>
+      <h5>Pagamento + Onboarding</h5>
+      <p><strong>ErickGrana</strong> registra venda (Stripe/Hotmart) → status muda para <code>aluno_onboarding</code>. <strong>Salomão</strong> assume.</p>
+    </div>
+  </div>
+
+  <div class="fluxo">
+    <div class="fluxo-step start">📱 Mensagem WhatsApp</div>
+    <span class="fluxo-arrow">→</span>
+    <div class="fluxo-step decision">🔀 Router Central</div>
+    <span class="fluxo-arrow">→</span>
+    <div class="fluxo-step">💜 Laura (lead)</div>
+    <span class="fluxo-arrow">ou</span>
+    <div class="fluxo-step">🟡 Salomão (aluno)</div>
+    <span class="fluxo-arrow">→</span>
+    <div class="fluxo-step end">📊 Atualiza Sheets</div>
+  </div>
+
+  <!-- ===== AGENTES ===== -->
+  <h2 class="section-title"><span class="num">3</span>Os 11 Agentes — Detalhamento</h2>
+
+  <!-- ============ LAURA ============ -->
+  <div class="agente agente-laura" id="laura">
+    <div class="agente-head">
+      <div class="avatar">L</div>
+      <div class="agente-info">
+        <h3>Laura <span class="badge bg-purple">PRÉ-VENDA · SDR</span></h3>
+        <div class="role">Qualificação de leads via WhatsApp</div>
+      </div>
+      <div class="badge">WF-02 · ATIVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>O que Laura FAZ</h4>
+        <ul>
+          <li>Recebe leads do Typebot ou WhatsApp direto</li>
+          <li>Qualifica perfil (DISC, dor, momento de vida)</li>
+          <li>Identifica fit Premium vs Grupo vs Ative seu Poder</li>
+          <li>Agenda Sessão Estratégica com Augustto/Talita</li>
+          <li>Faz follow-up automático até 5 tentativas</li>
+          <li>Transcreve áudio (Whisper) e responde texto</li>
+        </ul>
+      </div>
+      <div class="info-block proibido">
+        <h4>O que Laura NÃO FAZ</h4>
+        <ul>
+          <li>Vender ou fechar negócio direto no WhatsApp</li>
+          <li>Dar descontos ou condições especiais</li>
+          <li>Tirar dúvida sobre conteúdo de aula</li>
+          <li>Conversar com aluno já matriculado (passa pro Salomão)</li>
+          <li>Falar sobre questões pessoais/emocionais profundas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · Laura → Lead "Marina"</span>
+      </div>
+      <div class="msg lead">Oi vi um anúncio sobre a mentoria. Como funciona?</div>
+      <div class="msg agente">
+        <span class="label">QUALIFICAÇÃO</span>
+        Marina, que bom que veio. Sou a Laura, time do Augustto Leão. 🔥<br><br>
+        Antes de te explicar o programa, preciso entender você primeiro. Me responde:<br><br>
+        1) O que você faz hoje?<br>
+        2) Qual o maior travamento que tá te atrapalhando?<br>
+        3) Já tentou outras mentorias antes?
+        <span class="timestamp">10:42</span>
+      </div>
+      <div class="msg lead">Sou advogada, fatura R$25k/mês mas trava na hora de me posicionar. Já fiz 2 cursos.</div>
+      <div class="msg agente">
+        <span class="label">DIAGNÓSTICO + AGENDAMENTO</span>
+        Entendi. Travamento de posicionamento + faturamento estagnado = padrão clássico de quem domina técnica mas não dominou ainda a própria autoridade.<br><br>
+        Isso é <strong>exatamente</strong> o que a Mentoria AURA destrava. Mas não vou vender por aqui — tu precisa de uma conversa direta com o Augustto pra ver se faz sentido.<br><br>
+        Tenho 2 horários essa semana:<br>
+        ▸ Quinta 14h<br>
+        ▸ Sexta 10h<br><br>
+        Qual prefere?
+        <span class="timestamp">10:44</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SALOMÃO ============ -->
+  <div class="agente agente-salomao" id="salomao">
+    <div class="agente-head">
+      <div class="avatar">S</div>
+      <div class="agente-info">
+        <h3>Salomão <span class="badge">PÓS-VENDA · SUPORTE</span></h3>
+        <div class="role">Suporte e provocação de aluno ativo</div>
+      </div>
+      <div class="badge">WF-10 · NOVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>O que Salomão FAZ</h4>
+        <ul>
+          <li>Atende todo aluno em WhatsApp (após venda)</li>
+          <li>Tira dúvidas sobre aulas, exercícios, materiais</li>
+          <li>Provoca execução de ativações pendentes</li>
+          <li>Acolhe sem ser mole — nunca vira terapeuta</li>
+          <li>Detecta crise emocional → escala Rose</li>
+          <li>Lê semana atual + bloco da Jornada para contextualizar</li>
+        </ul>
+      </div>
+      <div class="info-block proibido">
+        <h4>O que Salomão NÃO FAZ</h4>
+        <ul>
+          <li>Discutir pagamento, contrato, financeiro (escala Rose)</li>
+          <li>Prometer extensões, refunds, mudanças de modalidade</li>
+          <li>Falar sobre outros alunos</li>
+          <li>Vender produtos novos (job da Laura)</li>
+          <li>Fazer terapia ou diagnóstico psicológico</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · Salomão → Aluno "Carlos" (Semana 4 · Bloco Posicionamento)</span>
+      </div>
+      <div class="msg lead">Tô travado pra fazer o exercício de posicionamento. Não consigo escrever meu manifesto.</div>
+      <div class="msg agente">
+        <span class="label">PROVOCAÇÃO</span>
+        Carlos, isso não é falta de inspiração. É medo de comprometer com quem você é.<br><br>
+        Manifesto não é texto bonito — é declaração de guerra contra quem você foi.<br><br>
+        Pega 10 minutos. Sem tentar acertar. Responde só isso:<br>
+        ▸ "Não aceito mais ____ no meu trabalho."<br>
+        ▸ "Eu existo pra ____."<br>
+        ▸ "Quem precisa de mim é ____."<br><br>
+        Me manda o que sair. A gente refina depois.
+        <span class="timestamp">14:22</span>
+      </div>
+      <div class="msg lead">Mas e se ficar ruim?</div>
+      <div class="msg agente">
+        <span class="label">ACOLHIMENTO + EMPURRÃO</span>
+        Vai ficar ruim mesmo na primeira. Bom é gente que não rascunha — aí sim escreve sempre o mesmo medíocre.<br><br>
+        Manda em 30 min ou eu vou te cobrar. 🔥
+        <span class="timestamp">14:23</span>
+      </div>
+    </div>
+
+    <div class="chat-demo" style="margin-top:16px;">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · Salomão escalando para Rose</span>
+      </div>
+      <div class="msg lead">Tô passando por separação, perdi um cliente grande, não sei se consigo continuar a mentoria esse mês.</div>
+      <div class="msg agente">
+        <span class="label">ACOLHIMENTO + ESCALA</span>
+        Carlos, primeiro: respira. O que tu acabou de me contar é grande, e merece uma conversa de gente, não de chat.<br><br>
+        Vou pedir pra Rose (sucesso do cliente) te ligar hoje ainda. Ela já é avisada quando algo assim aparece. Tu não tá sozinho nisso.<br><br>
+        Enquanto a Rose não te chama: faz só uma coisa hoje. Toma água. Anda 15 min. Mais nada.
+        <span class="timestamp">19:45</span>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:rgba(239,68,68,0.1);border-left:3px solid var(--red);border-radius:6px;font-size:12px;color:var(--text-dim);">
+        🚨 <strong style="color:var(--red);">Alerta interno disparado:</strong> Notificação automática via WhatsApp para Rose e Augustto com contexto completo. Status do aluno muda para <code>alerta_vermelho</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PEDROSUP ============ -->
+  <div class="agente agente-pedrosup" id="pedrosup">
+    <div class="agente-head">
+      <div class="avatar">P</div>
+      <div class="agente-info">
+        <h3>PedroSup <span class="badge bg-blue">MONITORAMENTO · INTERNO</span></h3>
+        <div class="role">Vigia silencioso dos alunos · Roda diariamente 8h</div>
+      </div>
+      <div class="badge">WF-11 · NOVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>O que PedroSup FAZ</h4>
+        <ul>
+          <li>Varre TODOS os alunos ativos toda manhã</li>
+          <li>Calcula indicadores: dias sem interação, presença, exercícios entregues</li>
+          <li>Classifica risco em 🟢 verde · 🟡 amarelo · 🔴 vermelho</li>
+          <li>Atualiza status na aba <code>contatos</code></li>
+          <li>Gera dossiês pré-encontro individual (2 dias antes)</li>
+          <li>Notifica Augustto + Rose em risco vermelho</li>
+        </ul>
+      </div>
+      <div class="info-block proibido">
+        <h4>O que PedroSup NÃO FAZ</h4>
+        <ul>
+          <li>Conversar diretamente com aluno</li>
+          <li>Tomar ações sozinho (só sinaliza)</li>
+          <li>Mudar modalidade de mentoria</li>
+          <li>Decidir desligamento de aluno</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · PedroSup → Augustto (alerta interno)</span>
+      </div>
+      <div class="msg agente" style="background:#1e3a5f;border-left:3px solid var(--red);max-width:90%;">
+        <span class="label">🚨 ALERTA VERMELHO</span>
+        <strong>PedroSup detectou:</strong><br><br>
+        Aluno: <strong>Marcus Andrade</strong> (5561 99xxx-1234)<br>
+        Semana: 6/12 · Bloco: Comunicação Magnética<br><br>
+        <strong>Motivo:</strong> 12 dias sem interação. Faltou às 2 últimas aulas. Ativação do encontro 2 marcada como pendente há 3 semanas.<br><br>
+        <strong>Ação sugerida:</strong> Rose ligar hoje. Conversa Augustto na próxima individual deve focar em recommitment, não conteúdo novo.
+        <span class="timestamp">08:14</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ERICKGRANA ============ -->
+  <div class="agente agente-erick" id="erick">
+    <div class="agente-head">
+      <div class="avatar">E</div>
+      <div class="agente-info">
+        <h3>ErickGrana <span class="badge bg-green">RECEITA · TRACKER</span></h3>
+        <div class="role">Registra todo pagamento e atualiza tracker</div>
+      </div>
+      <div class="badge">WF-12 · NOVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>O que ErickGrana FAZ</h4>
+        <ul>
+          <li>Recebe webhooks Stripe e Hotmart em tempo real</li>
+          <li>Normaliza payload (venda, parcela, assinatura, cancelamento, reembolso)</li>
+          <li>Detecta produto: Premium / Grupo / Fire Class / Ative seu Poder / Fireflix</li>
+          <li>Atualiza aba <code>transacoes</code> + <code>tracker</code> (dia/semana/mês/ano)</li>
+          <li>Notifica time conforme tipo: Premium → Augustto+Rose+Gabriel; Grupo → Rose</li>
+          <li>Vende nova → muda status do contato para <code>aluno_onboarding</code></li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Notificações automáticas</h4>
+        <ul>
+          <li>🎉 Venda Premium R$33K → Augustto + Rose + Gabriel</li>
+          <li>💰 Venda Grupo R$7K → Rose</li>
+          <li>🎯 Meta diária atingida → time todo</li>
+          <li>⚠️ Cancelamento → trigger Jubsuporte</li>
+          <li>↩️ Reembolso → Rose + Luciana</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · ErickGrana → Augustto (venda fechada)</span>
+      </div>
+      <div class="msg agente" style="background:#0d3b29;border-left:3px solid var(--green);max-width:80%;">
+        <span class="label">🎉 VENDA PREMIUM</span>
+        <strong>R$ 33.000,00</strong><br><br>
+        Cliente: <strong>Marina Saldanha</strong><br>
+        Produto: Mentoria AURA Premium (R$33K)<br>
+        Plataforma: Stripe<br><br>
+        Meta dia: <strong>106%</strong> ✅<br>
+        Meta semana: 47%<br>
+        Meta mês: 32%
+        <span class="timestamp">15:33</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LUCIANA ============ -->
+  <div class="agente agente-luciana" id="luciana">
+    <div class="agente-head">
+      <div class="avatar">Lu</div>
+      <div class="agente-info">
+        <h3>Luciana <span class="badge" style="background:rgba(249,115,22,0.15);color:#fb923c;">DASHBOARD · ANALÍTICA</span></h3>
+        <div class="role">Relatório financeiro semanal · Toda segunda 7h</div>
+      </div>
+      <div class="badge">WF-13 · NOVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>O que Luciana FAZ</h4>
+        <ul>
+          <li>Lê transações + tracker + contatos toda segunda 7h</li>
+          <li>Compara semana atual vs semana anterior</li>
+          <li>Calcula funil: leads → qualificados → agendados → fechados</li>
+          <li>Calcula MRR Fire Class</li>
+          <li>Gera relatório formatado (max 20 linhas)</li>
+          <li>Alimenta o Maestro AURA com dados consolidados</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Estrutura do relatório</h4>
+        <ul>
+          <li>1) Receita: valor + delta vs semana anterior</li>
+          <li>2) Funil: contagem em cada etapa</li>
+          <li>3) Top 3 insights (Claude analisa)</li>
+          <li>4) Top 3 recomendações</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>Relatório Luciana (interno · alimenta Maestro)</span>
+      </div>
+      <div class="msg agente" style="background:#3a2810;border-left:3px solid #fb923c;max-width:90%;font-size:13px;">
+        <span class="label">📊 RELATÓRIO SEMANAL · 14-20 ABR</span>
+        <strong>Receita semana:</strong> R$ 73.000 (+18% vs anterior)<br>
+        <strong>Meta semana:</strong> 33% atingida<br><br>
+        <strong>Funil:</strong><br>
+        ▸ Leads novos: 47<br>
+        ▸ Qualificados Laura: 12<br>
+        ▸ Agendados: 8<br>
+        ▸ Fechados: 2 Premium + 1 Grupo<br><br>
+        <strong>MRR Fire Class:</strong> R$ 1.234<br><br>
+        <strong>Top 3 insights:</strong><br>
+        1. Taxa qualificação Laura subiu 25%<br>
+        2. Conversão call → fechamento estável (40%)<br>
+        3. Premium vendendo 2:1 vs Grupo<br><br>
+        <strong>Top 3 ações:</strong><br>
+        1. Aumentar tráfego — funil aguenta mais<br>
+        2. Replicar abordagem Laura na call do Augustto<br>
+        3. Subir preço Grupo testar elasticidade
+        <span class="timestamp">07:08 SEG</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ JUBSUPORTE ============ -->
+  <div class="agente agente-jubsuporte" id="jubsuporte">
+    <div class="agente-head">
+      <div class="avatar">J</div>
+      <div class="agente-info">
+        <h3>Jubsuporte <span class="badge bg-red">ALERTAS · ANOMALIA</span></h3>
+        <div class="role">Detecta anomalias diariamente · 9h</div>
+      </div>
+      <div class="badge">WF-14 · NOVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>5 detectores de anomalia</h4>
+        <ul>
+          <li>📉 Queda de vendas > 30% vs média 4 semanas</li>
+          <li>❌ Cancelamentos: 3+ em 7 dias</li>
+          <li>🔥 Churn Fire Class > 5%</li>
+          <li>🎯 Meta semanal < 50% até quinta/sexta</li>
+          <li>🚨 Alunos em risco vermelho (2+)</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Severidades</h4>
+        <ul>
+          <li><strong style="color:#facc15;">🟡 MÉDIA</strong> → registra no Sheets</li>
+          <li><strong style="color:#fb923c;">🟠 ALTA</strong> → notifica Rose</li>
+          <li><strong style="color:#ef4444;">🔴 CRÍTICA</strong> → notifica Augustto + Rose</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · Jubsuporte → Augustto (alerta crítico)</span>
+      </div>
+      <div class="msg agente" style="background:#3a1010;border-left:3px solid var(--red);max-width:90%;">
+        <span class="label">📊 JUBSUPORTE — Alertas do dia</span>
+        🚨 <strong>[CRÍTICA]</strong> Queda de vendas: R$8.000 vs média R$22.000 (-64%)<br><br>
+        ⚠️ <strong>[ALTA]</strong> 4 cancelamentos nos últimos 7 dias<br><br>
+        🟡 <strong>[MÉDIA]</strong> Semana em 38% da meta até quinta
+        <span class="timestamp">09:01</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MAESTRO ============ -->
+  <div class="agente agente-maestro" id="maestro">
+    <div class="agente-head">
+      <div class="avatar">M</div>
+      <div class="agente-info">
+        <h3>Maestro AURA 👑 <span class="badge">ORQUESTRADOR · CSO+CFO</span></h3>
+        <div class="role">Report executivo semanal · Toda segunda 8h</div>
+      </div>
+      <div class="badge">WF-15 · NOVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>O que Maestro FAZ</h4>
+        <ul>
+          <li>Consolida outputs de TODOS os squads</li>
+          <li>Recebe relatório Luciana + alertas Jubsuporte + dados PedroSup</li>
+          <li>Classifica saúde: 🟢 SAUDÁVEL · 🟡 ATENÇÃO · 🔴 RISCO</li>
+          <li>Calcula posição vs meta R$10.4M ano</li>
+          <li>Gera report executivo (máx 30 linhas)</li>
+          <li>Envia direto pro WhatsApp do Augustto toda segunda 8h</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Estrutura do report</h4>
+        <ul>
+          <li>1) Saúde do ecossistema (cor + 1 frase)</li>
+          <li>2) Receita (semana + ano vs meta)</li>
+          <li>3) Alunos (verde/amarelo/vermelho)</li>
+          <li>4) Top 3 vitórias da semana</li>
+          <li>5) Top 3 riscos</li>
+          <li>6) Top 3 ações necessárias</li>
+          <li>7) Decisão pendente para Augustto</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · Maestro → Augustto (segunda-feira 8h)</span>
+      </div>
+      <div class="msg agente" style="background:#2d2410;border-left:3px solid var(--gold);max-width:95%;font-size:13px;">
+        <span class="label">👑 MAESTRO AURA · REPORT 14-20 ABR</span>
+        🟡 <strong>SAÚDE: ATENÇÃO</strong><br>
+        Vendas estáveis mas funil de leads abaixo do necessário pra meta.<br><br>
+        <strong>💰 RECEITA</strong><br>
+        Semana: R$ 73K (33% meta semanal)<br>
+        Ano: R$ 487K (4.7% meta R$10.4M)<br><br>
+        <strong>🎓 ALUNOS</strong><br>
+        🟢 9 verde · 🟡 3 amarelo · 🔴 1 vermelho<br><br>
+        <strong>✅ TOP 3 VITÓRIAS</strong><br>
+        1. 2 vendas Premium na semana<br>
+        2. Laura subiu conversão lead→agendamento (+25%)<br>
+        3. Marcus saiu do amarelo após call Rose<br><br>
+        <strong>⚠️ TOP 3 RISCOS</strong><br>
+        1. Funil de leads -40% — tráfego caindo<br>
+        2. Carlos em vermelho (separação + cliente perdido)<br>
+        3. Cancelamentos em alta (4 em 7d)<br><br>
+        <strong>🎯 TOP 3 AÇÕES</strong><br>
+        1. Reativar tráfego pago essa semana<br>
+        2. Ligação Augustto → Carlos amanhã<br>
+        3. Análise causa cancelamentos com Rose<br><br>
+        <strong>👉 DECISÃO PENDENTE</strong><br>
+        Aprovar orçamento R$15K tráfego pago Meta + Google?
+        <span class="timestamp">08:00 SEG</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CRIS + CAIO + BONNER ============ -->
+  <div class="agente agente-cris" id="cris">
+    <div class="agente-head">
+      <div class="avatar">C</div>
+      <div class="agente-info">
+        <h3>Cris + Caio + Bonner <span class="badge bg-purple">SQUAD CONTEÚDO</span></h3>
+        <div class="role">Pauta + design + copy semanal · Todo domingo 20h</div>
+      </div>
+      <div class="badge">WF-16 · NOVO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>Cris (Estratégia)</h4>
+        <ul>
+          <li>Define bloco da semana (rotaciona Autoimagem → Autoridade)</li>
+          <li>Gera pauta: 3 carrosséis + 2 reels + stories diários</li>
+          <li>Cada peça com tema, gancho, CTA, bloco AURA</li>
+          <li>Aciona Bonner (copy) e Caio (visual) em paralelo</li>
+        </ul>
+      </div>
+      <div class="info-block faz">
+        <h4>Bonner (Copy)</h4>
+        <ul>
+          <li>Hormozi Copy: Value Equation, value stack</li>
+          <li>Anti-hype, voz autêntica AURA</li>
+          <li>Carrossel: copy slide a slide (8-10 slides)</li>
+          <li>Reel: script de 60 segundos</li>
+          <li>Stories: 3-5 frames</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>Caio (Visual)</h4>
+        <ul>
+          <li>Especificações visuais peça por peça</li>
+          <li>Carrossel: layout, paleta, tipografia, elementos</li>
+          <li>Reel: storyboard frame a frame</li>
+          <li>Estilo: dark premium, AURA</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Output salvo no Sheets</h4>
+        <ul>
+          <li>Aba <code>pauta_editorial</code>: pauta da semana</li>
+          <li>Aba <code>briefings</code>: copies + visuais (JSON)</li>
+          <li>Status: <code>pendente_aprovacao</code></li>
+          <li>Augustto recebe notificação WhatsApp pra revisar</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · Cris → Augustto (domingo 20h)</span>
+      </div>
+      <div class="msg agente" style="background:#2a1a3a;border-left:3px solid var(--purple);max-width:85%;">
+        <span class="label">📝 PAUTA DA SEMANA · 14-20 ABR</span>
+        <strong>Bloco dominante:</strong> Posicionamento<br>
+        <strong>Peças:</strong> 5 (3 carrosséis + 2 reels)<br><br>
+        Pauta + briefings Caio/Bonner salvos no Sheets.<br>
+        Status: <strong>pendente aprovação Augustto</strong>.<br><br>
+        Tu valida amanhã antes do Caio começar produção?
+        <span class="timestamp">20:03 DOM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LEILOCA ============ -->
+  <div class="agente agente-leiloca" id="leiloca">
+    <div class="agente-head">
+      <div class="avatar">Le</div>
+      <div class="agente-info">
+        <h3>Leiloca <span class="badge" style="background:rgba(45,212,191,0.15);color:#2dd4bf;">SECRETÁRIA · APOIO LIDERANÇA</span></h3>
+        <div class="role">Briefings diários para Franklin/Augustto · 8h, 15h, 20h</div>
+      </div>
+      <div class="badge">WF-17/18 · PRONTO</div>
+    </div>
+
+    <div class="agente-grid">
+      <div class="info-block faz">
+        <h4>O que Leiloca FAZ</h4>
+        <ul>
+          <li>Recebe mensagens WhatsApp do Franklin/Augustto</li>
+          <li>Registra tarefas faladas em linguagem natural</li>
+          <li>Briefing 08h: ações do dia + dependências</li>
+          <li>Update 15h: o que foi feito + bloqueios</li>
+          <li>Resumo 20h: verde/amarelo/vermelho do dia</li>
+          <li>Conecta com Google Sheets (aba <code>leiloca</code>)</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h4>Cadência diária</h4>
+        <ul>
+          <li><strong>🌅 08:00</strong> — "Hoje você precisa fazer X, Y, Z"</li>
+          <li><strong>☀️ 15:00</strong> — "Conferência: feito? bloqueado?"</li>
+          <li><strong>🌙 20:00</strong> — Resumo: 🟢 entregues · 🟡 parciais · 🔴 não feitos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chat-demo">
+      <div class="chat-header">
+        <div class="icon"></div>
+        <span>WhatsApp · Leiloca → Franklin (briefing manhã)</span>
+      </div>
+      <div class="msg agente" style="background:#0d3a35;border-left:3px solid #2dd4bf;max-width:85%;">
+        <span class="label">🌅 BRIEFING 08H</span>
+        Bom dia. 3 ações pra hoje:<br><br>
+        🔴 <strong>1. Reconectar UazAPI</strong> (bloqueia toda IA)<br>
+        🟡 <strong>2. Recriar credencial Sheets no n8n</strong><br>
+        🟢 <strong>3. Importar 8 workflows novos</strong><br><br>
+        Dependência: 1 e 2 antes do 3. Se não fizer 1 e 2 hoje, Laura continua muda.<br><br>
+        Qual você começa primeiro?
+        <span class="timestamp">08:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CRONOGRAMA ===== -->
+  <h2 class="section-title" id="cronograma"><span class="num">4</span>Cronograma Automático</h2>
+  <p class="section-sub">Quando cada agente acorda. Tudo isso roda sem você fazer nada — só precisa estar ativo no n8n.</p>
+
+  <div class="cronograma">
+    <table>
+      <thead>
+        <tr>
+          <th>Quando</th>
+          <th>Frequência</th>
+          <th>Workflow</th>
+          <th>Agente</th>
+          <th>O que faz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Tempo real</td><td><span class="pill pill-realtime">REAL-TIME</span></td><td>WF-00-R</td><td>Router</td><td>Roteia toda mensagem WhatsApp</td></tr>
+        <tr><td>Tempo real</td><td><span class="pill pill-realtime">REAL-TIME</span></td><td>WF-02</td><td>Laura</td><td>Conversa com lead</td></tr>
+        <tr><td>Tempo real</td><td><span class="pill pill-realtime">REAL-TIME</span></td><td>WF-10</td><td>Salomão</td><td>Conversa com aluno</td></tr>
+        <tr><td>Tempo real</td><td><span class="pill pill-realtime">REAL-TIME</span></td><td>WF-12</td><td>ErickGrana</td><td>Recebe pagamento Stripe/Hotmart</td></tr>
+        <tr><td>Tempo real</td><td><span class="pill pill-realtime">REAL-TIME</span></td><td>WF-17</td><td>Leiloca</td><td>Conversa com Franklin/Augustto</td></tr>
+        <tr><td>08:00</td><td><span class="pill pill-daily">DIÁRIO</span></td><td>WF-11</td><td>PedroSup</td><td>Monitora todos alunos ativos</td></tr>
+        <tr><td>08:00 (seg-sáb)</td><td><span class="pill pill-daily">DIÁRIO</span></td><td>WF-18</td><td>Leiloca</td><td>Briefing matinal</td></tr>
+        <tr><td>09:00</td><td><span class="pill pill-daily">DIÁRIO</span></td><td>WF-14</td><td>Jubsuporte</td><td>Detecta anomalias</td></tr>
+        <tr><td>15:00 (seg-sáb)</td><td><span class="pill pill-daily">DIÁRIO</span></td><td>WF-18</td><td>Leiloca</td><td>Update tarde</td></tr>
+        <tr><td>20:00 (seg-sáb)</td><td><span class="pill pill-daily">DIÁRIO</span></td><td>WF-18</td><td>Leiloca</td><td>Resumo do dia</td></tr>
+        <tr><td>23:00</td><td><span class="pill pill-daily">DIÁRIO</span></td><td>WF-06</td><td>Métricas</td><td>Snapshot diário</td></tr>
+        <tr><td>Domingo 20:00</td><td><span class="pill pill-weekly">SEMANAL</span></td><td>WF-16</td><td>Cris+Caio+Bonner</td><td>Pauta da semana</td></tr>
+        <tr><td>Segunda 07:00</td><td><span class="pill pill-weekly">SEMANAL</span></td><td>WF-13</td><td>Luciana</td><td>Relatório financeiro</td></tr>
+        <tr><td>Segunda 08:00</td><td><span class="pill pill-weekly">SEMANAL</span></td><td>WF-15</td><td>Maestro AURA</td><td>Report executivo Augustto</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== CHECKLIST DE VALIDAÇÃO ===== -->
+  <div class="validacao" id="validacao">
+    <h3>🎯 Checklist de Validação (antes de subir)</h3>
+    <p style="color:var(--text-dim);margin-bottom:24px;">Marca cada item conforme aprovar. O que NÃO marcar, eu reviso e ajusto.</p>
+
+    <div class="checkitem">
+      <input type="checkbox" id="v1">
+      <label for="v1"><strong>Voz da Laura</strong> — qualificação direta, sem vender. Agenda call. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v2">
+      <label for="v2"><strong>Voz do Salomão</strong> — provoca, acolhe sem ser mole, escala Rose em crise. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v3">
+      <label for="v3"><strong>Critério risco PedroSup</strong> — verde/amarelo/vermelho baseado em dias sem interação + presença. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v4">
+      <label for="v4"><strong>Notificações ErickGrana</strong> — venda Premium notifica Augustto+Rose+Gabriel; Grupo só Rose. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v5">
+      <label for="v5"><strong>Estrutura relatório Luciana</strong> — receita + funil + insights + ações. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v6">
+      <label for="v6"><strong>5 detectores Jubsuporte</strong> — quedas, cancelamentos, churn, meta, alunos vermelhos. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v7">
+      <label for="v7"><strong>Estrutura report Maestro</strong> — saúde, receita, alunos, vitórias, riscos, ações, decisão. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v8">
+      <label for="v8"><strong>Cadência conteúdo Cris</strong> — domingo 20h gerar pauta da semana + briefings. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v9">
+      <label for="v9"><strong>Briefings Leiloca 8h/15h/20h</strong> — manhã/tarde/resumo. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v10">
+      <label for="v10"><strong>Escada de valor</strong> — Fireflix R$300, Ative R$1K, Sessão R$5K, Mentoria R$20-50K, Fire Class R$37-77/mês. Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v11">
+      <label for="v11"><strong>Modelo de cobrança</strong> — Premium R$33K (12 grupo + 4 individuais) ou Grupo R$7K (só grupo). Ok?</label>
+    </div>
+    <div class="checkitem">
+      <input type="checkbox" id="v12">
+      <label for="v12"><strong>Quem recebe alertas vermelhos</strong> — Augustto + Rose. Quem decide desligamento — só Augustto. Ok?</label>
+    </div>
+
+    <div style="margin-top:32px;padding:20px;background:var(--bg);border-radius:12px;border:1px dashed var(--gold-dim);">
+      <strong style="color:var(--gold);">📋 Próximos passos pra subir hoje:</strong><br>
+      <ol style="margin-top:12px;padding-left:24px;color:var(--text-dim);font-size:14px;line-height:1.8;">
+        <li>Você valida cada item acima e me passa o que ajustar</li>
+        <li>Eu refino os system prompts dos agentes que precisarem</li>
+        <li>Você desbloqueia: UazAPI (QR code) + Google Sheets (recriar credencial)</li>
+        <li>Eu gero o Apps Script das 12 abas do Sheets</li>
+        <li>Você importa os 8 JSONs no n8n (já estão prontos)</li>
+        <li>Você ativa o webhook Stripe/Hotmart no ErickGrana</li>
+        <li>Testamos o Router com mensagem real</li>
+        <li>🚀 Tudo no ar</li>
+      </ol>
+    </div>
+  </div>
+
+  <footer>
+    AURA · Sellect Intelligence · Mentoria de Augustto Leão<br>
+    Documento gerado em 2026-04-15 · Versão 1.0 · Para validação e triagem
+  </footer>
+
+</div>
+
+<script>
+  // Persistir checkboxes em localStorage
+  document.querySelectorAll('.validacao input[type="checkbox"]').forEach(cb => {
+    const key = 'aura-validacao-' + cb.id;
+    cb.checked = localStorage.getItem(key) === '1';
+    cb.addEventListener('change', () => {
+      localStorage.setItem(key, cb.checked ? '1' : '0');
+    });
+  });
+</script>
+</body>
+</html>
