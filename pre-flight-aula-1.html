@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Aula 1 · Pre-flight · Validação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #0a0a0a;
+    --paper:      #ffffff;
+    --gray-1:     #f6f6f6;
+    --gray-2:     #ececec;
+    --gray-3:     #c8c8c8;
+    --gray-4:     #888888;
+    --gray-5:     #555555;
+    --gold:       #b88a00;
+    --gold-soft:  #f8efd0;
+    --green:      #1f7a3f;
+    --green-soft: #e8f5ee;
+    --violet:     #5e17eb;
+    --violet-soft:#f0eaff;
+    --red:        #c4291f;
+    --red-soft:   #fdeae8;
+
+    --font-doc:   'Inter', -apple-system, sans-serif;
+    --font-body:  'Lora', Georgia, serif;
+    --font-mono:  'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--gray-1);
+    color: var(--ink);
+    font-family: var(--font-doc);
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 32px 0 64px;
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--paper);
+    padding: 56px 64px 72px;
+    border: 1px solid var(--gray-3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  .brand {
+    font-family: var(--font-doc);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: var(--font-doc);
+    font-size: clamp(28px, 3.4vw, 42px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--gray-5);
+    margin-bottom: 18px;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    font-family: var(--font-doc);
+    font-size: 11px;
+    color: var(--gray-5);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .meta strong { color: var(--ink); font-weight: 700; }
+  .meta-divider { color: var(--gray-3); }
+
+  /* QUICK INFO */
+  .quick {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gray-3);
+    border: 1px solid var(--gray-3);
+    margin: 28px 0;
+  }
+  .q { background: var(--paper); padding: 14px 16px; }
+  .q .l {
+    font-family: var(--font-doc);
+    font-size: 9px;
+    color: var(--gray-5);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .q .v {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink);
+    word-break: break-all;
+    line-height: 1.4;
+  }
+  .q .v a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold); }
+
+  /* TIMELINE */
+  .timeline {
+    margin: 28px 0 32px;
+    border: 1px solid var(--ink);
+    padding: 18px 22px;
+  }
+  .timeline h3 {
+    font-family: var(--font-doc);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .timeline .line {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--gray-3);
+    padding-top: 14px;
+    overflow-x: auto;
+  }
+  .tick {
+    flex-shrink: 0;
+    min-width: 100px;
+    padding: 0 12px;
+    border-right: 1px solid var(--gray-2);
+  }
+  .tick:last-child { border-right: none; }
+  .tick .h {
+    font-family: var(--font-doc);
+    font-size: 16px;
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .tick .a {
+    font-family: var(--font-doc);
+    font-size: 11px;
+    color: var(--gray-5);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* PHASE */
+  .phase {
+    margin: 36px 0 28px;
+    border: 1px solid var(--gray-3);
+    border-left: 4px solid var(--ink);
+    padding: 22px 28px 18px;
+    background: var(--paper);
+  }
+  .phase.during { border-left-color: var(--green); background: var(--green-soft); }
+  .phase.after  { border-left-color: var(--violet); background: var(--violet-soft); }
+  .phase.during, .phase.after { background: var(--paper); }
+  .phase.during .when { color: var(--green); }
+  .phase.after .when { color: var(--violet); }
+  .phase h2 {
+    font-family: var(--font-doc);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    margin-bottom: 4px;
+  }
+  .phase .when {
+    font-family: var(--font-doc);
+    font-size: 11px;
+    color: var(--gray-5);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  /* CHECK ITEMS */
+  .ch {
+    display: grid;
+    grid-template-columns: 28px 1fr 110px;
+    gap: 12px;
+    align-items: start;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--gray-2);
+  }
+  .ch:last-child { border-bottom: none; }
+  .ch input[type="checkbox"] {
+    appearance: none;
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    cursor: pointer;
+    margin-top: 1px;
+    border-radius: 3px;
+    position: relative;
+  }
+  .ch input[type="checkbox"]:checked { background: var(--ink); }
+  .ch input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: -4px; left: 3px;
+    color: var(--paper);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .phase.during .ch input[type="checkbox"] { border-color: var(--green); }
+  .phase.during .ch input[type="checkbox"]:checked { background: var(--green); }
+  .phase.after .ch input[type="checkbox"] { border-color: var(--violet); }
+  .phase.after .ch input[type="checkbox"]:checked { background: var(--violet); }
+
+  .ch label {
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .ch label strong {
+    color: var(--ink);
+    font-weight: 700;
+    font-family: var(--font-doc);
+  }
+  .ch label code {
+    font-family: var(--font-mono);
+    background: var(--gray-1);
+    color: var(--ink);
+    padding: 1px 6px;
+    font-size: 12px;
+    border-radius: 3px;
+    border: 1px solid var(--gray-3);
+    word-break: break-all;
+  }
+  .ch .who {
+    font-family: var(--font-doc);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: right;
+    padding-top: 3px;
+    color: var(--gray-5);
+  }
+  .who.augustto { color: var(--gold); }
+  .who.gabriel  { color: #1c5f8a; }
+  .who.salomao  { color: var(--green); }
+  .who.cris     { color: var(--violet); }
+
+  /* CONTACTS */
+  h3.section-title {
+    font-family: var(--font-doc);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    margin: 36px 0 14px;
+  }
+  .contacts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--gray-3);
+    border: 1px solid var(--gray-3);
+    margin-bottom: 24px;
+  }
+  .contact { background: var(--paper); padding: 16px 18px; }
+  .contact .role {
+    font-family: var(--font-doc);
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .contact .name {
+    font-family: var(--font-doc);
+    font-size: 16px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .contact .data {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-5);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* CALL-OUTS */
+  .warn {
+    background: var(--red-soft);
+    border-left: 3px solid var(--red);
+    padding: 14px 20px;
+    margin: 14px 0;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .warn strong {
+    color: var(--red);
+    font-family: var(--font-doc);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .info {
+    background: var(--gold-soft);
+    border-left: 3px solid var(--gold);
+    padding: 14px 20px;
+    margin: 14px 0;
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .info strong {
+    color: var(--gold);
+    font-family: var(--font-doc);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* APROVAÇÃO */
+  .approval {
+    margin-top: 48px;
+    border: 2px solid var(--ink);
+    padding: 32px;
+    text-align: center;
+  }
+  .approval h3 {
+    font-family: var(--font-doc);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 18px;
+  }
+  .approval-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .approval button {
+    font-family: var(--font-doc);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 12px 24px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .approval button.aprovar { background: var(--ink); color: var(--paper); }
+  .approval button.aprovar:hover { background: var(--green); border-color: var(--green); }
+  .approval button.ajustar:hover { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+  .approval-result {
+    margin-top: 16px;
+    font-family: var(--font-doc);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--gray-5);
+    min-height: 16px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-3);
+    text-align: center;
+    font-family: var(--font-doc);
+    font-size: 10px;
+    color: var(--gray-4);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .footer .quote {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 10px;
+  }
+
+  /* PROGRESS */
+  .progress {
+    position: fixed;
+    bottom: 14px; right: 24px;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 8px 16px;
+    font-family: var(--font-doc);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+    z-index: 99;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .progress .bar {
+    display: block;
+    margin-top: 6px;
+    width: 100px;
+    height: 3px;
+    background: var(--gray-2);
+    position: relative;
+  }
+  .progress .bar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: var(--w, 0%);
+    background: var(--ink);
+    transition: width 0.25s;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; padding: 0; }
+    .page { max-width: 100%; padding: 12mm 16mm; border: none; box-shadow: none; }
+    .progress, .approval-buttons { display: none; }
+    .phase { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 900px) {
+    .page { padding: 32px 24px; }
+    .quick, .contacts { grid-template-columns: 1fr 1fr; }
+    .ch { grid-template-columns: 24px 1fr; }
+    .ch .who { grid-column: 2; text-align: left; padding-top: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="brand">△ AURA · Mentoria · Documento Operacional</div>
+  <h1>Aula 1 — Pre-flight</h1>
+  <p class="subtitle">Documento de validação · Augustto + Gabriel</p>
+  <div class="meta">
+    <span>Data <strong>Terça 05/05/2026</strong></span>
+    <span class="meta-divider">·</span>
+    <span><strong>19:00 → 21:00</strong> BRT</span>
+    <span class="meta-divider">·</span>
+    <span>27 slides</span>
+    <span class="meta-divider">·</span>
+    <span>3 ferramentas</span>
+    <span class="meta-divider">·</span>
+    <span>Marco 1 — Despertar do Espelho</span>
+  </div>
+</header>
+
+<!-- QUICK INFO -->
+<div class="quick">
+  <div class="q">
+    <div class="l">Meet recorrente</div>
+    <div class="v"><a href="https://meet.google.com/ayj-ytvm-dmc" target="_blank">meet.google.com/<br>ayj-ytvm-dmc</a></div>
+  </div>
+  <div class="q">
+    <div class="l">UazAPI · WhatsApp</div>
+    <div class="v">aurasellect.uazapi.com<br>556192979889</div>
+  </div>
+  <div class="q">
+    <div class="l">Sheets ID</div>
+    <div class="v">1mr1q8T1KAMraPW<br>-Ra2ZlmHLj3jF9rh3Kz9m_bVrmMgE</div>
+  </div>
+  <div class="q">
+    <div class="l">Próx. aula (Marco 2)</div>
+    <div class="v">Sáb 16/05/2026<br>19:00 BRT</div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+  <h3>Timeline · Terça 05/05/2026 · 18:30 → 21:30</h3>
+  <div class="line">
+    <div class="tick"><div class="h">18:30</div><div class="a">Gabriel entra · valida áudio/vídeo/OBS</div></div>
+    <div class="tick"><div class="h">18:50</div><div class="a">Trilha AURA baixa começa · sala em silêncio</div></div>
+    <div class="tick"><div class="h">19:00</div><div class="a">Tela de espera (slide 0) · alunos chegam</div></div>
+    <div class="tick"><div class="h">19:10</div><div class="a">Augustto abre · slide 1</div></div>
+    <div class="tick"><div class="h">19:22</div><div class="a">Apresentação individual (10 alunos × 1 min)</div></div>
+    <div class="tick"><div class="h">19:36</div><div class="a">Teoria/neurociência (slides 7–12)</div></div>
+    <div class="tick"><div class="h">20:06</div><div class="a">Mapa da Autoimagem · GForms ao vivo</div></div>
+    <div class="tick"><div class="h">20:26</div><div class="a">Termostato Financeiro · GForms ao vivo</div></div>
+    <div class="tick"><div class="h">20:38</div><div class="a">Experiência do Espelho + Squad</div></div>
+    <div class="tick"><div class="h">20:46</div><div class="a">Compromissos da semana</div></div>
+    <div class="tick"><div class="h">20:54</div><div class="a">Ritual + Marco 1 + Fecho</div></div>
+    <div class="tick"><div class="h">21:00</div><div class="a">Cortina · gravação encerra</div></div>
+    <div class="tick"><div class="h">21:30</div><div class="a">Backup Drive + atualiza planilha</div></div>
+  </div>
+</div>
+
+<!-- ============================================================ FASE 1 · PRÉ-AULA -->
+<section class="phase" id="pre">
+  <h2>Fase 1 · Pré-aula</h2>
+  <div class="when">Hoje · seg 04/05 → ter 05/05 · 18:00 BRT</div>
+
+  <div class="ch">
+    <input type="checkbox" id="p1">
+    <label for="p1"><strong>Slides 0–26</strong> carregados no template AURA dark e testados em tela cheia (<code>APRESENTACAO_AULA_1.html</code>).</label>
+    <div class="who augustto">Augustto</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p2">
+    <label for="p2"><strong>3 GForms criados:</strong> Avaliação Cruzada (Voz/Presença/Postura) · Mapa da Autoimagem (7 × 2 = 14 campos) · Termostato Financeiro (6 dimensões + G-D / G-T). Links salvos no chat do Meet pré-pronto.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p3">
+    <label for="p3"><strong><code>FERRAMENTA_MAPA_AUTOIMAGEM.pdf</code></strong> exportado e subido na plataforma do aluno.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p4">
+    <label for="p4"><strong>Convite Google Agenda</strong> com link Meet <code>meet.google.com/ayj-ytvm-dmc</code> para a Aula 1 (terça 05/05) e ocorrências aos sábados quinzenais.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p5">
+    <label for="p5"><strong>OBS configurado</strong> com 3 cenas: <em>Tela cheia</em> · <em>Câmera + Slide</em> · <em>Só câmera do aluno ativo</em>. Gravação local + upload paralelo ativado.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p6">
+    <label for="p6"><strong>Trilha AURA baixa</strong> em 3 faixas: <em>espera</em> (19:00–19:10) · <em>abertura</em> (slides 1–3) · <em>fecho</em> (slide 26).</label>
+    <div class="who cris">Cris</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p7">
+    <label for="p7"><strong>4 áudios de Augustto gravados:</strong> A4-A1 (17:17), A5-A1 (18:18), A6-A1 (19:00) e A1 genérico (21:10 · pós-aula). Roteiros no PDF entregue.</label>
+    <div class="who augustto">Augustto</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p8">
+    <label for="p8"><strong>5 workflows n8n agendados</strong> e ativos: T-1d (seg 04/05 18:00), T-0a (17:17), T-0b (18:18), T-0c (19:00), T-7d Aula 2 (21:10).</label>
+    <div class="who gabriel">n8n</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p9">
+    <label for="p9"><strong>Lista de presença</strong> dos alunos confirmados em mãos · Gabriel sabe nome de cada um para chamar a apresentação individual sem hesitação.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="p10">
+    <label for="p10"><strong>Cronômetro de 60s</strong> testado em tela compartilhada (apresentação individual).</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+
+  <div class="warn">
+    <strong>Bloqueante crítico</strong>
+    Se um dos 3 GForms não estiver pronto até ter 05/05 12h, ativar plano B: ferramenta em planilha aberta · alunos preenchem coluna ao vivo. Não cancela a aula.
+  </div>
+</section>
+
+<!-- ============================================================ FASE 2 · DURANTE -->
+<section class="phase during" id="durante">
+  <h2>Fase 2 · Durante a aula</h2>
+  <div class="when">Ter 05/05 · 18:30 → 21:00</div>
+
+  <div class="ch">
+    <input type="checkbox" id="d1">
+    <label for="d1"><strong>18:30 · Gabriel entra no Meet</strong> · valida áudio · vídeo · OBS · gravação ativa.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d2">
+    <label for="d2"><strong>18:50 · Trilha AURA baixa começa</strong> · slide 0 (Tela de espera) · sem locução.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d3">
+    <label for="d3"><strong>19:00 · Sala abre</strong> · Gabriel modera chat · cobra <em>câmera ON + nome visível</em> · alunos sem câmera não passam.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d4">
+    <label for="d4"><strong>19:10 em ponto · Augustto abre</strong> · slide 1 · sem espera de retardatário (regra da AURA).</label>
+    <div class="who augustto">Augustto</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d5">
+    <label for="d5"><strong>Apresentação individual:</strong> antes de cada aluno, Gabriel inicia gravação isolada (cena <em>Só câmera do aluno ativo</em>) · arquivo <code>apresentacao-aula-01-{{nome}}-2026-05-05.mp4</code>. Cronômetro 60s visível.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d6">
+    <label for="d6"><strong>Após cada apresentação (15s):</strong> Gabriel relembra demais alunos de preencher o GForms · Avaliação Cruzada.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d7">
+    <label for="d7"><strong>Slide 13 (20:06):</strong> Gabriel cola link do GForms · Mapa da Autoimagem no chat do Meet.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d8">
+    <label for="d8"><strong>Slide 18 (20:26):</strong> Gabriel cola link do GForms · Termostato Financeiro no chat do Meet.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d9">
+    <label for="d9"><strong>Aluno sem ferramenta aberta</strong> → contato 1:1 via privado durante a aula (não interrompe Augustto).</label>
+    <div class="who salomao">Suporte</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="d10">
+    <label for="d10"><strong>21:00 · Cortina preta após fecho</strong> · trilha sobe · gravação encerra com 5s de Augustto fixo em câmera (slide 26).</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+
+  <div class="info">
+    <strong>Tom AURA durante a aula</strong>
+    Câmera fechada = aviso pelo chat 1× e remoção do Meet se persistir. "AURA não serve cortesia" — regra do contrato silencioso (slide 2).
+  </div>
+</section>
+
+<!-- ============================================================ FASE 3 · PÓS-AULA -->
+<section class="phase after" id="pos">
+  <h2>Fase 3 · Pós-aula</h2>
+  <div class="when">Ter 05/05 · 21:00 → 21:30</div>
+
+  <div class="ch">
+    <input type="checkbox" id="a1">
+    <label for="a1"><strong>Gravação salva no Drive</strong> em <code>mentoria-aura/aulas/bloco-01/aula-01-gravacao.mp4</code> + 10 arquivos isolados das apresentações individuais.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="a2">
+    <label for="a2"><strong>21:10 · Gatilho T-7d Aula 2 dispara</strong> automaticamente: WhatsApp Salomão + email + áudio A1. Verificar logs n8n.</label>
+    <div class="who salomao">n8n</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="a3">
+    <label for="a3"><strong>Atualizar planilha alunos ativos</strong> · coluna <code>marco_1_despertar_espelho</code> com data/status por aluno presente.</label>
+    <div class="who salomao">Salomão</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="a4">
+    <label for="a4"><strong>Cris recebe gravação</strong> + 10 apresentações individuais para cortes editoriais (Reels/Stories) e arquivamento Bloco 3.</label>
+    <div class="who cris">Cris</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="a5">
+    <label for="a5"><strong>Augustto grava 3 áudios celebração</strong> personalizados para os 3 primeiros alunos que completarem a Experiência do Espelho 7 dias.</label>
+    <div class="who augustto">Augustto</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="a6">
+    <label for="a6"><strong>Médias agregadas</strong> da Avaliação Cruzada (Voz/Presença/Postura) compiladas por aluno → base para 1ª mentoria 1:1 + dossiê de entrada.</label>
+    <div class="who gabriel">Gabriel</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="a7">
+    <label for="a7"><strong>Cruzar Mapa × Termostato</strong> de cada aluno na planilha · maior gap + temperatura → matéria-prima da Aula 2 (Crenças que Constroem Tetos).</label>
+    <div class="who salomao">Salomão</div>
+  </div>
+  <div class="ch">
+    <input type="checkbox" id="a8">
+    <label for="a8"><strong>QUA 06/05 · 12:00</strong> — Ritual 1 Check-in do Espelho dispara automaticamente · Salomão lê respostas e devolve em texto curto.</label>
+    <div class="who salomao">Salomão</div>
+  </div>
+</section>
+
+<!-- ============================================================ CONTATOS -->
+<h3 class="section-title">Contatos da operação</h3>
+<div class="contacts">
+  <div class="contact">
+    <div class="role">Mentor</div>
+    <div class="name">Augustto Leão</div>
+    <div class="data">Áudio · momentos-chave<br>via Franklin</div>
+  </div>
+  <div class="contact">
+    <div class="role">Operação técnica</div>
+    <div class="name">Gabriel</div>
+    <div class="data">Meet · OBS · planilha<br>gravação · GForms</div>
+  </div>
+  <div class="contact">
+    <div class="role">Squad WhatsApp</div>
+    <div class="name">Salomão · Rosi</div>
+    <div class="data">556192979889<br>(automação + suporte)</div>
+  </div>
+</div>
+
+<div class="warn">
+  <strong>Plano B se Meet cair</strong>
+  Backup Zoom configurado em <code>conta sellectinteligence@gmail.com</code> · Gabriel troca link no chat do squad WhatsApp em &lt;3 min · Augustto continua de onde parou.
+</div>
+
+<!-- APROVAÇÃO -->
+<div class="approval">
+  <h3>Validação Franklin</h3>
+  <p style="font-family: var(--font-body); font-style: italic; color: var(--gray-5); font-size: 14px; max-width: 480px; margin: 0 auto 8px;">
+    Confirme se o Pre-flight está coerente para a Aula 1 (terça 05/05/2026 · 19:00 BRT).
+  </p>
+  <div class="approval-buttons">
+    <button class="aprovar" onclick="aprovar()">✓ Aprovar Pre-flight</button>
+    <button class="ajustar" onclick="ajustar()">⏵ Marcar para ajustar</button>
+  </div>
+  <div class="approval-result" id="approval-result"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="quote">"Presença começa por ver. A AURA começa hoje."</div>
+  AURA · Mentoria · Pre-flight Aula 1 · v1 · 04/05/2026
+</div>
+
+</div>
+
+<!-- PROGRESS -->
+<div class="progress" id="progress">0 / 28<span class="bar" style="--w: 0%"></span></div>
+
+<script>
+  const checks = document.querySelectorAll('input[type="checkbox"]');
+  const progress = document.getElementById('progress');
+  const result = document.getElementById('approval-result');
+
+  function update() {
+    const done = [...checks].filter(c => c.checked).length;
+    const pct = (done / checks.length) * 100;
+    progress.firstChild.textContent = `${done} / ${checks.length}`;
+    progress.querySelector('.bar').style.setProperty('--w', `${pct}%`);
+  }
+
+  checks.forEach(cb => {
+    const key = `aura-validacao-${cb.id}`;
+    cb.checked = localStorage.getItem(key) === '1';
+    cb.addEventListener('change', () => {
+      localStorage.setItem(key, cb.checked ? '1' : '0');
+      update();
+    });
+  });
+  update();
+
+  function aprovar() {
+    const ts = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+    localStorage.setItem('aura-aprovacao', `aprovado · ${ts}`);
+    result.textContent = `✓ Aprovado · ${ts}`;
+    result.style.color = 'var(--green)';
+  }
+  function ajustar() {
+    const ts = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+    localStorage.setItem('aura-aprovacao', `ajustar · ${ts}`);
+    result.textContent = `⏵ Marcado para ajustar · ${ts}`;
+    result.style.color = 'var(--red)';
+  }
+  const last = localStorage.getItem('aura-aprovacao');
+  if (last) {
+    result.textContent = last.startsWith('aprovado') ? `✓ ${last.charAt(0).toUpperCase() + last.slice(1)}` : `⏵ ${last.charAt(0).toUpperCase() + last.slice(1)}`;
+    result.style.color = last.startsWith('aprovado') ? 'var(--green)' : 'var(--red)';
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Aula 01 · O Espelho Interno · Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Oswald:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:        #000000;
+    --charcoal:     #141414;
+    --white:        #ffffff;
+    --offwhite:     #fffbfb;
+    --gold:         #ffde59;
+    --teal:         #0097b2;
+    --violet:       #5e17eb;
+    --lime:         #7ed957;
+    --taupe:        #93877e;
+    --gray-mid:     #929292;
+    --gray-line:    #2a2a2a;
+    --red:          #ff4747;
+
+    --font-display: 'Oswald', 'Barlow Condensed', Impact, sans-serif;
+    --font-hero:    'Barlow Condensed', 'Oswald', sans-serif;
+    --font-body:    'Lora', Georgia, serif;
+    --font-ui:      'Inter', -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
+
+  /* ============================================================ DECK */
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none;
+    padding: 64px 96px 96px;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--black);
+    overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* Ghost number */
+  .slide::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 8%; right: 4%;
+    font-family: var(--font-display);
+    font-size: clamp(160px, 22vw, 360px);
+    font-weight: 700;
+    color: var(--taupe);
+    opacity: 0.05;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .slide > * { position: relative; z-index: 1; }
+
+  /* ============================================================ HEADER (status bar) */
+  .status {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 38px;
+    background: rgba(0,0,0,0.92);
+    border-bottom: 1px solid var(--gray-line);
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    gap: 28px;
+    z-index: 100;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+  }
+  .status .brand { color: var(--gold); font-weight: 700; letter-spacing: 0.24em; }
+  .status .marco { color: var(--violet); font-weight: 600; }
+  .status .time { color: var(--lime); }
+  .status .num { margin-left: auto; color: var(--white); font-weight: 600; }
+
+  /* ============================================================ FOOTER (control bar) */
+  .controls {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 44px;
+    background: rgba(0,0,0,0.92);
+    border-top: 1px solid var(--gray-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 100;
+    font-family: var(--font-hero);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .controls button {
+    background: transparent;
+    border: 1px solid var(--gray-line);
+    color: var(--gray-mid);
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: var(--font-hero);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: all 0.12s;
+    font-weight: 600;
+  }
+  .controls button:hover { color: var(--gold); border-color: var(--gold); }
+  .controls .keys { color: var(--taupe); margin-left: 18px; }
+  .controls .keys kbd {
+    font-family: var(--font-ui);
+    background: var(--charcoal);
+    color: var(--white);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--gray-line);
+    font-size: 10px;
+    margin: 0 3px;
+  }
+
+  /* ============================================================ TIPOGRAFIA SLIDE */
+  .tag {
+    font-family: var(--font-hero);
+    font-size: clamp(13px, 1.1vw, 16px);
+    color: var(--lime);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .tag.violet { color: var(--violet); }
+  .tag.gold { color: var(--gold); }
+  .tag.teal { color: var(--teal); }
+  .tag.red { color: var(--red); }
+
+  h1.title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.012em;
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: clamp(48px, 7vw, 120px);
+    margin-bottom: 32px;
+    max-width: 90%;
+  }
+  h1.title.hook {
+    color: var(--gold);
+    font-style: italic;
+    text-transform: none;
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+
+  h2.subtitle {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 3.4vw, 56px);
+    line-height: 1.05;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    margin-bottom: 28px;
+    max-width: 92%;
+  }
+
+  .lede {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 32px);
+    line-height: 1.45;
+    color: var(--gold);
+    max-width: 1100px;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+
+  .body {
+    font-family: var(--font-body);
+    font-size: clamp(18px, 1.35vw, 24px);
+    line-height: 1.6;
+    color: var(--white);
+    max-width: 1080px;
+    margin-bottom: 24px;
+  }
+
+  /* ============================================================ DECK BLOCKS */
+  .block {
+    background: var(--charcoal);
+    border-left: 4px solid var(--gold);
+    padding: 32px 44px;
+    margin: 18px 0;
+    max-width: 1100px;
+  }
+  .block.violet { border-left-color: var(--violet); }
+  .block.lime { border-left-color: var(--lime); }
+  .block.teal { border-left-color: var(--teal); }
+
+  .rules-list {
+    list-style: none;
+    padding: 0;
+  }
+  .rules-list li {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 48px);
+    font-weight: 600;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    line-height: 1.2;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--gray-line);
+    display: flex;
+    gap: 24px;
+    align-items: baseline;
+  }
+  .rules-list li:last-child { border-bottom: none; }
+  .rules-list li .num {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-weight: 700;
+    min-width: 80px;
+    font-size: clamp(40px, 4vw, 72px);
+    line-height: 1;
+  }
+  .rules-list li .desc {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 0.5em;
+    color: var(--gray-mid);
+    margin-left: 16px;
+    font-weight: 400;
+    text-transform: none;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 1180px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    max-width: 1280px;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--gray-line);
+    border: 1px solid var(--gray-line);
+    max-width: 1100px;
+  }
+
+  .card {
+    background: var(--charcoal);
+    padding: 28px 32px;
+    border: 1px solid var(--gray-line);
+  }
+  .card.dark { background: var(--black); }
+  .card .label {
+    font-family: var(--font-hero);
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .card .value {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 3.4vw, 56px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .card .desc {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--gray-mid);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* dimensões mapa */
+  .dim-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 1100px;
+  }
+  .dim {
+    display: grid;
+    grid-template-columns: 60px 200px 1fr;
+    align-items: center;
+    background: var(--charcoal);
+    border-left: 3px solid var(--gold);
+    padding: 14px 22px;
+    gap: 16px;
+  }
+  .dim .num {
+    font-family: var(--font-display);
+    color: var(--gold);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .dim .name {
+    font-family: var(--font-hero);
+    color: var(--white);
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+  }
+  .dim .qst {
+    font-family: var(--font-body);
+    font-style: italic;
+    color: var(--gray-mid);
+    font-size: 15px;
+  }
+
+  /* timeline */
+  .tl {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 1100px;
+  }
+  .tl-row {
+    display: grid;
+    grid-template-columns: 90px 60px 1fr;
+    align-items: center;
+    background: var(--charcoal);
+    padding: 16px 22px;
+    border-left: 3px solid var(--violet);
+    gap: 18px;
+  }
+  .tl-row .ms {
+    font-family: var(--font-display);
+    color: var(--gold);
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .tl-row .arrow {
+    color: var(--violet);
+    font-size: 24px;
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  .tl-row .lbl {
+    font-family: var(--font-hero);
+    color: var(--white);
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* termômetro */
+  .therm {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--gray-line);
+    border-radius: 999px;
+    overflow: hidden;
+    max-width: 1080px;
+    height: 76px;
+    margin: 24px 0;
+  }
+  .therm > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-hero);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .therm .t1 { background: #0e2a3a; color: #6fb5d6; }
+  .therm .t2 { background: #1a3d4a; color: #aad6e6; }
+  .therm .t3 { background: #4a3a2a; color: #d8a87a; }
+  .therm .t4 { background: #8a5a1a; color: #ffd494; }
+  .therm .t5 { background: #ffde59; color: var(--black); }
+
+  /* squad fluxo */
+  .flow {
+    display: grid;
+    grid-template-columns: 100px 130px 1fr;
+    gap: 14px;
+    max-width: 1180px;
+  }
+  .flow-row {
+    display: contents;
+  }
+  .flow-day {
+    background: var(--black);
+    border: 1px solid var(--gray-line);
+    padding: 12px 16px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .flow-time {
+    background: var(--charcoal);
+    border: 1px solid var(--gray-line);
+    padding: 12px 16px;
+    font-family: var(--font-hero);
+    font-size: 14px;
+    color: var(--gray-mid);
+    letter-spacing: 0.06em;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+  .flow-action {
+    background: var(--charcoal);
+    border: 1px solid var(--gray-line);
+    border-left: 3px solid var(--lime);
+    padding: 12px 18px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--white);
+  }
+  .flow-action strong { color: var(--gold); }
+  .flow-action.salomao { border-left-color: var(--teal); }
+  .flow-action.augustto { border-left-color: var(--gold); }
+
+  /* compromissos */
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 1100px;
+  }
+  .ch {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    align-items: baseline;
+    background: var(--charcoal);
+    border-left: 3px solid var(--lime);
+    padding: 18px 24px;
+    gap: 16px;
+  }
+  .ch .n {
+    font-family: var(--font-display);
+    color: var(--lime);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .ch .txt {
+    font-family: var(--font-body);
+    color: var(--white);
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  .ch .txt strong { color: var(--gold); font-weight: 700; }
+
+  /* marco */
+  .marco-card {
+    background: linear-gradient(135deg, rgba(94,23,235,0.12), rgba(255,222,89,0.08));
+    border: 1px solid var(--violet);
+    padding: 48px 56px;
+    max-width: 1100px;
+    text-align: center;
+  }
+  .marco-card .num-big {
+    font-family: var(--font-display);
+    font-size: clamp(120px, 16vw, 240px);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .marco-card .num-big small {
+    font-size: 0.35em;
+    color: var(--gray-mid);
+    font-weight: 400;
+  }
+  .marco-card .nome {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    margin: 12px 0 24px;
+  }
+  .marco-card .crit {
+    text-align: left;
+    max-width: 720px;
+    margin: 24px auto 0;
+    padding: 24px 28px;
+    background: rgba(0,0,0,0.5);
+    border-left: 3px solid var(--lime);
+  }
+  .marco-card .crit li {
+    list-style: none;
+    font-family: var(--font-body);
+    color: var(--white);
+    font-size: 16px;
+    padding: 6px 0;
+  }
+  .marco-card .crit li::before {
+    content: "✓ ";
+    color: var(--lime);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* speaker note */
+  .speaker {
+    position: fixed;
+    bottom: 56px;
+    right: 16px;
+    max-width: 380px;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: rgba(20,20,20,0.96);
+    border: 1px solid var(--gold);
+    padding: 20px 22px;
+    z-index: 90;
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--white);
+    display: none;
+    border-left-width: 4px;
+  }
+  .speaker.show { display: block; }
+  .speaker .label {
+    font-family: var(--font-hero);
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-style: normal;
+    display: block;
+  }
+  .speaker p { margin-bottom: 10px; }
+
+  /* progress */
+  .progress {
+    position: fixed;
+    bottom: 44px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--gray-line);
+    z-index: 99;
+  }
+  .progress .bar {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.25s;
+  }
+
+  /* gap example */
+  .gap-ex {
+    background: var(--charcoal);
+    border-left: 4px solid var(--violet);
+    padding: 28px 40px;
+    max-width: 980px;
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  .gap-ex .num {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.35em;
+  }
+
+  /* model frase */
+  .frase-modelo {
+    background: var(--black);
+    border: 1px dashed var(--gold);
+    padding: 36px 44px;
+    max-width: 1080px;
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.55;
+    color: var(--white);
+  }
+  .frase-modelo .blank {
+    display: inline-block;
+    min-width: 220px;
+    border-bottom: 2px solid var(--gold);
+    color: var(--gold);
+    text-align: center;
+    margin: 0 4px;
+  }
+  .frase-modelo .ex {
+    margin-top: 24px;
+    font-size: 0.7em;
+    color: var(--gray-mid);
+    font-style: normal;
+    border-top: 1px solid var(--gray-line);
+    padding-top: 18px;
+  }
+  .frase-modelo .ex strong { color: var(--white); font-style: italic; }
+
+  /* hero stat row */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gray-line);
+    border: 1px solid var(--gray-line);
+    max-width: 1180px;
+    margin-top: 32px;
+  }
+  .stat-row .stat {
+    background: var(--black);
+    padding: 22px 24px;
+  }
+  .stat-row .n {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 3.4vw, 56px);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+  .stat-row .lbl {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--gray-mid);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  /* aulas card */
+  .aulas-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: 1080px;
+  }
+  .aulas-card .item {
+    display: grid;
+    grid-template-columns: 110px 1fr 200px;
+    align-items: center;
+    background: var(--charcoal);
+    padding: 22px 28px;
+    border-left: 3px solid var(--gray-line);
+    gap: 24px;
+  }
+  .aulas-card .item.hoje {
+    border-left-color: var(--gold);
+    background: linear-gradient(90deg, rgba(255,222,89,0.08), transparent);
+  }
+  .aulas-card .item .nm {
+    font-family: var(--font-display);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+  }
+  .aulas-card .item .ttl {
+    font-family: var(--font-display);
+    color: var(--white);
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .aulas-card .item .dt {
+    font-family: var(--font-hero);
+    color: var(--gray-mid);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: right;
+  }
+  .aulas-card .item.hoje .dt { color: var(--lime); }
+
+  /* responsivo */
+  @media (max-width: 900px) {
+    .slide { padding: 56px 32px 64px; }
+    .grid-2, .grid-3, .dim-list { grid-template-columns: 1fr; }
+    .controls .keys { display: none; }
+    .speaker { right: 8px; left: 8px; max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="status">
+  <span class="brand">△ AURA</span>
+  <span>Aula 01 · O Espelho Interno</span>
+  <span class="marco">Marco 1 · Despertar do Espelho</span>
+  <span class="time" id="block-label">INÍCIO · 19:10</span>
+  <span class="num" id="slide-num">0/26</span>
+</div>
+
+<!-- DECK -->
+<div class="deck">
+
+<!-- ========================================== SLIDE 0 · TELA DE ESPERA -->
+<section class="slide active" data-num="00" data-block="INÍCIO · 19:10 · Tela de espera">
+  <span class="tag">Tela de espera · INÍCIO 19:10</span>
+  <h1 class="title">Aula 1<br>O Espelho<br>Interno</h1>
+  <div class="lede">Bloco 1 · Autoimagem</div>
+  <div class="body" style="font-family: var(--font-display); text-transform: uppercase; font-size: clamp(28px,3vw,48px); color: var(--gold); letter-spacing: -0.005em;">
+    19:10 em ponto.<br>Sem atraso · sem espera.
+  </div>
+  <div class="speaker"><span class="label">Operacional</span>
+    <p>Trilha AURA baixa · sem locução. Gabriel confere presenças no Meet · nomes na câmera · câmera obrigatória.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 1 · ABERTURA -->
+<section class="slide" data-num="01" data-block="19:10–19:13 · Abertura">
+  <span class="tag">Abertura · 3 min</span>
+  <h1 class="title">A AURA abriu<br>a primeira porta.</h1>
+  <div class="lede">"Você não vive o seu potencial. Vive a imagem que tem de si."</div>
+  <div class="body">Hoje a gente começa pelo espelho. Porque o preço que você aceita cobrar é o espelho do preço que você acredita que vale.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 3 min</span>
+    <p>"19:10. Sem atraso, sem espera. Vocês acabaram de cruzar uma linha. Do lado de lá tinha uma versão sua que achava que precisava de mais alguma coisa pra começar. Do lado de cá tem uma versão sua que já começou."</p>
+    <p>"A Mentoria AURA não ensina o que você não sabe. Ela te tira do que você não é."</p>
+    <p>"Nas próximas 12 aulas vocês vão atravessar 4 blocos. Autoimagem. Posicionamento. Comunicação Magnética. Autoridade em Movimento. A primeira porta abre aqui — e ela é a que sustenta todas as outras."</p>
+    <p>"Hoje a gente começa pelo espelho. Porque o preço que você aceita cobrar é o espelho do preço que você acredita que vale. E enquanto o espelho mentir, o resultado vai mentir junto."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 2 · CONTRATO SILENCIOSO -->
+<section class="slide" data-num="02" data-block="19:13–19:16 · Contrato silencioso">
+  <span class="tag gold">Contrato Silencioso · 3 min</span>
+  <h2 class="subtitle">O que a AURA exige de você nas próximas 12 semanas.</h2>
+  <ul class="rules-list">
+    <li><span class="num">1</span><span>Câmera ligada<span class="desc">Quem se esconde, não se vê.</span></span></li>
+    <li><span class="num">2</span><span>Presença inteira<span class="desc">Celular fora da mesa.</span></span></li>
+    <li><span class="num">3</span><span>Ferramenta executada<span class="desc">Aula sem ferramenta é nada.</span></span></li>
+    <li><span class="num">4</span><span>Ritual respondido<span class="desc">Quem não responde, não é lembrado.</span></span></li>
+  </ul>
+  <div class="body" style="margin-top: 28px; color: var(--gold); font-family: var(--font-hero); letter-spacing: 0.1em; text-transform: uppercase; font-style: normal; font-weight: 600;">
+    Quem topa, confirma agora no chat com 🦁
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 3 min</span>
+    <p>"A AURA honra quem se compromete. Vamos combinar as 4 regras do jogo agora."</p>
+    <p>"Câmera ligada — porque o primeiro espelho que você encara é o seu próprio rosto na tela. Quem se esconde, não se vê."</p>
+    <p>"Presença inteira — celular fora da mesa. Não existe meia-presença na AURA."</p>
+    <p>"Ferramenta executada — toda aula tem uma ferramenta. Aula sem ferramenta é entretenimento. Aqui não é."</p>
+    <p>"Ritual respondido — toda semana vai ter um ritual no WhatsApp. Quem não responde, não é lembrado."</p>
+    <p>"Quem topa, confirma agora no chat com o emoji do leão. 🦁" [aguardar 30s]</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 3 · BLOCO 1 -->
+<section class="slide" data-num="03" data-block="19:16–19:20 · Declaração do Bloco 1">
+  <span class="tag violet">Bloco 1 · A pedra-base · 4 min</span>
+  <h2 class="subtitle">Bloco 1 · Autoimagem<br>3 aulas · 1 travessia.</h2>
+  <div class="aulas-card">
+    <div class="item hoje">
+      <div class="nm">Aula 1</div>
+      <div class="ttl">O Espelho Interno</div>
+      <div class="dt">Hoje ·  05/05</div>
+    </div>
+    <div class="item">
+      <div class="nm">Aula 2</div>
+      <div class="ttl">Crenças que Constroem Tetos</div>
+      <div class="dt">16/05</div>
+    </div>
+    <div class="item">
+      <div class="nm">Aula 3</div>
+      <div class="ttl">Reconstrução do Valor Próprio</div>
+      <div class="dt">30/05</div>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min</span>
+    <p>"Três aulas. Uma pedra-base. O Bloco 1 não é sobre você ficar melhor. É sobre você parar de fingir ser quem não é."</p>
+    <p>"Hoje a gente vê o espelho — a autoimagem que está governando seus resultados sem você perceber. Daqui a duas semanas a gente nomeia as crenças. Daqui a quatro, a gente reconstrói o valor próprio."</p>
+    <p>"Quando você sair desse bloco, o espelho vai ter mudado. E aí sim, a gente entra no Posicionamento."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 4 · APRESENTAÇÃO INDIVIDUAL · PREP -->
+<section class="slide" data-num="04" data-block="19:22–19:24 · Preparação da apresentação">
+  <span class="tag">Apresentação individual · 2 min</span>
+  <h2 class="subtitle">1 minuto. Gravado.<br>Câmera ligada. Boca solta.</h2>
+  <div class="block">
+    <div class="body" style="margin: 0; color: var(--gold); font-family: var(--font-hero); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; margin-bottom: 18px; font-style: normal;">Responda em 60 segundos:</div>
+    <ul style="list-style: none; padding: 0;">
+      <li style="font-family: var(--font-body); font-size: 22px; color: var(--white); padding: 6px 0;">• Quem é você?</li>
+      <li style="font-family: var(--font-body); font-size: 22px; color: var(--white); padding: 6px 0;">• O que você faz?</li>
+      <li style="font-family: var(--font-body); font-size: 22px; color: var(--white); padding: 6px 0;">• Por que está aqui hoje?</li>
+    </ul>
+  </div>
+  <div class="block violet" style="margin-top: 12px;">
+    <div class="body" style="margin: 0; font-style: normal;">
+      <strong style="color: var(--violet);">GRAVAÇÃO OBRIGATÓRIA</strong> — material-base do Bloco 3 · Comunicação Magnética. <br>
+      Os outros alunos avaliam você em <strong style="color: var(--gold);">VOZ · PRESENÇA · POSTURA</strong> (0–10).
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Antes da teoria, a AURA precisa te ver. E vocês precisam se ver."</p>
+    <p>"Próximos 14 minutos: cada um vai falar 1 minuto. Nem mais nem menos. Sem slide. Sem preparo. Câmera ligada. Boca solta."</p>
+    <p>"3 perguntas simples: quem é você, o que você faz, por que está aqui hoje. A gravação não é pra me impressionar. É material-base. Daqui 4 meses vocês vão comparar com a versão do Bloco 3."</p>
+    <p>"Os outros alunos vão avaliar vocês. 3 notas de 0 a 10: VOZ, PRESENÇA, POSTURA. Sem dó. Sem cortesia. A AURA não serve cortesia."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 5 · CRITÉRIOS DE AVALIAÇÃO -->
+<section class="slide" data-num="05" data-block="19:24–19:26 · Como avaliar">
+  <span class="tag">Critérios objetivos · 2 min</span>
+  <h2 class="subtitle">3 notas. Sem subjetividade.</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="label">Voz · 0–10</div>
+      <div class="value">Voz</div>
+      <div class="desc">Firmeza · volume · ritmo · pausas. <br><strong style="color: var(--white);">0 =</strong> apagada · <strong style="color: var(--white);">10 =</strong> carrega a sala.</div>
+    </div>
+    <div class="card">
+      <div class="label">Presença · 0–10</div>
+      <div class="value">Presença</div>
+      <div class="desc">Olha na câmera · ocupa o espaço · energia. <br><strong style="color: var(--white);">0 =</strong> desaparece · <strong style="color: var(--white);">10 =</strong> prende a atenção.</div>
+    </div>
+    <div class="card">
+      <div class="label">Postura · 0–10</div>
+      <div class="value">Postura</div>
+      <div class="desc">Coluna · ombros · mãos · movimento. <br><strong style="color: var(--white);">0 =</strong> desalinhada · <strong style="color: var(--white);">10 =</strong> impõe respeito.</div>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"3 critérios. Sem subjetividade. VOZ — quando o aluno fala, a sala escuta ou escapa? Tem firmeza ou é uma sussurrante de desculpas?"</p>
+    <p>"PRESENÇA — ele olha na câmera ou foge? Ocupa o espaço ou se encolhe? Você pararia de rolar o feed pra assistir ele?"</p>
+    <p>"POSTURA — coluna ereta ou curvada? Ombros abertos ou fechados? Mãos confiantes ou escondidas?"</p>
+    <p>"0 é quando não tem quase nada. 10 é quando carrega a sala. 7 é 'bom o suficiente'. 3 é 'eu não te contrataria por essa fala'. Sem dó. Cortesia aqui é sabotagem."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 6 · EXECUÇÃO -->
+<section class="slide" data-num="06" data-block="19:26–19:36 · Execução · 1 min por aluno">
+  <span class="tag red">Execução · 10 min · cronômetro de 60s</span>
+  <h2 class="subtitle">1 minuto por aluno.<br>Próximo. Próximo.</h2>
+  <div class="grid-2">
+    <div class="card dark">
+      <div class="label">Operacional · Gabriel</div>
+      <div class="body" style="margin: 0; font-style: normal; font-size: 17px; line-height: 1.55;">
+        1. Inicia gravação individual antes de cada aluno (cena OBS "Só câmera do aluno ativo").<br><br>
+        2. Arquivo: <code style="color: var(--gold); background: rgba(255,222,89,0.1); padding: 2px 6px; font-family: monospace;">apresentacao-aula-01-{{nome}}-2026-05-05.mp4</code><br><br>
+        3. Augustto chama em ordem · cronômetro 60s visível em tela.<br><br>
+        4. Após cada apresentação · 15s para anotação coletiva no GForms.
+      </div>
+    </div>
+    <div class="card dark">
+      <div class="label">Formulário · Avaliação Cruzada</div>
+      <div class="body" style="margin: 0; font-style: normal; font-size: 16px; line-height: 1.7;">
+        <strong style="color: var(--gold);">Nome do aluno avaliado:</strong> _________<br>
+        <strong style="color: var(--gold);">Nota VOZ:</strong> ___/10<br>
+        <strong style="color: var(--gold);">Nota PRESENÇA:</strong> ___/10<br>
+        <strong style="color: var(--gold);">Nota POSTURA:</strong> ___/10<br>
+        <strong style="color: var(--gold);">Comentário (1 linha):</strong> _________<br><br>
+        <em style="color: var(--gray-mid);">Output agregado → planilha · base para 1ª mentoria 1:1.</em>
+      </div>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · ritmada · curta</span>
+    <p>"Primeiro: {{nome}}. 1 minuto. Vai." [60s]</p>
+    <p>"Tempo. Obrigado. Demais alunos, avaliem agora." [15s anotação]</p>
+    <p>"Próximo: {{nome}}. Vai."</p>
+    <p><strong>Se passar de 60s:</strong> "Tempo. Próximo." (interrupção seca)</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 7 · O QUE É AUTOIMAGEM -->
+<section class="slide" data-num="07" data-block="19:36–19:40 · Teoria · O que é autoimagem">
+  <span class="tag teal">Teoria/Neurociência · 4 min</span>
+  <h2 class="subtitle">Autoimagem ≠ Autoestima.</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="label">Autoestima</div>
+      <div class="value" style="color: var(--teal);">Como você se sente</div>
+      <div class="desc">Emoção flutuante · oscila no dia. Sobe com elogio · desce com 'não'.</div>
+    </div>
+    <div class="card">
+      <div class="label">Autoimagem</div>
+      <div class="value" style="color: var(--gold);">Como você se vê</div>
+      <div class="desc">Estrutura neural estável · governa a década inteira. Construída na infância (4–12 anos).</div>
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 36px; color: var(--white); font-family: var(--font-display); font-style: normal; font-size: clamp(22px,2vw,32px); text-transform: uppercase; letter-spacing: -0.005em;">
+    Autoestima varia no dia. <span style="color: var(--gold);">Autoimagem governa a década.</span>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min</span>
+    <p>"Muita gente confunde autoimagem com autoestima. Não é a mesma coisa."</p>
+    <p>"Autoestima é como você se sente sobre você hoje. Oscila. Sobe quando ganha elogio, desce quando ouve 'não'."</p>
+    <p>"Autoimagem é outra camada. É como seu cérebro te vê. Uma estrutura que não muda no dia. Muda em décadas, se muda."</p>
+    <p>"E o problema é que essa estrutura foi construída por você quando você era criança. Você está, agora, adulto, gerando resultado com um espelho de 8 anos de idade."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 8 · 3 CAMADAS -->
+<section class="slide" data-num="08" data-block="19:40–19:46 · 3 camadas neurais">
+  <span class="tag teal">Como o cérebro constrói o espelho · 6 min</span>
+  <h2 class="subtitle">3 camadas neurais da autoimagem.</h2>
+  <div class="dim-list" style="grid-template-columns: 1fr;">
+    <div class="dim" style="grid-template-columns: 60px 280px 1fr;">
+      <span class="num">1</span>
+      <span class="name">Memória episódica</span>
+      <span class="qst">Fatos que te marcaram (4–12 anos). Elogios e humilhações ficam gravados como "referência de quem eu sou".</span>
+    </div>
+    <div class="dim" style="grid-template-columns: 60px 280px 1fr;">
+      <span class="num">2</span>
+      <span class="name">Rede de auto-referência</span>
+      <span class="qst">Rede default do cérebro que fala "eu". Toda vez que você pensa em si, ela acende — e acende os mesmos padrões todo dia.</span>
+    </div>
+    <div class="dim" style="grid-template-columns: 60px 280px 1fr; border-left-color: var(--violet);">
+      <span class="num" style="color: var(--violet);">3</span>
+      <span class="name">Crença encarnada</span>
+      <span class="qst">A camada invisível que <strong style="color: var(--violet);">decide sem você</strong>. Você já não pensa — você age a partir dela.</span>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 6 min</span>
+    <p>"O cérebro constrói sua autoimagem em 3 camadas. A primeira é memória. A segunda é uma rede no cérebro chamada rede de auto-referência. A terceira é a camada que me interessa: crença encarnada."</p>
+    <p>"Exemplo: você tem 20 anos de mercado, um serviço excelente. Chega a hora de falar o preço. Sua boca cobra 30% a menos do que você planejou."</p>
+    <p>"Não foi você que decidiu. Foi a crença encarnada. Foi o espelho de 8 anos falando pelo adulto."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 9 · 300 ms -->
+<section class="slide" data-num="09" data-block="19:46–19:51 · Autoimagem decide antes de você">
+  <span class="tag teal">Neurociência dura · 5 min</span>
+  <h2 class="subtitle">A autoimagem é<br>2.5x mais rápida que você.</h2>
+  <div class="tl">
+    <div class="tl-row">
+      <span class="ms">0ms</span>
+      <span class="arrow">→</span>
+      <span class="lbl">Oportunidade aparece</span>
+    </div>
+    <div class="tl-row" style="border-left-color: var(--gold);">
+      <span class="ms">300ms</span>
+      <span class="arrow" style="color: var(--gold);">→</span>
+      <span class="lbl" style="color: var(--gold);">Autoimagem responde</span>
+    </div>
+    <div class="tl-row">
+      <span class="ms">800ms</span>
+      <span class="arrow">→</span>
+      <span class="lbl">Você conscientemente decide</span>
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 32px;">Sua decisão JÁ FOI MOLDADA pela autoimagem.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 5 min</span>
+    <p>"Neurociência dura: sua autoimagem responde em 300 milésimos de segundo. Sua consciência leva 800."</p>
+    <p>"Antes de você decidir conscientemente como reagir, seu espelho interno já reagiu por você. Você acha que pensou. Você reagiu."</p>
+    <p>"É por isso que mudar comportamento com força de vontade não funciona. Você está competindo com uma máquina 2.5x mais rápida que você."</p>
+    <p>"A única forma de mudar resultado é mudar o espelho. Não o comportamento — o espelho. E mudar começa por enxergar."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 10 · TETO INTERNO -->
+<section class="slide" data-num="10" data-block="19:51–19:57 · Teto interno de precificação">
+  <span class="tag gold">O teto interno · 6 min</span>
+  <h1 class="title hook">"O preço que você cobra é o espelho do preço que você acredita que vale."</h1>
+  <div class="gap-ex" style="margin-top: 24px;">
+    <div><strong>Mercado paga:</strong> <span class="num">R$ 20.000</span></div>
+    <div><strong>Seu espelho diz que você vale:</strong> <span class="num">R$ 7.000</span></div>
+    <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-line);">
+      <strong style="color: var(--violet);">Você cobra:</strong> <span class="num" style="color: var(--violet);">R$ 7.000</span>
+    </div>
+  </div>
+  <div class="body" style="margin-top: 28px; font-family: var(--font-display); font-style: normal; font-size: clamp(22px,2vw,32px); text-transform: uppercase; color: var(--white); letter-spacing: -0.005em; line-height: 1.2;">
+    Não é o mercado que está te pagando pouco.<br>
+    <span style="color: var(--gold);">É o seu espelho que está aceitando pouco.</span>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 6 min · acolhimento</span>
+    <p>"Olha essa conta: o mercado paga R$ 20k pelo que você entrega. Comparáveis cobram isso. Você cobra R$ 7k. Às vezes dá desconto pra 5."</p>
+    <p>"A diferença entre os 20 que o mercado pagaria e os 7 que você aceita — essa diferença é o seu teto interno de precificação."</p>
+    <p>"Aqui está a boa notícia: esse teto não é real. Ele é uma estrutura. E tudo que é estrutura pode ser trocada. Mas antes de trocar, você precisa ver. E ver dói."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 11 · O CUSTO DE NÃO VER -->
+<section class="slide" data-num="11" data-block="19:57–20:02 · O custo de não ver">
+  <span class="tag red">A fatura · 5 min</span>
+  <h2 class="subtitle">Você já paga esse preço.<br>A questão é se vai ver a fatura.</h2>
+  <div class="grid-4">
+    <div class="card">
+      <div class="label">Dinheiro</div>
+      <div class="desc" style="font-style: normal; font-size: 18px; color: var(--white);">Preço aceito <strong style="color: var(--gold);">abaixo</strong> do valor real.</div>
+    </div>
+    <div class="card">
+      <div class="label">Tempo</div>
+      <div class="desc" style="font-style: normal; font-size: 18px; color: var(--white);">Anos no <strong style="color: var(--gold);">mesmo teto</strong> sem ruptura.</div>
+    </div>
+    <div class="card">
+      <div class="label">Energia</div>
+      <div class="desc" style="font-style: normal; font-size: 18px; color: var(--white);">Exaustão de <strong style="color: var(--gold);">provar valor</strong>.</div>
+    </div>
+    <div class="card">
+      <div class="label">Relacionamento</div>
+      <div class="desc" style="font-style: normal; font-size: 18px; color: var(--white);">Pessoas tratam você <strong style="color: var(--gold);">como você se trata</strong>.</div>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 5 min</span>
+    <p>"O espelho limitador não é de graça. Ele cobra caro."</p>
+    <p>"Dinheiro — você cobra menos do que vale e acha que é estratégia. É o espelho. Tempo — você passa anos no mesmo teto achando que está acumulando experiência. Está acumulando prova de que o espelho tinha razão."</p>
+    <p>"Energia — você acorda cansado antes do trabalho começar. Já gastou energia nos últimos 20 anos provando que merece existir."</p>
+    <p>"Relacionamento — as pessoas tratam você da forma como você se trata. Se você se paga pouco, elas te pagam pouco. Se você se interrompe, elas te interrompem."</p>
+    <p>"Você já paga esse preço hoje. A diferença é se você vai ver a fatura."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 12 · A FUNÇÃO DA AULA -->
+<section class="slide" data-num="12" data-block="20:02–20:06 · Função da aula">
+  <span class="tag">Função pedagógica · 4 min</span>
+  <h1 class="title">Hoje a gente<br><span style="color: var(--gold);">abre a fatura.</span></h1>
+  <div class="lede">A aula de hoje NÃO muda o seu espelho. A aula de hoje te faz VER o espelho.</div>
+  <div class="body" style="font-family: var(--font-display); text-transform: uppercase; font-size: clamp(28px,3vw,44px); margin-top: 32px; font-style: normal;">
+    <span style="color: var(--taupe);">Mudar começa semana 2.</span><br>
+    <span style="color: var(--lime);">Ver começa agora.</span>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min · transição</span>
+    <p>"Pra quem veio aqui achando que ia sair de hoje com a vida resolvida: reduz a expectativa. Hoje não é sobre mudar. Hoje é sobre ver."</p>
+    <p>"A gente não reforma uma casa sem entrar nela e olhar cômodo por cômodo. A gente não troca um espelho antes de confirmar que ele está mentindo."</p>
+    <p>"A primeira aula da AURA é a aula do olho limpo. Ninguém sai daqui diferente. Todo mundo sai daqui enxergando."</p>
+    <p>"Quem enxerga não consegue mais ser o mesmo. Essa é a travessia do Bloco 1."</p>
+    <p><strong>Transição:</strong> "Agora a gente pega o espelho na mão."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 13 · INTRO MAPA -->
+<section class="slide" data-num="13" data-block="20:06–20:08 · Intro Mapa da Autoimagem">
+  <span class="tag">Ferramenta 1 · Mapa da Autoimagem · 2 min</span>
+  <h2 class="subtitle">Mapa da Autoimagem<br><span style="color: var(--gold); font-weight: 400;">15 min preenchimento + 5 min reflexão</span></h2>
+  <div class="grid-2">
+    <div class="card" style="border-left: 4px solid var(--gold);">
+      <div class="label">Coluna esquerda</div>
+      <div class="value" style="font-size: clamp(24px,2.4vw,40px); color: var(--white);">Como eu me vejo</div>
+      <div class="desc">Sua leitura interna. Notas 0–10 em 7 dimensões.</div>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--teal);">
+      <div class="label">Coluna direita</div>
+      <div class="value" style="font-size: clamp(24px,2.4vw,40px); color: var(--white);">Como os outros me vêem</div>
+      <div class="desc">Leitura externa percebida. Notas 0–10 em 7 dimensões.</div>
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 36px;">Onde as colunas batem → coerência. <span style="color: var(--violet);">Onde divergem → o gap.</span></div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"A ferramenta chama Mapa da Autoimagem. Duas colunas. Como você se vê e como você acredita que os outros te vêem."</p>
+    <p>"Não é teste de personalidade. Não é autoconhecimento raso. É um raio-X do espelho."</p>
+    <p>"Onde as duas colunas batem, você tem coerência. Onde divergem, você tem o gap. E é no gap que mora a crença limitante."</p>
+    <p>"Vamos executar juntos, ao vivo. Eu conduzo, vocês preenchem. Abre o link no chat."</p>
+    <p><strong>Operacional:</strong> Gabriel compartilha o link do GForms no chat do Meet.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 14 · 7 DIMENSÕES -->
+<section class="slide" data-num="14" data-block="20:08–20:10 · 7 dimensões">
+  <span class="tag">7 dimensões · 2 min</span>
+  <h2 class="subtitle">Onde o espelho mente mais.</h2>
+  <div class="dim-list">
+    <div class="dim"><span class="num">1</span><span class="name">Capacidade</span><span class="qst">"Sou bom no que faço"</span></div>
+    <div class="dim"><span class="num">2</span><span class="name">Valor</span><span class="qst">"Mereço receber bem pelo que entrego"</span></div>
+    <div class="dim"><span class="num">3</span><span class="name">Presença</span><span class="qst">"Sou percebido quando entro num ambiente"</span></div>
+    <div class="dim"><span class="num">4</span><span class="name">Voz</span><span class="qst">"Minha palavra tem peso"</span></div>
+    <div class="dim"><span class="num">5</span><span class="name">Autoridade</span><span class="qst">"Pessoas me procuram como referência"</span></div>
+    <div class="dim"><span class="num">6</span><span class="name">Merecimento</span><span class="qst">"Mereço crescer, ganhar, ser reconhecido"</span></div>
+    <div class="dim"><span class="num">7</span><span class="name">Potencial</span><span class="qst">"Tenho um teto maior do que onde estou"</span></div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Sete dimensões. Cada uma você dá uma nota de 0 a 10 em duas colunas."</p>
+    <p>"Coluna esquerda: como EU me vejo. Coluna direita: como eu ACREDITO que os outros me vêem."</p>
+    <p>"Sem pensar muito. Primeira intuição. O espelho fala rápido."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 15 · EXECUÇÃO MAPA -->
+<section class="slide" data-num="15" data-block="20:10–20:22 · Execução guiada · 12 min">
+  <span class="tag red">Preenchimento ao vivo · 12 min · cronômetro</span>
+  <h2 class="subtitle">Preencha ao vivo.<br>Câmera ligada. Silêncio.</h2>
+  <div class="block">
+    <div class="body" style="margin: 0; font-style: normal; font-size: 19px; line-height: 1.7;">
+      <strong style="color: var(--gold); font-family: var(--font-hero); letter-spacing: 0.1em; text-transform: uppercase;">Formato por dimensão · 90s</strong><br><br>
+      <span style="color: var(--lime);">●</span> Augustto nomeia a dimensão (15s)<br>
+      <span style="color: var(--lime);">●</span> 3 gatilhos de pergunta (30s)<br>
+      <span style="color: var(--lime);">●</span> Silêncio + preenchimento no GForms (45s)<br><br>
+      <strong style="color: var(--teal); font-family: var(--font-hero); letter-spacing: 0.1em; text-transform: uppercase;">GForms · 7 seções × 2 perguntas (0–10) = 14 campos</strong><br>
+      <em style="color: var(--gray-mid);">Cálculo de gap automático na Sheets ao final.</em>
+    </div>
+  </div>
+  <div class="block teal" style="margin-top: 12px;">
+    <div class="body" style="margin: 0; font-style: normal; font-size: 16px;">
+      <strong style="color: var(--teal); font-family: var(--font-hero); letter-spacing: 0.1em; text-transform: uppercase;">Exemplo · Capacidade</strong><br>
+      <em>"Quando um cliente elogia, você acredita ou desconfia? Quando alguém pede sua opinião profissional, você fala com firmeza? Você se compara com quem está no seu nível ou 3 degraus acima? Respira. Nota da sua coluna: 0 a 10."</em>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Operacional · 12 min</span>
+    <p>Augustto repete a estrutura para as 7 dimensões. Trilha AURA baixa. Cronômetro visível.</p>
+    <p>Aluno preenche no celular/desktop. Dados caem na planilha "alunos ativos" — Salomão lê e cruza com Termostato no pós-aula.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 16 · LEITURA DO MAPA -->
+<section class="slide" data-num="16" data-block="20:22–20:24 · Leitura do Mapa">
+  <span class="tag violet">Leitura do gap · 2 min</span>
+  <h2 class="subtitle">Onde mora a crença limitante.</h2>
+  <div class="grid-3">
+    <div class="card" style="border-top: 3px solid var(--lime);">
+      <div class="value" style="color: var(--lime); font-size: clamp(28px,3vw,40px);">0–2 pts</div>
+      <div class="label" style="color: var(--lime);">Gap pequeno</div>
+      <div class="desc" style="font-style: normal; color: var(--white);">Coerência. Você se vê alinhado.</div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--gold);">
+      <div class="value" style="color: var(--gold); font-size: clamp(28px,3vw,40px);">3–4 pts</div>
+      <div class="label" style="color: var(--gold);">Gap médio</div>
+      <div class="desc" style="font-style: normal; color: var(--white);">Tensão saudável ou zona de crescimento.</div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--violet);">
+      <div class="value" style="color: var(--violet); font-size: clamp(28px,3vw,40px);">≥ 5 pts</div>
+      <div class="label" style="color: var(--violet);">Gap grande</div>
+      <div class="desc" style="font-style: normal; color: var(--white);"><strong style="color: var(--violet);">Crença limitante ativa.</strong></div>
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 32px;">A dimensão com MAIOR GAP é seu espelho em voz mais alta. Circule. É o seu foco da semana.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Agora vocês fazem a conta. Pega cada linha e subtrai."</p>
+    <p>"0 ou 1: coerência. 3 ou 4: tensão. 5 ou mais: crença limitante. Não é uma opinião sua sobre você. É um espelho falando mais alto do que a realidade."</p>
+    <p>"Circula a dimensão com o maior gap. Essa dimensão é o seu foco da semana. É dela que eu vou cobrar de vocês nos próximos 7 dias."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 17 · NOMEAR A CRENÇA -->
+<section class="slide" data-num="17" data-block="20:24–20:26 · Nomeação da crença">
+  <span class="tag gold">Nomeação · Marco 1 ativado · 2 min</span>
+  <h2 class="subtitle">Em 1 frase, nomeie a crença.</h2>
+  <div class="frase-modelo">
+    "Eu acredito, no fundo, que eu <span class="blank">_____________</span><br>
+    e por isso eu aceito <span class="blank">_____________</span>."
+    <div class="ex">
+      <strong>Exemplo:</strong> "Eu acredito, no fundo, que eu não mereço cobrar caro<br>
+      e por isso eu aceito clientes que regatam preço."
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 24px; color: var(--gold);">A frase tem que doer um pouco — se não doer, não é a verdade ainda.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Pega a dimensão do maior gap e completa essa frase: 'Eu acredito, no fundo, que eu _______ e por isso eu aceito ________.'"</p>
+    <p>"Essa frase vai te acompanhar nas próximas 2 semanas. Não muda. Não suaviza. A frase tem que doer um pouco — se não doer, não é a verdade ainda."</p>
+    <p>"Escreveu? Circula. Marca. Marco 1 de 12 registrado: Despertar do Espelho. Vocês acabaram de ver."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 18 · INTRO TERMOSTATO -->
+<section class="slide" data-num="18" data-block="20:26–20:28 · Intro Termostato">
+  <span class="tag">Ferramenta 2 · Termostato Financeiro · 2 min</span>
+  <h2 class="subtitle">Termostato Financeiro<br><span style="color: var(--gold); font-weight: 400; font-size: 0.55em;">A temperatura do seu teto em REAIS.</span></h2>
+  <div class="lede">Enquanto o Mapa mede em PALAVRAS, o Termostato mede em REAIS.</div>
+  <div class="grid-3" style="margin-top: 24px;">
+    <div class="card"><div class="label">Pergunta central</div><div class="desc" style="font-style: normal; color: var(--white); font-size: 17px;">Qual é a temperatura do seu teto de precificação hoje?</div></div>
+    <div class="card"><div class="label">6 dimensões</div><div class="desc" style="font-style: normal; color: var(--white); font-size: 17px;">Preço Catálogo · Praticado · Ticket Médio · Cliente-tipo · Vergonha · Teto Percebido</div></div>
+    <div class="card"><div class="label">Tempo</div><div class="desc" style="font-style: normal; color: var(--white); font-size: 17px;">Google Forms · 10 min preenchimento ao vivo</div></div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"O Mapa de 20 minutos atrás já tirou a foto do espelho interno. Agora a gente tira outra foto, em reais."</p>
+    <p>"Autoimagem sem número é filosofia. Autoimagem com número é diagnóstico."</p>
+    <p>"O Termostato te pergunta 6 coisas: qual preço você anuncia, qual recebe, ticket médio, cliente-tipo, vergonha de preço de 0 a 10, e quanto você acredita que conseguiria cobrar hoje com firmeza."</p>
+    <p>"Esses números vão te doer antes de te libertar. Mas sem eles, a Aula 2 não tem no que morder."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 19 · PREENCHIMENTO TERMOSTATO -->
+<section class="slide" data-num="19" data-block="20:28–20:36 · Preenchimento · 8 min">
+  <span class="tag red">Cronômetro · 8 min · números reais</span>
+  <h2 class="subtitle">8 minutos.<br>Sem suavizar.</h2>
+  <div class="block lime">
+    <div class="body" style="margin: 0; font-style: normal; font-size: 19px; line-height: 1.7;">
+      <strong style="color: var(--lime); font-family: var(--font-hero); letter-spacing: 0.1em; text-transform: uppercase;">6 dimensões · GForms</strong><br>
+      Preço Catálogo · Preço Praticado · Ticket Médio · Cliente-tipo · Vergonha de Preço · Teto Percebido<br><br>
+      <strong style="color: var(--gold); font-family: var(--font-hero); letter-spacing: 0.1em; text-transform: uppercase;">Cálculos automáticos</strong><br>
+      Gap de Desvalorização (G-D) · Gap de Teto (G-T)
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 24px; color: var(--gold);">Quem não lembra exato, estima. Mas não arredonda pra cima — a AURA não perdoa número suavizado.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · durante</span>
+    <p>"Silêncio. Celular aberto. Preenchimento honesto. Quem não lembra exato, estima. Mas não arredonda pra cima — a AURA não perdoa número suavizado."</p>
+    <p>"8 minutos no cronômetro."</p>
+    <p><strong>Operacional:</strong> Gabriel compartilha QR code + link do GForms no chat.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 20 · LEITURA TERMOSTATO -->
+<section class="slide" data-num="20" data-block="20:36–20:38 · Leitura · 1 palavra">
+  <span class="tag gold">Síntese · 2 min · 1 palavra</span>
+  <h2 class="subtitle">Sua temperatura em<br>UMA palavra.</h2>
+  <div class="therm">
+    <div class="t1">Congelado</div>
+    <div class="t2">Gelado</div>
+    <div class="t3">Morno</div>
+    <div class="t4">Esquentando</div>
+    <div class="t5">Escaldante</div>
+  </div>
+  <div class="lede">Essa palavra + a frase do Mapa = seu diagnóstico completo da Semana 1.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Uma palavra. Não duas. Marca agora."</p>
+    <p>"Essa palavra + a frase que você escreveu no Mapa formam o diagnóstico da Semana 1. Os dois são matéria-prima da Aula 2."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 21 · EXPERIÊNCIA DO ESPELHO -->
+<section class="slide" data-num="21" data-block="20:38–20:42 · Experiência do Espelho">
+  <span class="tag gold">Ferramenta 3 · 4 min · 7 dias</span>
+  <h2 class="subtitle">Experiência do Espelho<br><span style="font-size: 0.55em; color: var(--gold);">3 segundos. Em casa. Sozinho.</span></h2>
+  <ul class="rules-list" style="max-width: 980px;">
+    <li><span class="num">1</span><span>Pare<span class="desc">em frente a um espelho físico</span></span></li>
+    <li><span class="num">2</span><span>Olhe<span class="desc">nos próprios olhos</span></span></li>
+    <li><span class="num">3</span><span>Conte até 3<span class="desc">silêncio total</span></span></li>
+    <li><span class="num">4</span><span>Sem celular<span class="desc">sem selfie · sem narração</span></span></li>
+    <li><span class="num">5</span><span>Sem correção<span class="desc">sem fala positiva · sem ajeitar</span></span></li>
+  </ul>
+  <div class="lede" style="margin-top: 24px;">Só você. Três segundos. Olho no olho. 7 dias.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min</span>
+    <p>"Três ferramentas saem dessa aula: Mapa, Termostato, e essa terceira. A terceira é a mais simples e a mais difícil."</p>
+    <p>"Não tem papel, não tem formulário. Tem um espelho físico e 3 segundos. Uma vez por dia, 7 dias, você para na frente de um espelho e olha nos próprios olhos por 3 segundos."</p>
+    <p>"Sem celular. Sem selfie. Sem ajeitar. Sem falar 'eu sou lindo'. SILÊNCIO."</p>
+    <p>"Essa é a ferramenta que ninguém vai fiscalizar. Mas é a que mais tira coisa."</p>
+    <p>"Nos primeiros 2 dias parece fácil. A partir do 3º vai querer escapar. No 5º aparece uma emoção que você não esperava. No 7º, ou passou ou você entendeu qual é ela."</p>
+    <p>"Não pula nenhum dia. Quem pula, reinicia. A AURA registra quem volta."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 22 · SQUAD AURA -->
+<section class="slide" data-num="22" data-block="20:42–20:46 · Squad AURA">
+  <span class="tag violet">Como o squad age com você · 4 min · REFEITO</span>
+  <h2 class="subtitle">Mesmo número. 4 presenças.<br>Cada uma se apresenta pelo NOME.</h2>
+  <div class="flow">
+    <div class="flow-day">SEG · 8h</div>
+    <div class="flow-time">Texto</div>
+    <div class="flow-action salomao"><strong>Salomão</strong> → Resumo da semana + compromissos</div>
+
+    <div class="flow-day">QUA · 12h</div>
+    <div class="flow-time">Texto</div>
+    <div class="flow-action salomao"><strong>Salomão</strong> → Ritual Check-in (1 palavra)</div>
+
+    <div class="flow-day">QUI · 18h</div>
+    <div class="flow-time">Áudio</div>
+    <div class="flow-action augustto"><strong>Augustto</strong> → 1–2 renúncias selecionadas</div>
+
+    <div class="flow-day">SEX · 12h</div>
+    <div class="flow-time">Áudio</div>
+    <div class="flow-action augustto"><strong>Augustto</strong> → Ritual Declaração de Identidade (resposta pessoal)</div>
+
+    <div class="flow-day">SÁB · 10h</div>
+    <div class="flow-time">Ao vivo</div>
+    <div class="flow-action"><strong style="color: var(--gold);">Augustto</strong> → Aula AURA · Meet</div>
+  </div>
+  <div class="block violet" style="margin-top: 18px; padding: 18px 28px;">
+    <div class="body" style="margin: 0; font-style: normal; font-size: 14px; line-height: 1.7;">
+      <strong style="color: var(--violet);">GATILHOS DE EXCEÇÃO:</strong>
+      Laura (pré-venda · indicação) · Rosi (humana · 48h sem resposta) · PedroSup (engajamento) · ErickGrana (financeiro) · Luciana (backoffice).
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min</span>
+    <p>"Um número só. Quatro presenças ativas. Cada uma se apresenta pelo NOME no início da mensagem."</p>
+    <p>"SALOMÃO é quem mais aparece. Segunda manda o resumo. Quarta puxa o Check-in. Quinta puxa a Renúncia. Sábado manda agenda da semana seguinte. Todos os textos da rotina vêm dele."</p>
+    <p>"EU — AUGUSTTO — só apareço em ÁUDIO e em momentos-chave. Toda sexta no Ritual de Declaração eu respondo CADA aluno em áudio pessoal. Fora isso, 1–2x por semana quando uma renúncia merece voz, e 1x por mês áudio coletivo."</p>
+    <p>"ROSI é humana. Só entra se você sumir 48h."</p>
+    <p>"Regra: se o nome não aparece no início da mensagem, é porque a pessoa/agente não identificou. Cobra. Exige o nome. Isso é AURA."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 23 · COMPROMISSOS -->
+<section class="slide" data-num="23" data-block="20:46–20:54 · Compromissos da semana">
+  <span class="tag lime" style="color: var(--lime);">Compromissos · Semana 1 · 8 min</span>
+  <h2 class="subtitle">O que muda agora.</h2>
+  <div class="checklist">
+    <div class="ch"><span class="n">1</span><span class="txt">Reler a <strong>frase do Mapa</strong> 1× por dia · antes de dormir.</span></div>
+    <div class="ch"><span class="n">2</span><span class="txt">Reler a <strong>síntese do Termostato</strong> 1× por dia · pela manhã.</span></div>
+    <div class="ch"><span class="n">3</span><span class="txt"><strong>Experiência do Espelho</strong> · 3 segundos · 7 dias seguidos.</span></div>
+    <div class="ch"><span class="n">4</span><span class="txt">Anotar <strong>3 momentos</strong> em que a crença agiu na semana.</span></div>
+    <div class="ch"><span class="n">5</span><span class="txt">Responder o <strong>Ritual Check-in</strong> · quarta · 12h · 1 palavra.</span></div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 8 min</span>
+    <p>"5 compromissos. Parece muito — é o mínimo."</p>
+    <p>"1: toda noite, antes de dormir, relê a frase da crença. 10s. Só leitura, sem diálogo interno."</p>
+    <p>"2: toda manhã, relê a palavra da temperatura. 5s. Não pra se castigar. Pra lembrar que você está sendo medido."</p>
+    <p>"3: EXPERIÊNCIA DO ESPELHO. 3 segundos, 1× por dia, 7 dias. Sozinho. Sem celular. A ferramenta que ninguém vai fiscalizar — e que mais tira coisa."</p>
+    <p>"4: anota 3 momentos em que a crença agiu — preço aceito abaixo, fala engolida, oportunidade evitada."</p>
+    <p>"5: quarta-feira 21:00, Ritual Check-in. Você responde em 1 palavra. Quem não responde, não é lembrado."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 24 · RITUAL DA SEMANA -->
+<section class="slide" data-num="24" data-block="20:54–20:56 · Ritual 1">
+  <span class="tag teal">Ritual 1 · Check-in do Espelho · 2 min</span>
+  <h2 class="subtitle">Toda quarta · 12h<br>1 mensagem · 1 palavra.</h2>
+  <div class="block teal" style="max-width: 840px;">
+    <div class="body" style="margin: 0; font-family: var(--font-body); font-style: italic; font-size: clamp(20px,2vw,28px); line-height: 1.55; color: var(--white);">
+      "Em uma palavra, como você se descreveu hoje para alguém?"
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 24px; color: var(--gold);">Regra: 1 palavra. Não 2.<br>Quem não responde, não é lembrado.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Próxima quarta, meio-dia em ponto, chega uma mensagem no seu WhatsApp. É o primeiro ritual da AURA."</p>
+    <p>"A pergunta é uma só: em uma palavra, como você se descreveu hoje para alguém?"</p>
+    <p>"Uma palavra. Não duas. A regra do ritual é a regra do espelho: o excesso esconde."</p>
+    <p>"Se você se descreveu como 'tô tentando', a palavra é tentando. Se 'empreendedor', é empreendedor. Se 'cansado' pra si mesmo, é cansado. Sem filtro. A palavra que saiu é o espelho falando."</p>
+    <p>"Nas próximas 12 semanas vão ver essa palavra mudar. E o dia que ela mudar, vão saber que o espelho já começou a mudar também."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 25 · MARCO 1 -->
+<section class="slide" data-num="25" data-block="20:56–20:58 · Marco 1 registrado">
+  <span class="tag violet">Marco · Registro · 2 min</span>
+  <div class="marco-card">
+    <div class="num-big">1<small>/12</small></div>
+    <div class="nome">Despertar do Espelho</div>
+    <div class="lede" style="font-size: 18px; margin: 0 auto;">Registrado em 05/05/2026</div>
+    <ul class="crit">
+      <li>Apresentação individual gravada + avaliada pelo grupo</li>
+      <li>Mapa da Autoimagem preenchido (Google Forms)</li>
+      <li>Termostato Financeiro preenchido (Google Forms)</li>
+      <li>1 crença limitante nomeada</li>
+      <li>Experiência do Espelho iniciada (7 dias)</li>
+    </ul>
+    <div class="lede" style="font-size: 16px; margin-top: 24px; color: var(--violet); font-style: normal; font-family: var(--font-hero); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;">
+      Próximo marco · Nomeação · 16/05/2026
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Marco 1 registrado: Despertar do Espelho."</p>
+    <p>"A partir de hoje, todo mundo aqui deixou de ser o que era. Pode demorar pra você sentir. Pra sua família perceber. Até pro seu caixa perceber."</p>
+    <p>"Mas o espelho já rachou. E espelho rachado não volta a ser inteiro do mesmo jeito."</p>
+    <p>"Daqui a duas semanas a gente se encontra. Aula 2 — Crenças que Constroem Tetos. Vocês chegam com 3 momentos anotados da semana. Sem isso, vocês não entram. A AURA registra quem se compromete."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 26 · FECHO -->
+<section class="slide" data-num="26" data-block="20:58–21:00 · Fecho AURA">
+  <span class="tag gold">Fecho ritual · 2 min</span>
+  <h1 class="title hook">"Presença começa por ver.<br>A AURA começa hoje."</h1>
+  <div class="body" style="font-family: var(--font-display); text-transform: uppercase; font-size: clamp(22px,2vw,32px); margin-top: 32px; font-style: normal; color: var(--gold); letter-spacing: -0.005em;">
+    19:10 em ponto da próxima.<br>Sem atraso · sem espera.
+  </div>
+  <div class="lede" style="margin-top: 32px; color: var(--white);">Vão em paz.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · fecho · 2 min</span>
+    <p>"Antes de encerrar, um pedido. Nos próximos 7 dias, quando passar em frente a um espelho — banheiro, elevador, vitrine — por 3 segundos, olha nos seus próprios olhos."</p>
+    <p>"Sem celular. Sem pressa. Sem corrigir a postura. Sem fazer cara de foto. 3 segundos. Olho no olho."</p>
+    <p>"Esse é o exercício mais difícil que eu vou pedir em 12 semanas. Quem consegue fazer hoje, consegue o resto."</p>
+    <p>"Presença começa por ver. A AURA começa hoje. 19:10 em ponto da próxima — sem atraso, sem espera. Vão em paz."</p>
+    <p><strong>Encerramento:</strong> trilha AURA sobe · câmera fixa em Augustto por 5s · cortina preta.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress"><div class="bar" id="progress-bar" style="width: 0%"></div></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button onclick="prevSlide()">‹ Anterior</button>
+  <button onclick="nextSlide()">Próximo ›</button>
+  <button onclick="toggleSpeaker()">Speaker (T)</button>
+  <button onclick="toggleFullscreen()">Fullscreen (F)</button>
+  <button onclick="goSlide(0)">Início</button>
+  <span class="keys">
+    <kbd>←</kbd><kbd>→</kbd> navegar ·
+    <kbd>F</kbd> fullscreen ·
+    <kbd>T</kbd> speaker ·
+    <kbd>Home</kbd> início ·
+    <kbd>End</kbd> fim
+  </span>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  let speakerOn = false;
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    document.getElementById('slide-num').textContent = `${String(current).padStart(2,'0')}/${total - 1}`;
+    document.getElementById('progress-bar').style.width = `${((current + 1) / total) * 100}%`;
+    const block = slides[current].dataset.block;
+    document.getElementById('block-label').textContent = block || '';
+    // speaker note visibility
+    document.querySelectorAll('.speaker').forEach(sp => sp.classList.remove('show'));
+    if (speakerOn) {
+      const sp = slides[current].querySelector('.speaker');
+      if (sp) sp.classList.add('show');
+    }
+  }
+
+  function nextSlide() { if (current < total - 1) { current++; render(); } }
+  function prevSlide() { if (current > 0) { current--; render(); } }
+  function goSlide(i) { current = Math.max(0, Math.min(total - 1, i)); render(); }
+  function toggleSpeaker() { speakerOn = !speakerOn; render(); }
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight':
+      case ' ':
+      case 'PageDown':
+        e.preventDefault(); nextSlide(); break;
+      case 'ArrowLeft':
+      case 'PageUp':
+        e.preventDefault(); prevSlide(); break;
+      case 'Home':
+        e.preventDefault(); goSlide(0); break;
+      case 'End':
+        e.preventDefault(); goSlide(total - 1); break;
+      case 'f': case 'F':
+        toggleFullscreen(); break;
+      case 't': case 'T':
+        toggleSpeaker(); break;
+      case 'Escape':
+        if (document.fullscreenElement) document.exitFullscreen();
+        break;
+    }
+  });
+
+  // Touch swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (dx < -50) nextSlide();
+    if (dx > 50) prevSlide();
+  });
+
+  render();
+</script>
+
+</body>
+</html>

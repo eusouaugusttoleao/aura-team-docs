@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Live Hub · Aula 1 · 05/05/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* LIGHT THEME · paper-first */
+    --paper:        #ffffff;
+    --off-white:    #fafafa;
+    --gray-1:       #f4f4f4;
+    --gray-2:       #ececec;
+    --gray-3:       #c8c8c8;
+    --gray-4:       #8a8a8a;
+    --gray-5:       #555555;
+    --ink:          #0a0a0a;
+    --line:         #e6e6e6;
+    --line-soft:    #ededed;
+    --shadow:       0 2px 8px rgba(0,0,0,0.04);
+    --shadow-md:    0 4px 12px rgba(0,0,0,0.08);
+
+    /* Cores de acabamento AURA (mantidas integralmente) */
+    --gold:         #b88a00;       /* gold escurecido pra contraste em fundo claro */
+    --gold-bright:  #ffde59;       /* acento brilhante */
+    --gold-soft:    #fdf6dc;
+    --teal:         #006d80;
+    --teal-bright:  #0097b2;
+    --teal-soft:    #e0f4f8;
+    --violet:       #4a10b5;
+    --violet-bright:#5e17eb;
+    --violet-soft:  #efe9ff;
+    --lime:         #3d7a1f;
+    --lime-bright:  #7ed957;
+    --lime-soft:    #eaf6df;
+    --red:          #c4291f;
+    --red-soft:     #fdeae8;
+    --orange:       #d36a1f;
+    --orange-soft:  #fdeed5;
+
+    --font-display: 'Inter', sans-serif;
+    --font-body:    'Lora', Georgia, serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--off-white);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse at top right, rgba(255,222,89,0.12), transparent 50%),
+      radial-gradient(ellipse at bottom left, rgba(94,23,235,0.06), transparent 50%);
+    min-height: 100vh;
+  }
+
+  /* ================== STATUS BAR ================== */
+  .statusbar {
+    position: sticky; top: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 28px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .brand {
+    color: var(--ink);
+    font-weight: 800;
+    letter-spacing: 0.32em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand .ag { color: var(--gold); }
+  .brand .dot {
+    width: 8px; height: 8px;
+    background: var(--lime); border-radius: 50%;
+    animation: pulse 1.6s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--lime-bright);
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .countdown {
+    text-align: center;
+    color: var(--gray-5);
+    font-family: var(--font-mono);
+  }
+  .countdown .lab { font-size: 9px; color: var(--gray-4); letter-spacing: 0.24em; }
+  .countdown .vals {
+    font-size: 22px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .now-time {
+    color: var(--lime);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+  }
+  .now-time .d { font-size: 10px; color: var(--gray-4); display: block; font-weight: 500; }
+
+  /* ================== TABS ================== */
+  .tabs {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 0 28px;
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 4px;
+    position: sticky;
+    top: 64px;
+    z-index: 90;
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .tab {
+    background: none;
+    border: none;
+    padding: 18px 24px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gray-4);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.15s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--gold);
+  }
+  .tab .ico { font-size: 16px; }
+  .tab .badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    background: var(--gold-soft);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  .tabpanel { display: none; }
+  .tabpanel.active { display: block; }
+
+  /* ================== HERO ================== */
+  .hero {
+    padding: 48px 28px 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--gold-soft);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    padding: 7px 13px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 4vw, 54px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .sub {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--gray-5);
+    max-width: 680px;
+    line-height: 1.5;
+  }
+
+  /* ================== TIMELINE STATUS ================== */
+  .now-status {
+    max-width: 1400px;
+    margin: 0 auto 28px;
+    padding: 0 28px;
+  }
+  .now-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--gold);
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    align-items: center;
+    box-shadow: var(--shadow);
+  }
+  .now-card .ico { font-size: 28px; }
+  .now-card .lab {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .now-card .what {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .now-card .next {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gray-5);
+    text-align: right;
+    line-height: 1.5;
+  }
+  .now-card .next b { color: var(--gold); }
+
+  /* ================== SECTIONS ================== */
+  .sec {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 28px;
+  }
+  .sec-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 12px;
+  }
+  .sec-h-title {
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 800;
+  }
+  .sec-h-title .ag {
+    color: var(--gold);
+    margin-right: 8px;
+  }
+  .sec-h-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-4);
+  }
+
+  /* ================== CARDS GRID ================== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow);
+  }
+  .card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .card .ribbon {
+    position: absolute;
+    top: 0; left: 0;
+    background: var(--c, var(--gold));
+    color: var(--paper);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+  }
+  .card[data-c="lime"]   { --c: var(--lime); }
+  .card[data-c="violet"] { --c: var(--violet); }
+  .card[data-c="teal"]   { --c: var(--teal); }
+  .card[data-c="orange"] { --c: var(--orange); }
+  .card[data-c="red"]    { --c: var(--red); }
+  .card[data-c="gold"]   { --c: var(--gold); }
+
+  .card-body {
+    padding: 30px 22px 18px;
+  }
+  .card .ico {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .card .desc {
+    font-size: 12px;
+    color: var(--gray-5);
+    line-height: 1.5;
+    margin-bottom: 14px;
+    font-family: var(--font-body);
+  }
+  .card .url {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-4);
+    word-break: break-all;
+    line-height: 1.4;
+    margin-bottom: 14px;
+    padding: 8px 10px;
+    background: var(--gray-1);
+    border: 1px solid var(--line);
+  }
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 2px;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn.primary:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--paper);
+  }
+  .btn.gold {
+    background: var(--gold-bright);
+    border-color: var(--gold);
+    color: var(--ink);
+  }
+  .btn.gold:hover {
+    background: var(--gold);
+    color: var(--paper);
+  }
+  .btn.ghost {
+    border-color: var(--gray-3);
+    color: var(--gray-5);
+  }
+  .btn.ghost:hover { background: var(--gray-2); color: var(--ink); border-color: var(--gray-4); }
+  .btn.copied {
+    background: var(--lime) !important;
+    color: var(--paper) !important;
+    border-color: var(--lime) !important;
+  }
+
+  /* ================== MESSAGE TEMPLATES ================== */
+  .msg-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--violet);
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .msg-card .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .msg-card .name {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--violet);
+    font-weight: 800;
+  }
+  .msg-card .when {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-5);
+  }
+  .msg-card .preview {
+    background: var(--gray-1);
+    border: 1px solid var(--line);
+    padding: 14px 18px;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 12px;
+    white-space: pre-line;
+    border-left: 2px solid var(--gold);
+  }
+  .msg-card .preview a { color: var(--gold); word-break: break-all; }
+
+  /* ================== TIMELINE FULL ================== */
+  .timeline {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .tl-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 200px;
+    gap: 16px;
+    padding: 12px 22px;
+    border-bottom: 1px dashed var(--line);
+    align-items: center;
+    transition: background 0.1s;
+  }
+  .tl-row:last-child { border-bottom: none; }
+  .tl-row:hover { background: var(--gray-1); }
+  .tl-row.live {
+    background: var(--red-soft);
+    border-left: 4px solid var(--red);
+  }
+  .tl-row.next {
+    background: var(--gold-soft);
+    border-left: 4px solid var(--gold);
+  }
+  .tl-row.past { opacity: 0.4; }
+  .tl-row.past .tl-action { text-decoration: line-through; }
+  .tl-time {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--gray-5);
+  }
+  .tl-row.live .tl-time { color: var(--red); }
+  .tl-row.next .tl-time { color: var(--gold); }
+  .tl-action { color: var(--ink); font-size: 13px; }
+  .tl-action b { color: var(--gold); }
+  .tl-who {
+    font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gray-4);
+    text-align: right; font-weight: 700;
+  }
+
+  /* ================== DEPENDENCIAS ================== */
+  .deps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .dep {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 14px 18px;
+    position: relative;
+    box-shadow: var(--shadow);
+  }
+  .dep .lab {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gray-4);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .dep .val {
+    font-size: 14px;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-weight: 600;
+  }
+  .dep::after {
+    content: '●'; position: absolute;
+    top: 14px; right: 16px; font-size: 14px;
+  }
+  .dep.ok::after  { color: var(--lime); }
+  .dep.warn::after { color: var(--gold); }
+  .dep.err::after  { color: var(--red); }
+
+  /* ================== TAB CADERNO ================== */
+  .caderno-hero {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 28px 28px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 36px;
+    align-items: center;
+  }
+  .caderno-hero .info h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .caderno-hero .info .quote {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gray-5);
+    border-left: 3px solid var(--gold);
+    padding-left: 18px;
+    margin: 18px 0 22px;
+    line-height: 1.5;
+  }
+  .caderno-hero .info ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 22px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .caderno-hero .info ul li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 14px;
+  }
+  .caderno-hero .info ul li:last-child { border-bottom: none; }
+  .caderno-hero .info ul li .num {
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  .caderno-hero .info ul li b { color: var(--ink); font-weight: 700; }
+  .caderno-hero .info ul li span { color: var(--gray-5); display: block; font-size: 12px; margin-top: 2px; }
+  .caderno-hero .info .actions {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+
+  .caderno-preview {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    aspect-ratio: 210/297;
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-md);
+  }
+  .caderno-preview iframe {
+    width: 297%;
+    height: 297%;
+    border: none;
+    transform: scale(0.337);
+    transform-origin: top left;
+    pointer-events: none;
+  }
+  .caderno-preview .corner {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--gold);
+    color: var(--paper);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    box-shadow: var(--shadow);
+  }
+
+  /* ================== TOAST ================== */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--lime);
+    color: var(--paper);
+    padding: 14px 22px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(61,122,31,0.3);
+    z-index: 1000;
+    transform: translateY(120px);
+    transition: transform 0.3s;
+  }
+  .toast.show { transform: translateY(0); }
+
+  /* ================== FOOTER ================== */
+  .footer {
+    max-width: 1400px;
+    margin: 32px auto 0;
+    padding: 24px 28px 48px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--gray-4);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .footer .ag { color: var(--gold); font-weight: 700; }
+
+  @media (max-width: 768px) {
+    .statusbar { grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 16px; }
+    .countdown { display: none; }
+    .tabs { padding: 0 16px; top: 60px; overflow-x: auto; }
+    .tab { padding: 14px 16px; font-size: 10px; white-space: nowrap; }
+    .hero { padding: 32px 16px 20px; }
+    .now-status { padding: 0 16px; }
+    .sec { padding: 16px; }
+    .tl-row { grid-template-columns: 60px 1fr; gap: 8px; padding: 10px 14px; }
+    .tl-who { display: none; }
+    .caderno-hero { grid-template-columns: 1fr; padding: 32px 16px; }
+    .caderno-preview { aspect-ratio: 210/200; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================== STATUS BAR ================== -->
+<div class="statusbar">
+  <div class="brand"><span class="dot"></span><span class="ag">AURA</span> · LIVE HUB</div>
+  <div class="countdown">
+    <div class="lab">Aula 1 começa em</div>
+    <div class="vals" id="cd"><span id="cd-h">--</span>h <span id="cd-m">--</span>m <span id="cd-s">--</span>s</div>
+  </div>
+  <div class="now-time">
+    <span id="now-clock">--:--:--</span>
+    <span class="d" id="now-date">terça · 05/05/2026</span>
+  </div>
+</div>
+
+<!-- ================== TABS ================== -->
+<div class="tabs">
+  <button class="tab active" data-tab="hub">
+    <span class="ico">⚡</span> Live Hub
+    <span class="badge" id="tab-hub-badge">17 itens</span>
+  </button>
+  <button class="tab" data-tab="caderno">
+    <span class="ico">📓</span> Caderno do Aluno
+    <span class="badge">12 páginas</span>
+  </button>
+</div>
+
+<!-- ====================================================================== -->
+<!-- =========================== TAB · LIVE HUB =========================== -->
+<!-- ====================================================================== -->
+<div class="tabpanel active" id="tab-hub">
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-tag">Bloco 1 · Marco 1 · Espelho Interno</span>
+  <h1>Aula 1 · <em>Hub Operacional</em></h1>
+  <p class="sub">Tudo que você precisa abrir, copiar ou disparar durante a live de hoje. Centralizado. Sem trocar de aba. Sem se perder.</p>
+</div>
+
+<!-- O QUE FAZER AGORA -->
+<div class="now-status">
+  <div class="now-card" id="now-action">
+    <div class="ico" id="now-ico">⏳</div>
+    <div>
+      <div class="lab">Você está aqui</div>
+      <div class="what" id="now-what">Aguardando 19h00 · janela de preparação</div>
+    </div>
+    <div class="next" id="now-next">Próximo: <b>17:17</b><br>T-0a dispara automático</div>
+  </div>
+</div>
+
+<!-- AÇÕES PRINCIPAIS -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-h-title"><span class="ag">●</span>Ações principais · durante a live</span>
+    <span class="sec-h-meta">3 abrir · 3 copiar</span>
+  </div>
+  <div class="grid">
+
+    <div class="card" data-c="lime">
+      <span class="ribbon">Tela cheia</span>
+      <div class="card-body">
+        <span class="ico">🎬</span>
+        <h3>Apresentação Aula 1</h3>
+        <p class="desc">26 slides cronometrados · 19h–21h · F11 abre tela cheia · setas pra navegar</p>
+        <div class="card-actions">
+          <a class="btn primary" href="./apresentacao-aula-1.html" target="_blank">▶ Abrir</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-c="orange">
+      <span class="ribbon">Live</span>
+      <div class="card-body">
+        <span class="ico">🎥</span>
+        <h3>Google Meet · sala AURA</h3>
+        <p class="desc">Link recorrente fixo das 12 aulas · entra como host antes de 18:50</p>
+        <div class="card-actions">
+          <a class="btn primary" href="https://meet.google.com/ayj-ytvm-dmc" target="_blank">▶ Entrar</a>
+          <button class="btn" data-copy="https://meet.google.com/ayj-ytvm-dmc">⎘ Copiar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-c="red">
+      <span class="ribbon">Cronômetro</span>
+      <div class="card-body">
+        <span class="ico">⏱️</span>
+        <h3>Timer 60s · slide 6</h3>
+        <p class="desc">Apresentação individual de cada aluno · 1 min cada · sem dó</p>
+        <div class="card-actions">
+          <a class="btn primary" href="https://www.online-timer.net/60-seconds-timer" target="_blank">▶ Abrir 60s</a>
+          <a class="btn" href="https://www.google.com/search?q=cronometro+1+minuto" target="_blank">▶ Google</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FORMULÁRIOS GOOGLE -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-h-title"><span class="ag">●</span>Formulários Google · captura digital</span>
+    <span class="sec-h-meta">3 forms ativos</span>
+  </div>
+  <div class="grid">
+
+    <div class="card" data-c="violet">
+      <span class="ribbon">Aula 1 · disparar HOJE</span>
+      <div class="card-body">
+        <span class="ico">🪞</span>
+        <h3>Mapa da Autoimagem</h3>
+        <p class="desc">7 dimensões × 2 notas + frase nomeada · 21 perguntas · 12 min · trigger UPSERT memoria_aluno + email diagnóstico HTML AURA</p>
+        <div class="url">https://docs.google.com/forms/d/e/1FAIpQLScEoBm9AERELM41reBqB4KlmAHEzqoo25aKBwhSMQ-tlcL5zw/viewform</div>
+        <div class="card-actions">
+          <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScEoBm9AERELM41reBqB4KlmAHEzqoo25aKBwhSMQ-tlcL5zw/viewform" target="_blank">▶ Abrir Form</a>
+          <button class="btn primary" data-copy="https://docs.google.com/forms/d/e/1FAIpQLScEoBm9AERELM41reBqB4KlmAHEzqoo25aKBwhSMQ-tlcL5zw/viewform">⎘ Copiar URL</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-c="gold">
+      <span class="ribbon">Aula 3 · 30/05</span>
+      <div class="card-body">
+        <span class="ico">💰</span>
+        <h3>Termostato Financeiro</h3>
+        <p class="desc">25 perguntas em 5 dimensões · identidade financeira + letramento + posicionamento + conversão + execução · score 0-100 + termostato monetário R$ + email diagnóstico</p>
+        <div class="url">https://docs.google.com/forms/d/e/1FAIpQLSeGCmW6LJFMor7vOwIDbNPPb2Sl7G7EA8y4RsBa32fITQUmrQ/viewform</div>
+        <div class="card-actions">
+          <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeGCmW6LJFMor7vOwIDbNPPb2Sl7G7EA8y4RsBa32fITQUmrQ/viewform" target="_blank">▶ Abrir Form</a>
+          <button class="btn gold" data-copy="https://docs.google.com/forms/d/e/1FAIpQLSeGCmW6LJFMor7vOwIDbNPPb2Sl7G7EA8y4RsBa32fITQUmrQ/viewform">⎘ Copiar URL</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-c="teal">
+      <span class="ribbon">Pós-aula · T+2h</span>
+      <div class="card-body">
+        <span class="ico">📝</span>
+        <h3>Feedback Pós-Aula</h3>
+        <p class="desc">3 escalas (clareza · aplicabilidade · energia) + frase + travou? · sentimento classificado · alerta auto se NPS ≤ 6</p>
+        <div class="url">https://docs.google.com/forms/d/e/1FAIpQLSd-Rx7o7OIQvTCazNnLmZWm7Vq4OnkSPV4xqmHbp7ztgO_mCg/viewform</div>
+        <div class="card-actions">
+          <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSd-Rx7o7OIQvTCazNnLmZWm7Vq4OnkSPV4xqmHbp7ztgO_mCg/viewform" target="_blank">▶ Abrir Form</a>
+          <button class="btn primary" data-copy="https://docs.google.com/forms/d/e/1FAIpQLSd-Rx7o7OIQvTCazNnLmZWm7Vq4OnkSPV4xqmHbp7ztgO_mCg/viewform">⎘ Copiar URL</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MENSAGENS PRONTAS -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-h-title"><span class="ag">●</span>Mensagens prontas · cole no WhatsApp</span>
+    <span class="sec-h-meta">3 templates</span>
+  </div>
+
+  <div class="msg-card">
+    <div class="head">
+      <span class="name">▶ Mensagem 1 · Mapa da Autoimagem</span>
+      <span class="when">Quando: slide 22-23 · ~20:42-20:50</span>
+    </div>
+    <div class="preview">{nome}.
+
+Você acabou de levantar o Espelho Interno aqui na aula.
+
+Agora abre ele em silêncio — e responde o que viu.
+
+7 dimensões · 2 notas em cada · 12 minutos.
+
+Não é prova. É espelho.
+
+🔗 https://docs.google.com/forms/d/e/1FAIpQLScEoBm9AERELM41reBqB4KlmAHEzqoo25aKBwhSMQ-tlcL5zw/viewform
+
+Quem responder até sexta 09/05 18h, recebe leitura individual da dimensão-foco antes da Aula 2.
+
+— Salomão · AURA</div>
+    <div class="card-actions">
+      <button class="btn primary" data-copy-msg="msg1">⎘ Copiar mensagem inteira</button>
+    </div>
+  </div>
+
+  <div class="msg-card" style="border-left-color:var(--gold);">
+    <div class="head">
+      <span class="name" style="color:var(--gold);">▶ Mensagem 2 · Link do Meet (caso peça)</span>
+      <span class="when">Quando: pré-aula · se aluno não achou</span>
+    </div>
+    <div class="preview">{nome}.
+
+Sala AURA · Aula 1 · ao vivo agora.
+
+Entre por aqui:
+
+🔗 https://meet.google.com/ayj-ytvm-dmc
+
+19h em ponto. Sem atraso. Sem espera.
+
+— Salomão · AURA</div>
+    <div class="card-actions">
+      <button class="btn gold" data-copy-msg="msg2">⎘ Copiar mensagem inteira</button>
+    </div>
+  </div>
+
+  <div class="msg-card" style="border-left-color:var(--lime);">
+    <div class="head">
+      <span class="name" style="color:var(--lime);">▶ Mensagem 3 · Pós-aula · agradecimento</span>
+      <span class="when">Quando: 21:00-21:15 · após fecho</span>
+    </div>
+    <div class="preview">{nome}.
+
+Você cruzou a primeira linha.
+
+Marco 1 · Despertar do Espelho · registrado.
+
+Esta semana:
+1. Mapa da Autoimagem digital — preencher até sexta 09/05 18h
+2. Experiência do Espelho — 3s · 1×/dia · 7 dias
+3. Quarta 06/05 12h — Ritual Check-in · 1 palavra
+
+Próxima aula: sábado 16/05 · 19h · mesmo link.
+
+A AURA registra quem cruza a linha.
+
+— Salomão · AURA</div>
+    <div class="card-actions">
+      <button class="btn primary" data-copy-msg="msg3">⎘ Copiar mensagem inteira</button>
+    </div>
+  </div>
+</div>
+
+<!-- MATERIAIS DE APOIO -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-h-title"><span class="ag">●</span>Materiais de apoio</span>
+    <span class="sec-h-meta">consultar quando precisar</span>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-body">
+        <span class="ico">📋</span>
+        <h3>Roteiro Aula 1</h3>
+        <p class="desc">Cronograma minuto-a-minuto · falas do Augustto · ferramentas · transições</p>
+        <div class="card-actions">
+          <a class="btn" href="file:///Users/franklinaugustto/Desktop/mentoria-aura/aulas/bloco-01-autoimagem/aula-01-espelho-interno/ROTEIRO_AULA_1.md" target="_blank">▶ Abrir</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <span class="ico">✅</span>
+        <h3>Pre-flight Validação</h3>
+        <p class="desc">Status técnico · pronto para usar como referência durante a aula</p>
+        <div class="card-actions">
+          <a class="btn primary" href="./pre-flight-aula-1.html" target="_blank">▶ Abrir</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <span class="ico">🛠</span>
+        <h3>Pre-flight Gabriel</h3>
+        <p class="desc">Checklist técnico de produção · gravação · OBS · cenas</p>
+        <div class="card-actions">
+          <a class="btn" href="https://htmlpreview.github.io/?https://gist.githubusercontent.com/eusouaugusttoleao/041fbd319b44a3309b3f82bffb97a97e/raw/PRE_AULA_1_CHECKLIST.html" target="_blank">▶ Online</a>
+          <a class="btn ghost" href="./pre-flight-gabriel-aula-1.html" target="_blank">▶ Local</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <span class="ico">📊</span>
+        <h3>Dashboard estratégico</h3>
+        <p class="desc">Checklist por categoria · emergente / importante / essencial / delegável</p>
+        <div class="card-actions">
+          <a class="btn" href="https://htmlpreview.github.io/?https://gist.githubusercontent.com/eusouaugusttoleao/17b02454df1dd60bb287c73a4257423b/raw/AURA_DASHBOARD_AULA_1.html" target="_blank">▶ Abrir</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <span class="ico">🪞</span>
+        <h3>Mapa Autoimagem · markdown</h3>
+        <p class="desc">Ferramenta de papel · 7 dimensões + frase nomeada · referência teórica</p>
+        <div class="card-actions">
+          <a class="btn" href="https://gist.github.com/eusouaugusttoleao/af1c8707e44826d7d58a4f20dd2532e1#file-ferramenta_mapa_autoimagem-md" target="_blank">▶ Online</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <span class="ico">👁</span>
+        <h3>Experiência do Espelho · markdown</h3>
+        <p class="desc">Instrução do exercício solo de 7 dias · slide 21</p>
+        <div class="card-actions">
+          <a class="btn" href="https://gist.github.com/eusouaugusttoleao/af1c8707e44826d7d58a4f20dd2532e1#file-ferramenta_experiencia_espelho-md" target="_blank">▶ Online</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <span class="ico">🔁</span>
+        <h3>Ritual Check-in · markdown</h3>
+        <p class="desc">Quarta 12h · WhatsApp · 1 palavra · slide 24</p>
+        <div class="card-actions">
+          <a class="btn" href="https://gist.github.com/eusouaugusttoleao/af1c8707e44826d7d58a4f20dd2532e1#file-ritual_check_in_espelho-md" target="_blank">▶ Online</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-h-title"><span class="ag">●</span>Cronograma · 18h–22h</span>
+    <span class="sec-h-meta">o que está LIVE em cada momento</span>
+  </div>
+  <div class="timeline" id="timeline">
+    <div class="tl-row" data-time="18:00"><div class="tl-time">18:00</div><div class="tl-action">Subida final · Sheets · OBS · Form V/P/P · áudios · checagem geral</div><div class="tl-who">Franklin + Gabriel</div></div>
+    <div class="tl-row" data-time="18:18"><div class="tl-time">18:18</div><div class="tl-action">n8n auto · <b>T-0b</b> dispara (lembrete +42min)</div><div class="tl-who">Auto</div></div>
+    <div class="tl-row" data-time="18:30"><div class="tl-time">18:30</div><div class="tl-action">Augustto · preparação solo · 7-7-7 (sala vazia)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row" data-time="18:50"><div class="tl-time">18:50</div><div class="tl-action">Gabriel inicia gravação master · cena "Tela de espera"</div><div class="tl-who">Gabriel</div></div>
+    <div class="tl-row" data-time="19:00"><div class="tl-time">19:00</div><div class="tl-action">n8n auto · <b>T-0c</b> dispara · Slide 00 "Tela de espera" no ar</div><div class="tl-who">Auto + Franklin</div></div>
+    <div class="tl-row" data-time="19:10"><div class="tl-time">19:10</div><div class="tl-action"><b>AULA COMEÇA</b> · Augustto abre · "Estamos abrindo a porta"</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row" data-time="19:13"><div class="tl-time">19:13</div><div class="tl-action">Contrato silencioso + declaração Bloco 1 (slides 1-3)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row" data-time="19:22"><div class="tl-time">19:22</div><div class="tl-action"><b>Apresentação individual</b> · 1 min cada · gravação separada (slides 4-6)</div><div class="tl-who">Augustto + Gabriel</div></div>
+    <div class="tl-row" data-time="19:36"><div class="tl-time">19:36</div><div class="tl-action">Teoria autoimagem · 3 camadas neurais · teto interno · custo (7-12)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row" data-time="20:02"><div class="tl-time">20:02</div><div class="tl-action"><b>Mapa da Autoimagem</b> · 12 min execução guiada (slides 13-17)</div><div class="tl-who">Augustto + alunos</div></div>
+    <div class="tl-row" data-time="20:26"><div class="tl-time">20:26</div><div class="tl-action"><b>Termostato Financeiro</b> · 8 min preenchimento (slides 18-20)</div><div class="tl-who">Augustto + alunos</div></div>
+    <div class="tl-row" data-time="20:36"><div class="tl-time">20:36</div><div class="tl-action">Leitura coletiva + Experiência Espelho (slide 21)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row" data-time="20:42"><div class="tl-time">20:42</div><div class="tl-action">Squad AURA + compromissos (22-23) · <b>DISPARAR Mapa Form aqui</b></div><div class="tl-who">Augustto + Franklin</div></div>
+    <div class="tl-row" data-time="20:54"><div class="tl-time">20:54</div><div class="tl-action">Ritual 1 · Marco 1 registrado · fecho AURA (slides 24-26)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row" data-time="21:00"><div class="tl-time">21:00</div><div class="tl-action"><b>FIM OFICIAL</b> · aula encerra · Mensagem 3 pós-aula</div><div class="tl-who">—</div></div>
+    <div class="tl-row" data-time="21:10"><div class="tl-time">21:10</div><div class="tl-action">n8n auto · <b>T-7d Aula 2</b> dispara · semente próxima aula</div><div class="tl-who">Auto</div></div>
+    <div class="tl-row" data-time="21:30"><div class="tl-time">21:30</div><div class="tl-action">Salvar gravações · exportar Form V/P/P · backup local</div><div class="tl-who">Gabriel</div></div>
+  </div>
+</div>
+
+<!-- STATUS DEPS -->
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-h-title"><span class="ag">●</span>Status das dependências</span>
+    <span class="sec-h-meta">verde = ok · amarelo = atenção</span>
+  </div>
+  <div class="deps">
+    <div class="dep ok"><div class="lab">Laura V15 (n8n)</div><div class="val">🟢 ATIVA · -30% tokens</div></div>
+    <div class="dep ok"><div class="lab">UazAPI WhatsApp</div><div class="val">🟢 556192979889</div></div>
+    <div class="dep ok"><div class="lab">Google Meet</div><div class="val">🟢 ayj-ytvm-dmc</div></div>
+    <div class="dep ok"><div class="lab">Form Mapa Autoimagem</div><div class="val">🟢 HTTP 200</div></div>
+    <div class="dep ok"><div class="lab">Form Termostato</div><div class="val">🟢 reservado p/ Aula 3</div></div>
+    <div class="dep ok"><div class="lab">Form Feedback</div><div class="val">🟢 ativo</div></div>
+    <div class="dep warn"><div class="lab">Sheets aba alunos</div><div class="val">⚠ confirmar lista</div></div>
+    <div class="dep warn"><div class="lab">Áudios Augustto</div><div class="val">⚠ A4·A5·A6·A1 opcionais</div></div>
+  </div>
+</div>
+
+</div><!-- /tab-hub -->
+
+
+<!-- ====================================================================== -->
+<!-- =========================== TAB · CADERNO =========================== -->
+<!-- ====================================================================== -->
+<div class="tabpanel" id="tab-caderno">
+
+<div class="caderno-hero">
+  <div class="info">
+    <span class="hero-tag">Caderno do Aluno · 12 páginas A4</span>
+    <h2>Caderno do Aluno · Aula 1</h2>
+    <p class="quote">"Você não vive o seu potencial. Vive a imagem que tem de si."<br>— Augustto Leão · Aula 1</p>
+
+    <ul>
+      <li><span class="num">01</span><div><b>Capa</b><span>Nome · WhatsApp · data · tier · sumário</span></div></li>
+      <li><span class="num">02–04</span><div><b>Mapa da Autoimagem</b><span>7 dimensões · A·B·gap · síntese · frase nomeada</span></div></li>
+      <li><span class="num">05–07</span><div><b>Termostato Financeiro</b><span>6 dimensões · cálculos G-D / G-T · síntese</span></div></li>
+      <li><span class="num">08–09</span><div><b>Experiência do Espelho</b><span>Instrução + diário 7 dias</span></div></li>
+      <li><span class="num">10</span><div><b>Ritual Check-in</b><span>12 quartas · 1 palavra cada</span></div></li>
+      <li><span class="num">11</span><div><b>Compromissos da Semana</b><span>4 compromissos + 3 momentos da crença</span></div></li>
+      <li><span class="num">12</span><div><b>Marco 1 · Despertar do Espelho</b><span>Assinatura do aluno · próximos passos</span></div></li>
+    </ul>
+
+    <div class="actions">
+      <a class="btn primary" href="./caderno-aula-1.html" target="_blank">▶ Abrir local</a>
+      <a class="btn" href="https://htmlpreview.github.io/?https://gist.githubusercontent.com/eusouaugusttoleao/d39a9ea64bc3232a5fb2f1e07cda9236/raw/FERRAMENTAS_AULA_1_IMPRESSAO.html" target="_blank">▶ Online</a>
+      <button class="btn gold" data-copy="https://htmlpreview.github.io/?https://gist.githubusercontent.com/eusouaugusttoleao/d39a9ea64bc3232a5fb2f1e07cda9236/raw/FERRAMENTAS_AULA_1_IMPRESSAO.html">⎘ Link público</button>
+    </div>
+  </div>
+
+  <div class="caderno-preview">
+    <div class="corner">12 páginas · A4</div>
+    <iframe src="./caderno-aula-1.html" loading="lazy" title="Preview do Caderno do Aluno"></iframe>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head">
+    <span class="sec-h-title"><span class="ag">●</span>Como usar o caderno</span>
+    <span class="sec-h-meta">3 cenários</span>
+  </div>
+  <div class="grid">
+
+    <div class="card" data-c="lime">
+      <span class="ribbon">Hoje · presencial</span>
+      <div class="card-body">
+        <span class="ico">🖨️</span>
+        <h3>Imprimir antes da aula</h3>
+        <p class="desc">12 páginas A4 · entrega física pra cada aluno · preenchimento manual durante slides 13-20 · materialidade Premium AURA</p>
+        <div class="card-actions">
+          <a class="btn primary" href="./caderno-aula-1.html" target="_blank">▶ Abrir → Cmd+P</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-c="violet">
+      <span class="ribbon">Hoje · digital</span>
+      <div class="card-body">
+        <span class="ico">📱</span>
+        <h3>Compartilhar pelo WhatsApp</h3>
+        <p class="desc">Aluno abre no celular durante a aula · faz anotações em paralelo · botão "Imprimir" embutido pra gerar PDF depois</p>
+        <div class="card-actions">
+          <button class="btn primary" data-copy="https://htmlpreview.github.io/?https://gist.githubusercontent.com/eusouaugusttoleao/d39a9ea64bc3232a5fb2f1e07cda9236/raw/FERRAMENTAS_AULA_1_IMPRESSAO.html">⎘ Copiar link</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-c="teal">
+      <span class="ribbon">Pós-aula · captura</span>
+      <div class="card-body">
+        <span class="ico">🪞</span>
+        <h3>Espelhar no Form Google</h3>
+        <p class="desc">Aluno usa o caderno como base e responde o Form digital até sexta 09/05 18h · dados caem em <code>memoria_aluno</code></p>
+        <div class="card-actions">
+          <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScEoBm9AERELM41reBqB4KlmAHEzqoo25aKBwhSMQ-tlcL5zw/viewform" target="_blank">▶ Form Mapa</a>
+          <button class="btn ghost" data-copy="https://docs.google.com/forms/d/e/1FAIpQLScEoBm9AERELM41reBqB4KlmAHEzqoo25aKBwhSMQ-tlcL5zw/viewform">⎘ URL</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /tab-caderno -->
+
+
+<!-- FOOTER -->
+<div class="footer">
+  AURA · MENTORIA · <span class="ag">Augustto Leão</span> · Live Hub · Aula 1
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Copiado pra área de transferência</div>
+
+<script>
+  // ============= TABS =============
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tabpanel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('tab-' + target).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // ============= Countdown =============
+  const target = new Date('2026-05-05T19:00:00-03:00').getTime();
+  function tick() {
+    const now = new Date();
+    const diff = target - now.getTime();
+    const cdH = document.getElementById('cd-h');
+    const cdM = document.getElementById('cd-m');
+    const cdS = document.getElementById('cd-s');
+    if (diff <= 0) {
+      cdH.textContent = '00';
+      cdM.textContent = '00';
+      cdS.textContent = '00';
+    } else {
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      cdH.textContent = String(h).padStart(2, '0');
+      cdM.textContent = String(m).padStart(2, '0');
+      cdS.textContent = String(s).padStart(2, '0');
+    }
+    document.getElementById('now-clock').textContent = now.toLocaleTimeString('pt-BR');
+    const dStr = now.toLocaleDateString('pt-BR', {weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'});
+    document.getElementById('now-date').textContent = dStr;
+    updateTimeline(now);
+    updateNowAction(now);
+  }
+  setInterval(tick, 1000);
+
+  // ============= Timeline live state =============
+  function updateTimeline(now) {
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const nowMin = h * 60 + m;
+    const rows = document.querySelectorAll('.tl-row');
+    let nextSet = false;
+    for (let i = 0; i < rows.length; i++) {
+      const t = rows[i].dataset.time;
+      if (!t) continue;
+      const [rh, rm] = t.split(':').map(Number);
+      const rMin = rh * 60 + rm;
+      const nextRow = i + 1 < rows.length && rows[i + 1].dataset.time;
+      const nextMin = nextRow
+        ? (function(){ const [a,b] = rows[i+1].dataset.time.split(':').map(Number); return a*60+b; })()
+        : 24 * 60;
+      rows[i].classList.remove('live', 'next', 'past');
+      if (nowMin >= rMin && nowMin < nextMin) {
+        rows[i].classList.add('live');
+      } else if (nowMin < rMin && !nextSet) {
+        rows[i].classList.add('next');
+        nextSet = true;
+      } else if (nowMin >= nextMin) {
+        rows[i].classList.add('past');
+      }
+    }
+  }
+
+  function updateNowAction(now) {
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const nowMin = h * 60 + m;
+    const ico = document.getElementById('now-ico');
+    const what = document.getElementById('now-what');
+    const next = document.getElementById('now-next');
+    const card = document.getElementById('now-action');
+
+    function setNow(emoji, label, nextHTML, color) {
+      ico.textContent = emoji;
+      what.textContent = label;
+      next.innerHTML = nextHTML;
+      card.style.borderLeftColor = color;
+    }
+
+    if (nowMin < 18*60) {
+      setNow('⏳', 'Janela de preparação · sem rush', 'Próximo: <b>18:00</b><br>Subida final · checagem', 'var(--gold)');
+    } else if (nowMin < 19*60) {
+      setNow('🔧', 'Preparação · checar Sheets, OBS, áudios, Forms', 'Próximo: <b>18:30</b><br>Augustto preparação solo', 'var(--orange)');
+    } else if (nowMin < 19*60+10) {
+      setNow('🎬', 'Tela de espera no ar · alunos chegando', 'Próximo: <b>19:10</b><br>AULA COMEÇA', 'var(--violet)');
+    } else if (nowMin < 21*60) {
+      setNow('🔴', 'AO VIVO · Aula 1 acontecendo agora', 'Próximo: <b>21:00</b><br>FIM oficial', 'var(--red)');
+    } else if (nowMin < 21*60+30) {
+      setNow('✨', 'Pós-aula imediato · disparar Mensagem 3', 'Próximo: <b>21:10</b><br>T-7d Aula 2 dispara auto', 'var(--lime)');
+    } else {
+      setNow('💾', 'Salvar gravações · backup · descansar', 'Aula 2: <b>sáb 16/05 19h</b>', 'var(--lime)');
+    }
+  }
+
+  tick();
+
+  // ============= Copy buttons =============
+  function showToast(text) {
+    const t = document.getElementById('toast');
+    t.textContent = text || '✓ Copiado pra área de transferência';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ COPIADO';
+        btn.classList.add('copied');
+        showToast('✓ URL copiada');
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1800);
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-copy-msg]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.msg-card');
+      const text = card.querySelector('.preview').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ MENSAGEM COPIADA';
+        btn.classList.add('copied');
+        showToast('✓ Mensagem inteira copiada · cole no WhatsApp');
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 2200);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

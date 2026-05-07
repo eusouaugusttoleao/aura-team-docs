@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>AURA · Aula 1 · Caderno do Aluno · Ferramentas Imprimíveis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #0a0a0a;
+    --paper:      #ffffff;
+    --gray-1:     #fafafa;
+    --gray-2:     #ececec;
+    --gray-3:     #c8c8c8;
+    --gray-4:     #888888;
+    --gray-5:     #555555;
+    --gold:       #b88a00;
+    --gold-soft:  #fdf6dc;
+    --green:      #1f7a3f;
+    --red:        #c4291f;
+    --violet:     #5e17eb;
+
+    --font-doc:   'Inter', -apple-system, sans-serif;
+    --font-body:  'Lora', Georgia, serif;
+    --font-mono:  'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--gray-1);
+    color: var(--ink);
+    font-family: var(--font-doc);
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 32px 0;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 24px;
+    background: var(--paper);
+    padding: 24mm 22mm 22mm;
+    border: 1px solid var(--gray-3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* HEADER */
+  .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 22px;
+  }
+  .brand {
+    font-family: var(--font-doc);
+    font-weight: 800; font-size: 10px;
+    letter-spacing: 0.36em; text-transform: uppercase;
+  }
+  .pg-num {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--gray-5);
+    letter-spacing: 0.08em;
+  }
+
+  /* COVER */
+  .cover { padding-top: 60mm; }
+  .cover .tag {
+    display: inline-block;
+    background: var(--gold-soft);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    padding: 7px 13px; margin-bottom: 22px;
+  }
+  .cover h1 {
+    font-family: var(--font-doc);
+    font-size: 56px; font-weight: 800;
+    letter-spacing: -0.025em; line-height: 1.02;
+    margin-bottom: 14px;
+  }
+  .cover .h-sub {
+    font-family: var(--font-body);
+    font-style: italic; font-size: 22px;
+    color: var(--gray-5); margin-bottom: 36px;
+    line-height: 1.4;
+  }
+  .cover .quote {
+    border-left: 3px solid var(--gold);
+    padding: 14px 0 14px 22px;
+    font-family: var(--font-body);
+    font-style: italic; font-size: 18px;
+    color: var(--ink); line-height: 1.5;
+    margin-bottom: 38px;
+    max-width: 80%;
+  }
+  .cover .quote .who {
+    display: block;
+    font-style: normal; font-family: var(--font-doc);
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gray-5); margin-top: 10px;
+  }
+  .cover .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+    border-top: 1px solid var(--gray-3);
+    padding-top: 24px; margin-top: 28px;
+  }
+  .cover .meta-grid .k {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gray-5);
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .cover .meta-grid .v {
+    font-family: var(--font-mono); font-weight: 600;
+    font-size: 14px; color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px; min-height: 22px;
+  }
+  .cover .meta-grid .v.fill { background: var(--gold-soft); }
+  .cover .toc {
+    margin-top: 36px;
+    border-top: 2px solid var(--ink);
+    padding-top: 22px;
+  }
+  .cover .toc-title {
+    font-size: 11px; letter-spacing: 0.24em;
+    text-transform: uppercase; font-weight: 800;
+    color: var(--gray-5); margin-bottom: 14px;
+  }
+  .cover .toc ol { list-style: none; padding: 0; }
+  .cover .toc li {
+    display: flex; justify-content: space-between;
+    padding: 9px 0; border-bottom: 1px dashed var(--gray-3);
+    font-size: 14px;
+  }
+  .cover .toc li:last-child { border-bottom: none; }
+  .cover .toc .num {
+    font-family: var(--font-mono); font-weight: 700;
+    color: var(--gold); margin-right: 12px;
+  }
+  .cover .toc .name { flex: 1; font-weight: 600; }
+  .cover .toc .pg { font-family: var(--font-mono); color: var(--gray-5); }
+
+  /* SECTION HEADERS */
+  .sec-tag {
+    display: inline-block;
+    background: var(--ink); color: var(--paper);
+    font-size: 9px; font-weight: 800;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    padding: 5px 11px; margin-bottom: 14px;
+  }
+  .sec-tag.gold { background: var(--gold); color: var(--paper); }
+  .sec-tag.green { background: var(--green); color: var(--paper); }
+  .sec-tag.violet { background: var(--violet); color: var(--paper); }
+  h2.sec-h {
+    font-family: var(--font-doc);
+    font-size: 36px; font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .sec-sub {
+    font-family: var(--font-body);
+    font-style: italic; font-size: 16px;
+    color: var(--gray-5); margin-bottom: 22px;
+    line-height: 1.4;
+  }
+  .sec-meta {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gray-5);
+    border-top: 1px solid var(--gray-3);
+    border-bottom: 1px solid var(--gray-3);
+    padding: 10px 0; margin-bottom: 22px;
+    font-weight: 600;
+  }
+  .sec-meta strong { color: var(--ink); font-weight: 700; }
+
+  /* INSTRUCTIONS */
+  .instr {
+    background: var(--gray-1);
+    border-left: 3px solid var(--ink);
+    padding: 14px 18px; margin-bottom: 22px;
+  }
+  .instr-title {
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--ink); margin-bottom: 8px;
+  }
+  .instr ol, .instr ul { padding-left: 22px; font-family: var(--font-body); font-size: 14px; line-height: 1.6; }
+  .instr li { margin-bottom: 4px; }
+
+  /* DIMENSION CARD (Mapa) */
+  .dim {
+    border: 1.5px solid var(--ink);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .dim-head {
+    display: flex; justify-content: space-between;
+    align-items: baseline;
+    background: var(--ink); color: var(--paper);
+    padding: 10px 16px;
+  }
+  .dim-num { font-family: var(--font-mono); font-weight: 700; color: var(--gold); margin-right: 10px; }
+  .dim-name {
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .dim-frase {
+    font-family: var(--font-body); font-style: italic;
+    font-size: 12px; color: var(--gray-2);
+  }
+  .dim-body { padding: 12px 16px; }
+  .dim-body p {
+    font-family: var(--font-body); font-size: 12px;
+    color: var(--gray-5); margin-bottom: 10px; line-height: 1.4;
+  }
+  .dim-body ul {
+    padding-left: 18px; font-size: 12px; color: var(--gray-5);
+    font-family: var(--font-body); line-height: 1.5;
+  }
+  .dim-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px; margin-top: 12px;
+  }
+  .dim-cell {
+    border: 1px solid var(--gray-3);
+    padding: 10px 14px;
+    text-align: center;
+    background: var(--gray-1);
+  }
+  .dim-cell .lab {
+    font-size: 9px; font-weight: 800;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gray-5); margin-bottom: 4px;
+  }
+  .dim-cell .lab b { color: var(--ink); }
+  .dim-cell .box {
+    height: 38px;
+    border-bottom: 1.5px solid var(--ink);
+    background: var(--paper);
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    text-align: center;
+    line-height: 38px;
+  }
+  .dim-cell.gap .lab { color: var(--gold); }
+  .dim-cell.gap .box { background: var(--gold-soft); border-color: var(--gold); }
+
+  /* TABLE GENERIC */
+  table.tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  table.tbl th, table.tbl td {
+    border: 1px solid var(--gray-3);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  table.tbl th {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  table.tbl td.num {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+  table.tbl td.fill {
+    height: 30px;
+    background: var(--paper);
+  }
+  table.tbl tr:nth-child(even) td { background: var(--gray-1); }
+  table.tbl tr:nth-child(even) td.fill { background: var(--paper); }
+
+  /* WRITE LINES */
+  .write {
+    border-bottom: 1.5px solid var(--ink);
+    height: 28px;
+    margin-bottom: 6px;
+  }
+  .write.short { width: 60%; }
+  .write.tall { height: 50px; }
+  .write.field {
+    background: var(--gray-1);
+    border: 1px solid var(--gray-3);
+    border-bottom: 1.5px solid var(--ink);
+    padding: 6px 10px;
+  }
+
+  /* REAIS BOX */
+  .reais {
+    display: inline-flex; align-items: center;
+    gap: 10px;
+    border: 1.5px solid var(--ink);
+    padding: 8px 14px;
+    background: var(--gold-soft);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    margin: 4px 0;
+  }
+  .reais .lab {
+    font-size: 11px; color: var(--gray-5);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .reais .v {
+    font-size: 18px; color: var(--ink);
+    min-width: 140px;
+    border-bottom: 1.5px solid var(--ink);
+    padding: 0 10px;
+  }
+
+  /* DAYS GRID (Experiência) */
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin: 18px 0;
+  }
+  .day {
+    border: 1.5px solid var(--ink);
+    padding: 12px 8px;
+    text-align: center;
+    min-height: 110px;
+  }
+  .day .d-num {
+    font-family: var(--font-mono);
+    font-size: 24px; font-weight: 700;
+    color: var(--gold);
+  }
+  .day .d-lab {
+    font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gray-5);
+    margin: 4px 0 8px;
+    font-weight: 700;
+  }
+  .day .d-line {
+    border-bottom: 1px solid var(--gray-3);
+    height: 18px; margin-bottom: 4px;
+  }
+  .day .d-date {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--gray-5);
+  }
+
+  /* RITUAL */
+  .ritual-block {
+    background: var(--gray-1);
+    border: 1.5px solid var(--ink);
+    padding: 18px 22px;
+    margin: 14px 0;
+  }
+  .ritual-block h4 {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .palavra-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-3);
+  }
+  .palavra-grid:last-child { border-bottom: none; }
+  .palavra-grid .qua {
+    font-family: var(--font-mono); font-weight: 700;
+    color: var(--gold);
+  }
+  .palavra-grid .pal {
+    border-bottom: 1.5px solid var(--ink);
+    height: 28px;
+    background: var(--paper);
+  }
+  .palavra-grid .data {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--gray-5);
+    text-align: right;
+    border-bottom: 1px solid var(--gray-3);
+    padding-bottom: 4px;
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--gold);
+    padding: 12px 16px;
+    background: var(--gold-soft);
+    margin: 14px 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .callout.ink { border-color: var(--ink); background: var(--gray-1); }
+  .callout.red { border-color: var(--red); background: #fdeae8; color: var(--red); }
+  .callout strong { font-weight: 700; }
+
+  /* BOOK FOOTER */
+  .book-foot {
+    border-top: 1px solid var(--gray-3);
+    padding-top: 12px;
+    margin-top: 22px;
+    display: flex; justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gray-5);
+    font-weight: 600;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; padding: 0; }
+    .page {
+      margin: 0;
+      border: none;
+      box-shadow: none;
+      page-break-after: always;
+      width: 100%;
+      min-height: auto;
+    }
+    .no-print { display: none !important; }
+    @page { size: A4; margin: 0; }
+  }
+
+  /* PRINT BUTTON FLOAT */
+  .print-btn {
+    position: fixed;
+    top: 20px; right: 20px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-doc);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 4px;
+  }
+  .print-btn:hover { background: var(--gold); }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">⎙ Imprimir / PDF</button>
+
+<!-- ════════════════════ PÁGINA 1 · CAPA ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Mentoria Augustto Leão</span>
+    <span class="pg-num">001 / 012</span>
+  </div>
+
+  <div class="cover">
+    <span class="tag">Bloco 1 · Marco 1 · Aula 1 · 05/05/2026</span>
+    <h1>Caderno do Aluno<br>Espelho Interno</h1>
+    <p class="h-sub">As 4 ferramentas da semana · uso pessoal · preencher à mão</p>
+
+    <div class="quote">
+      "Você não vive o seu potencial. Vive a imagem que tem de si."
+      <span class="who">— Augustto Leão · Aula 1</span>
+    </div>
+
+    <div class="meta-grid">
+      <div>
+        <div class="k">Nome do aluno</div>
+        <div class="v fill">&nbsp;</div>
+      </div>
+      <div>
+        <div class="k">WhatsApp</div>
+        <div class="v fill">&nbsp;</div>
+      </div>
+      <div>
+        <div class="k">Data de início</div>
+        <div class="v fill">&nbsp;</div>
+      </div>
+      <div>
+        <div class="k">Tier</div>
+        <div class="v fill">( ) AURA &nbsp; ( ) Sellect</div>
+      </div>
+    </div>
+
+    <div class="toc">
+      <div class="toc-title">Sumário · 4 ferramentas</div>
+      <ol>
+        <li><span><span class="num">01</span><span class="name">Mapa da Autoimagem · 7 dimensões</span></span><span class="pg">p. 002</span></li>
+        <li><span><span class="num">02</span><span class="name">Termostato Financeiro · 6 dimensões</span></span><span class="pg">p. 005</span></li>
+        <li><span><span class="num">03</span><span class="name">Experiência do Espelho · 7 dias</span></span><span class="pg">p. 008</span></li>
+        <li><span><span class="num">04</span><span class="name">Ritual 1 · Check-in do Espelho</span></span><span class="pg">p. 010</span></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 2 · MAPA AUTOIMAGEM (intro + dim 1-3) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">002 / 012</span>
+  </div>
+
+  <span class="sec-tag">Ferramenta 01 · Semana 1</span>
+  <h2 class="sec-h">Mapa da Autoimagem</h2>
+  <p class="sec-sub">Onde o gap for grande, mora a crença limitante. É dela que a AURA começa a te destravar.</p>
+  <div style="background:var(--gold-soft);border:1px solid var(--gold);padding:8px 12px;font-size:11px;font-family:var(--font-mono);margin-bottom:14px;"><strong>Versão digital · </strong><a href="https://docs.google.com/forms/d/e/1FAIpQLScEoBm9AERELM41reBqB4KlmAHEzqoo25aKBwhSMQ-tlcL5zw/viewform" style="color:var(--ink);">forms.gle/Mapa-Autoimagem-AURA</a> · responda quarta após a Aula 1</div>
+
+  <div class="sec-meta">
+    <span><strong>Duração:</strong> 15 min · ao vivo</span>
+    <span><strong>Material:</strong> esta página + caneta</span>
+    <span><strong>Regra:</strong> primeira intuição · sem revisar</span>
+  </div>
+
+  <div class="instr">
+    <div class="instr-title">Como preencher</div>
+    <ol>
+      <li>Para cada dimensão, dê <b>duas notas de 0 a 10</b>: A (como me vejo) e B (como acredito que me veem).</li>
+      <li>Calcule o <b>gap (B − A)</b> linha a linha.</li>
+      <li>Ao final, circule a dimensão com o <b>maior gap absoluto</b> — é a sua dor da semana.</li>
+      <li>Não pense muito. Primeira resposta. O espelho fala rápido.</li>
+    </ol>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">01</span><span class="dim-name">Capacidade</span></span><span class="dim-frase">"Sou bom no que faço."</span></div>
+    <div class="dim-body">
+      <ul>
+        <li>Quando um cliente elogia seu trabalho, você acredita ou desconfia?</li>
+        <li>Quando alguém pede sua opinião profissional, você fala com firmeza ou se relativiza?</li>
+        <li>Você se compara com quem está no seu nível ou sempre 3 degraus acima?</li>
+      </ul>
+      <div class="dim-grid">
+        <div class="dim-cell"><div class="lab"><b>A</b> · Como eu me vejo</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell"><div class="lab"><b>B</b> · Como acreditam me ver</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell gap"><div class="lab">Gap (B − A)</div><div class="box">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">02</span><span class="dim-name">Valor</span></span><span class="dim-frase">"Mereço receber bem pelo que entrego."</span></div>
+    <div class="dim-body">
+      <ul>
+        <li>Na hora do preço, sua boca cobra o que planejou ou cobra menos?</li>
+        <li>Se o cliente pede desconto, você negocia ou cede?</li>
+        <li>"Tá caro" — você ouve crítica ao serviço ou ao seu valor?</li>
+      </ul>
+      <div class="dim-grid">
+        <div class="dim-cell"><div class="lab"><b>A</b> · Como eu me vejo</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell"><div class="lab"><b>B</b> · Como acreditam me ver</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell gap"><div class="lab">Gap (B − A)</div><div class="box">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">03</span><span class="dim-name">Presença</span></span><span class="dim-frase">"Sou percebido quando entro num ambiente."</span></div>
+    <div class="dim-body">
+      <ul>
+        <li>Quando você entra numa sala, as pessoas olham ou você passa despercebido?</li>
+        <li>Em reunião com 10 pessoas, você ocupa espaço ou se acomoda no canto?</li>
+        <li>Seu corpo, roupa e voz comunicam antes de você falar?</li>
+      </ul>
+      <div class="dim-grid">
+        <div class="dim-cell"><div class="lab"><b>A</b> · Como eu me vejo</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell"><div class="lab"><b>B</b> · Como acreditam me ver</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell gap"><div class="lab">Gap (B − A)</div><div class="box">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Espelho Interno · Mapa da Autoimagem (1/3)</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 3 · MAPA AUTOIMAGEM (dim 4-7) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">003 / 012</span>
+  </div>
+
+  <span class="sec-tag">Ferramenta 01 · cont.</span>
+  <h2 class="sec-h">Mapa da Autoimagem</h2>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">04</span><span class="dim-name">Voz</span></span><span class="dim-frase">"Minha palavra tem peso."</span></div>
+    <div class="dim-body">
+      <ul>
+        <li>Quando você fala, as pessoas param pra ouvir ou continuam o que estavam fazendo?</li>
+        <li>Você repete o que disse porque não escutaram ou porque duvidam?</li>
+        <li>Em grupo, você fala primeiro, no meio ou só quando perguntam?</li>
+      </ul>
+      <div class="dim-grid">
+        <div class="dim-cell"><div class="lab"><b>A</b> · Como eu me vejo</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell"><div class="lab"><b>B</b> · Como acreditam me ver</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell gap"><div class="lab">Gap (B − A)</div><div class="box">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">05</span><span class="dim-name">Autoridade</span></span><span class="dim-frase">"Pessoas me procuram como referência."</span></div>
+    <div class="dim-body">
+      <ul>
+        <li>Quando alguém precisa de conselho no seu tema, o seu nome aparece?</li>
+        <li>Você é citado em conversas mesmo sem estar presente?</li>
+        <li>Seu mercado te trata como par, autoridade ou aprendiz?</li>
+      </ul>
+      <div class="dim-grid">
+        <div class="dim-cell"><div class="lab"><b>A</b> · Como eu me vejo</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell"><div class="lab"><b>B</b> · Como acreditam me ver</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell gap"><div class="lab">Gap (B − A)</div><div class="box">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">06</span><span class="dim-name">Merecimento</span></span><span class="dim-frase">"Mereço crescer, ganhar, ser reconhecido."</span></div>
+    <div class="dim-body">
+      <ul>
+        <li>Quando algo bom acontece, você sente que conquistou ou que deu sorte?</li>
+        <li>Você sabota oportunidades grandes sem entender por quê?</li>
+        <li>Você diminui suas vitórias quando alguém elogia?</li>
+      </ul>
+      <div class="dim-grid">
+        <div class="dim-cell"><div class="lab"><b>A</b> · Como eu me vejo</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell"><div class="lab"><b>B</b> · Como acreditam me ver</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell gap"><div class="lab">Gap (B − A)</div><div class="box">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">07</span><span class="dim-name">Potencial</span></span><span class="dim-frase">"Tenho um teto maior do que onde estou."</span></div>
+    <div class="dim-body">
+      <ul>
+        <li>Você acredita que seu melhor ainda está por vir ou já passou?</li>
+        <li>Imaginando você daqui a 3 anos, vê crescimento real ou só mais do mesmo?</li>
+        <li>Você investe em si como quem investe em ativo — ou como quem paga dívida?</li>
+      </ul>
+      <div class="dim-grid">
+        <div class="dim-cell"><div class="lab"><b>A</b> · Como eu me vejo</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell"><div class="lab"><b>B</b> · Como acreditam me ver</div><div class="box">&nbsp;</div></div>
+        <div class="dim-cell gap"><div class="lab">Gap (B − A)</div><div class="box">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Espelho Interno · Mapa da Autoimagem (2/3)</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 4 · MAPA AUTOIMAGEM (síntese + crença + 3 momentos) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">004 / 012</span>
+  </div>
+
+  <span class="sec-tag gold">Síntese · Mapa da Autoimagem</span>
+  <h2 class="sec-h" style="font-size: 30px;">Leitura do Mapa</h2>
+
+  <table class="tbl">
+    <thead>
+      <tr><th style="width:36px;">#</th><th>Dimensão</th><th style="width:52px;">A</th><th style="width:52px;">B</th><th style="width:80px;">Gap (B−A)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="num">01</td><td>Capacidade</td><td class="num fill"></td><td class="num fill"></td><td class="num fill"></td></tr>
+      <tr><td class="num">02</td><td>Valor</td><td class="num fill"></td><td class="num fill"></td><td class="num fill"></td></tr>
+      <tr><td class="num">03</td><td>Presença</td><td class="num fill"></td><td class="num fill"></td><td class="num fill"></td></tr>
+      <tr><td class="num">04</td><td>Voz</td><td class="num fill"></td><td class="num fill"></td><td class="num fill"></td></tr>
+      <tr><td class="num">05</td><td>Autoridade</td><td class="num fill"></td><td class="num fill"></td><td class="num fill"></td></tr>
+      <tr><td class="num">06</td><td>Merecimento</td><td class="num fill"></td><td class="num fill"></td><td class="num fill"></td></tr>
+      <tr><td class="num">07</td><td>Potencial</td><td class="num fill"></td><td class="num fill"></td><td class="num fill"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Como interpretar:</strong> Gap 0–1 coerência · 2 ruído · 3–4 tensão · ≥5 crença limitante ativa. 🟢 B&gt;A: autoimagem rebaixada. 🔴 B&lt;A: cegueira ou grandiosidade defensiva. <em>O que importa é o tamanho, não o sinal.</em>
+  </div>
+
+  <div class="ritual-block">
+    <h4>Minha dimensão-foco da semana</h4>
+    <p style="font-size: 13px; margin-bottom: 8px; color: var(--gray-5);">Circule a dimensão com o MAIOR gap absoluto. Essa é sua prioridade nos próximos 7 dias.</p>
+    <div style="display: grid; grid-template-columns: 1fr 100px 100px; gap: 12px; align-items: end; margin-top: 12px;">
+      <div><div style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-bottom: 4px;">Dimensão</div><div class="write field">&nbsp;</div></div>
+      <div><div style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-bottom: 4px;">Gap</div><div class="write field" style="text-align:center;">&nbsp;</div></div>
+      <div><div style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-bottom: 4px;">Sinal</div><div class="write field">🟢 / 🔴</div></div>
+    </div>
+  </div>
+
+  <div class="sec-tag" style="margin-top: 22px; background: var(--violet); color: var(--paper);">Nomeação da Crença</div>
+  <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 6px;">Minha frase da semana</h3>
+  <p style="font-size: 13px; color: var(--gray-5); margin-bottom: 14px; font-family: var(--font-body); font-style: italic;">A frase tem que doer um pouco. Se não doer, ainda não é a verdade. Reescreva.</p>
+
+  <div class="ritual-block">
+    <p style="font-family: var(--font-body); font-size: 14px; margin-bottom: 14px;">Eu acredito, no fundo, que eu</p>
+    <div class="write tall"></div>
+    <div class="write"></div>
+    <p style="font-family: var(--font-body); font-size: 14px; margin: 14px 0 8px;">e por isso eu aceito</p>
+    <div class="write tall"></div>
+    <div class="write"></div>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Mapa da Autoimagem (3/3) · Síntese</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 5 · TERMOSTATO (intro + dim 1-3) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">005 / 012</span>
+  </div>
+
+  <span class="sec-tag gold">Ferramenta 02 · Semana 1</span>
+  <h2 class="sec-h">Termostato Financeiro</h2>
+  <p class="sec-sub">"O preço que você aceita cobrar é o espelho do preço que você acredita que vale." — Augustto Leão</p>
+
+  <div class="sec-meta">
+    <span><strong>Duração:</strong> 10–12 min · ao vivo</span>
+    <span><strong>Regra:</strong> números reais · estima se preciso · não suaviza</span>
+  </div>
+
+  <div class="callout ink">
+    <strong>O que mede:</strong> seu teto de precificação atual. O Mapa mede em palavras, este Termostato mede em <strong>R$</strong>. Aqui, na Aula 1, ele só MEDE — sem julgar, sem mudar.
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">01</span><span class="dim-name">Preço de Catálogo</span></span><span class="dim-frase">o preço que você divulga</span></div>
+    <div class="dim-body">
+      <p>Preço oficial DIVULGADO do seu serviço/produto principal:</p>
+      <div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div>
+      <p style="margin-top: 10px;">Descrição do que esse preço cobre:</p>
+      <div class="write tall"></div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">02</span><span class="dim-name">Preço Praticado</span></span><span class="dim-frase">o que você realmente recebe</span></div>
+    <div class="dim-body">
+      <p>Preço médio praticado nos últimos 6 meses:</p>
+      <div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div>
+      <p style="margin-top: 10px;">Variação mensal · maior · menor:</p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <div class="reais"><span class="lab">↑ R$</span><span class="v">&nbsp;</span></div>
+        <div class="reais"><span class="lab">↓ R$</span><span class="v">&nbsp;</span></div>
+      </div>
+      <p style="margin-top: 10px;">% médio de desconto concedido:</p>
+      <div class="reais"><span class="lab">%</span><span class="v" style="min-width:80px;">&nbsp;</span></div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">03</span><span class="dim-name">Ticket Médio Mensal</span></span><span class="dim-frase">quanto cada cliente paga / mês</span></div>
+    <div class="dim-body">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 8px;">
+        <div>
+          <p>Ticket médio mensal:</p>
+          <div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div>
+        </div>
+        <div>
+          <p>Clientes ativos:</p>
+          <div class="reais"><span class="lab">#</span><span class="v" style="min-width:80px;">&nbsp;</span></div>
+        </div>
+      </div>
+      <p>Receita mensal média (ticket × clientes):</p>
+      <div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div>
+    </div>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Termostato Financeiro (1/3)</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 6 · TERMOSTATO (dim 4-6) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">006 / 012</span>
+  </div>
+
+  <span class="sec-tag gold">Ferramenta 02 · cont.</span>
+  <h2 class="sec-h">Termostato Financeiro</h2>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">04</span><span class="dim-name">Cliente-Tipo Atual</span></span><span class="dim-frase">o cliente médio · sem filtro</span></div>
+    <div class="dim-body">
+      <p>Tipo de empresa/pessoa:</p><div class="write"></div>
+      <p style="margin-top: 8px;">Porte:</p><div class="write"></div>
+      <p style="margin-top: 8px;">Nível de decisão (dono · CEO · gerente · coord · operacional):</p><div class="write"></div>
+      <p style="margin-top: 8px;">Como ele te encontra:</p><div class="write"></div>
+      <p style="margin-top: 8px;">Como ele te trata (parceiro · fornecedor · custo):</p><div class="write"></div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">05</span><span class="dim-name">Vergonha de Preço</span></span><span class="dim-frase">0 = cobro firme · 10 = travo a voz</span></div>
+    <div class="dim-body">
+      <p>No momento de falar o preço, minha vergonha é:</p>
+      <div class="reais"><span class="lab">/ 10</span><span class="v" style="min-width:80px;">&nbsp;</span></div>
+      <p style="margin-top: 10px;">Em que situação específica ela aparece mais?</p>
+      <div class="write tall"></div>
+      <div class="write"></div>
+    </div>
+  </div>
+
+  <div class="dim">
+    <div class="dim-head"><span><span class="dim-num">06</span><span class="dim-name">Teto Percebido</span></span><span class="dim-frase">o quanto você acredita que cobra</span></div>
+    <div class="dim-body">
+      <p>Se eu pedisse o dobro amanhã, o cliente atual:</p>
+      <ul style="list-style: none; padding-left: 0; font-family: var(--font-body); font-size: 14px;">
+        <li>☐ Aceitaria sem questionar</li>
+        <li>☐ Negociaria mas topa</li>
+        <li>☐ Sairia correndo</li>
+        <li>☐ Ficaria mas me odiando</li>
+        <li>☐ Outra: <span style="display:inline-block;border-bottom:1px solid var(--ink);width:60%;height:18px;"></span></li>
+      </ul>
+      <p style="margin-top: 14px;">Valor MÁXIMO que acredito conseguir cobrar hoje, com firmeza:</p>
+      <div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div>
+    </div>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Termostato Financeiro (2/3)</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 7 · TERMOSTATO (cálculos + síntese) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">007 / 012</span>
+  </div>
+
+  <span class="sec-tag gold">Síntese · Termostato</span>
+  <h2 class="sec-h" style="font-size: 30px;">Cálculos de Leitura</h2>
+
+  <div class="ritual-block">
+    <h4>Gap de Desvalorização (G-D)</h4>
+    <p style="font-family: var(--font-body); font-size: 14px; margin-bottom: 10px;">G-D = Preço Catálogo − Preço Praticado</p>
+    <div class="reais"><span class="lab">G-D · R$</span><span class="v">&nbsp;</span></div>
+  </div>
+
+  <table class="tbl">
+    <thead><tr><th style="width:120px;">G-D</th><th>Leitura</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0–5%</td><td>Coerência · cobra o que anuncia</td></tr>
+      <tr><td class="num">6–15%</td><td>Tensão operacional · normal</td></tr>
+      <tr><td class="num">16–30%</td><td>Autoimagem negociando ANTES do cliente</td></tr>
+      <tr><td class="num" style="color: var(--red);"><strong>≥30%</strong></td><td><strong>Crença limitante ativa na precificação</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ritual-block" style="margin-top: 20px;">
+    <h4>Gap de Teto (G-T)</h4>
+    <p style="font-family: var(--font-body); font-size: 14px; margin-bottom: 10px;">G-T = Teto Percebido − Preço Catálogo</p>
+    <div class="reais"><span class="lab">G-T · R$</span><span class="v">&nbsp;</span></div>
+  </div>
+
+  <table class="tbl">
+    <thead><tr><th style="width:120px;">G-T</th><th>Leitura</th></tr></thead>
+    <tbody>
+      <tr><td class="num">≤ 0</td><td>Sem espaço mental de subir</td></tr>
+      <tr><td class="num">0–30%</td><td>Consciência de margem · não agida</td></tr>
+      <tr><td class="num"><strong>30–80%</strong></td><td><strong>Espaço real pra subir preço</strong></td></tr>
+      <tr><td class="num">>80%</td><td>Grandiosidade defensiva OU oportunidade real</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec-tag" style="margin-top: 28px; background: var(--gold); color: var(--paper);">Síntese final</div>
+  <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 14px;">Minha temperatura atual</h3>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+    <div><p style="margin-bottom:4px; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gray-5); font-weight:700;">Preço que divulgo</p><div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div></div>
+    <div><p style="margin-bottom:4px; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gray-5); font-weight:700;">Preço que recebo</p><div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div></div>
+    <div><p style="margin-bottom:4px; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gray-5); font-weight:700;">Vergonha de preço</p><div class="reais"><span class="lab">/ 10</span><span class="v">&nbsp;</span></div></div>
+    <div><p style="margin-bottom:4px; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gray-5); font-weight:700;">Teto que acredito</p><div class="reais"><span class="lab">R$</span><span class="v">&nbsp;</span></div></div>
+  </div>
+
+  <div class="ritual-block">
+    <h4>Em uma palavra · a temperatura do meu termostato hoje é</h4>
+    <p style="font-size:11px; color:var(--gray-5); font-family:var(--font-body); font-style:italic; margin-bottom:10px;">ex: congelado · morno · esquentando · escaldante · gelado</p>
+    <div class="write tall" style="height:48px;"></div>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Termostato Financeiro (3/3) · Síntese</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 8 · EXPERIÊNCIA DO ESPELHO (instrução) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">008 / 012</span>
+  </div>
+
+  <span class="sec-tag green">Ferramenta 03 · Semana 1</span>
+  <h2 class="sec-h">Experiência do Espelho</h2>
+  <p class="sec-sub">"Esse é o exercício mais difícil que vou pedir em 12 semanas. Quem consegue fazer hoje, consegue o resto." — Augustto</p>
+
+  <div class="sec-meta">
+    <span><strong>Duração:</strong> 3 segundos × 1×/dia × 7 dias</span>
+    <span><strong>Onde:</strong> qualquer espelho físico</span>
+    <span><strong>Testemunha:</strong> ninguém · só você</span>
+  </div>
+
+  <div class="instr">
+    <div class="instr-title">A instrução completa</div>
+    <ol>
+      <li><b>Pare.</b> Não andar junto. Não fazer outra coisa.</li>
+      <li><b>Olhe nos próprios olhos.</b> Diretamente. Sem escapar para cabelo, roupa, postura.</li>
+      <li><b>Conte até 3.</b> Três segundos inteiros de olho no olho com você mesmo.</li>
+      <li><b>Sem celular, sem selfie.</b> É entre você e você.</li>
+      <li><b>Sem correção.</b> Não ajeita o cabelo. Não faz cara de foto.</li>
+      <li><b>Sem narração.</b> Nada de "eu sou bonito" ou "eu mereço". Silêncio.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <strong>Em 72h você vai perceber:</strong> no 1º dia, 3 segundos parecem 30 · no 3º dia você escapa o olhar · no 5º dia, vem um incômodo inespecífico — <em>é aqui que mora o espelho interno falando</em> · no 7º dia, o incômodo passou ou você percebeu qual era.
+  </div>
+
+  <h3 style="font-size: 16px; font-weight: 700; margin: 22px 0 12px;">Padrões esperados ao longo da semana</h3>
+  <table class="tbl">
+    <thead><tr><th style="width:80px;">Dia</th><th>Padrão comum</th><th>Leitura AURA</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1–2</td><td>"Nunca tinha feito isso." · "Fica estranho."</td><td>normal · novidade neural</td></tr>
+      <tr><td class="num">3–4</td><td>Escapa o olhar. "Não consigo segurar 3s."</td><td>início do confronto</td></tr>
+      <tr><td class="num">5</td><td>"Apareceu uma emoção que eu não esperava."</td><td>espelho interno falou</td></tr>
+      <tr><td class="num">6</td><td>Chora · ou endurece a cara. Ambos válidos.</td><td>ápice do processo</td></tr>
+      <tr><td class="num">7</td><td>Aquieta. Olha com calma. "Tá tudo bem."</td><td><strong>travessia</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout red">
+    <strong>Regra única:</strong> não pular nenhum dia. 3 segundos é nada no calendário e tudo na travessia. <strong>Quem pula, reinicia a contagem.</strong>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Experiência do Espelho (1/2) · Instrução</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 9 · EXPERIÊNCIA DO ESPELHO (7 dias registro) ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">009 / 012</span>
+  </div>
+
+  <span class="sec-tag green">Ferramenta 03 · cont.</span>
+  <h2 class="sec-h" style="font-size: 30px;">Diário dos 7 Dias</h2>
+  <p class="sec-sub">Em 1 linha por dia · sem floreio · "senti: ___"</p>
+
+  <div class="days">
+    <div class="day"><div class="d-num">1</div><div class="d-lab">Ter</div><div class="d-line"></div><div class="d-line"></div><div class="d-line"></div><div class="d-date">__/05</div></div>
+    <div class="day"><div class="d-num">2</div><div class="d-lab">Qua</div><div class="d-line"></div><div class="d-line"></div><div class="d-line"></div><div class="d-date">__/05</div></div>
+    <div class="day"><div class="d-num">3</div><div class="d-lab">Qui</div><div class="d-line"></div><div class="d-line"></div><div class="d-line"></div><div class="d-date">__/05</div></div>
+    <div class="day"><div class="d-num">4</div><div class="d-lab">Sex</div><div class="d-line"></div><div class="d-line"></div><div class="d-line"></div><div class="d-date">__/05</div></div>
+    <div class="day"><div class="d-num">5</div><div class="d-lab">Sáb</div><div class="d-line"></div><div class="d-line"></div><div class="d-line"></div><div class="d-date">__/05</div></div>
+    <div class="day"><div class="d-num">6</div><div class="d-lab">Dom</div><div class="d-line"></div><div class="d-line"></div><div class="d-line"></div><div class="d-date">__/05</div></div>
+    <div class="day"><div class="d-num">7</div><div class="d-lab">Seg</div><div class="d-line"></div><div class="d-line"></div><div class="d-line"></div><div class="d-date">__/05</div></div>
+  </div>
+
+  <h3 style="font-size: 16px; font-weight: 700; margin: 22px 0 12px;">Reflexão do final da semana</h3>
+
+  <div class="ritual-block">
+    <h4>O que apareceu de mais forte?</h4>
+    <div class="write tall" style="height: 50px;"></div>
+    <div class="write tall" style="height: 50px;"></div>
+    <div class="write tall" style="height: 50px;"></div>
+  </div>
+
+  <div class="ritual-block" style="margin-top: 14px;">
+    <h4>Em qual dia você mais escapou o olhar?</h4>
+    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 14px; align-items: end;">
+      <div><p style="font-size: 10px; letter-spacing: 0.16em; color: var(--gray-5); text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Dia</p><div class="write field" style="text-align:center;">&nbsp;</div></div>
+      <div><p style="font-size: 10px; letter-spacing: 0.16em; color: var(--gray-5); text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Por quê</p><div class="write field"></div></div>
+    </div>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Experiência do Espelho (2/2) · Diário</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 10 · RITUAL CHECK-IN ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">010 / 012</span>
+  </div>
+
+  <span class="sec-tag violet">Ferramenta 04 · 12 semanas</span>
+  <h2 class="sec-h">Ritual 1 · Check-in do Espelho</h2>
+  <p class="sec-sub">Quarta · 12:00 · WhatsApp · 1 palavra · regra rígida</p>
+
+  <div class="callout ink">
+    <strong>O ritual:</strong> toda quarta às 12h, Salomão pergunta no WhatsApp — "Em uma palavra, como você se descreveu hoje para alguém?". Você responde <strong>uma palavra</strong>. Não duas. Não uma frase. A palavra que saiu é o espelho falando.
+  </div>
+
+  <h3 style="font-size: 16px; font-weight: 700; margin: 22px 0 12px;">Registro pessoal das 12 quartas</h3>
+  <p style="font-size: 13px; color: var(--gray-5); margin-bottom: 14px; font-family: var(--font-body); font-style: italic;">Anote aqui também — pra ver a evolução das suas palavras ao longo da jornada AURA.</p>
+
+  <div class="ritual-block">
+    <div class="palavra-grid"><span class="qua">Q01</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q02</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q03</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q04</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q05</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q06</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q07</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q08</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q09</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q10</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q11</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+    <div class="palavra-grid"><span class="qua">Q12</span><div class="pal"></div><span class="data">__/__/2026</span></div>
+  </div>
+
+  <div class="callout">
+    <strong>Sequência esperada:</strong> Q01-Q02 ainda no espelho antigo (cansado · tentando · confuso) · Q03 virada (preparando · abrindo) · Q05 novo posicionamento (consultor · especialista) · Q08 voz assumida (autor · dono · referência) · <strong>Q12 identidade consolidada</strong>.
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Ritual 1 · Check-in do Espelho</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 11 · COMPROMISSOS DA SEMANA ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">011 / 012</span>
+  </div>
+
+  <span class="sec-tag">Compromissos · Semana 1</span>
+  <h2 class="sec-h" style="font-size: 32px;">Os 4 Compromissos</h2>
+  <p class="sec-sub">Execute nos próximos 7 dias. A AURA registra quem se compromete.</p>
+
+  <div class="ritual-block">
+    <h4 style="color: var(--gold);">☐ Compromisso 1 · Reler a frase nomeada 1×/dia</h4>
+    <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: var(--gray-5);">Antes de dormir · 10 segundos · sem diálogo interno · só leia.</p>
+  </div>
+
+  <div class="ritual-block" style="margin-top: 12px;">
+    <h4 style="color: var(--gold);">☐ Compromisso 2 · Anotar 3 momentos da crença em ação</h4>
+    <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: var(--gray-5); margin-bottom: 14px;">Onde a crença agiu (preço aceito abaixo · fala engolida · oportunidade evitada). Data, local, quem estava presente.</p>
+
+    <p style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-top: 10px; margin-bottom: 4px;">Momento 1</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px;">
+      <div class="write field"><span style="font-size:10px; color:var(--gray-5);">data/hora</span></div>
+      <div class="write field"><span style="font-size:10px; color:var(--gray-5);">onde</span></div>
+    </div>
+    <div class="write" style="height: 36px;"></div>
+
+    <p style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-top: 14px; margin-bottom: 4px;">Momento 2</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px;">
+      <div class="write field"><span style="font-size:10px; color:var(--gray-5);">data/hora</span></div>
+      <div class="write field"><span style="font-size:10px; color:var(--gray-5);">onde</span></div>
+    </div>
+    <div class="write" style="height: 36px;"></div>
+
+    <p style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-top: 14px; margin-bottom: 4px;">Momento 3</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px;">
+      <div class="write field"><span style="font-size:10px; color:var(--gray-5);">data/hora</span></div>
+      <div class="write field"><span style="font-size:10px; color:var(--gray-5);">onde</span></div>
+    </div>
+    <div class="write" style="height: 36px;"></div>
+  </div>
+
+  <div class="ritual-block" style="margin-top: 12px;">
+    <h4 style="color: var(--gold);">☐ Compromisso 3 · Experiência do Espelho 7 dias</h4>
+    <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: var(--gray-5);">3 segundos · 1×/dia · espelho físico · sozinho. <strong>Quem pula, reinicia.</strong></p>
+  </div>
+
+  <div class="ritual-block" style="margin-top: 12px;">
+    <h4 style="color: var(--gold);">☐ Compromisso 4 · Responder Ritual Check-in</h4>
+    <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: var(--gray-5);">Quarta · 12:00 · WhatsApp · 1 palavra. Quem não responde, não é lembrado.</p>
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Compromissos da Semana 1</span>
+    <span>© Augustto Leão · Sellect</span>
+  </div>
+</div>
+
+<!-- ════════════════════ PÁGINA 12 · MARCO 1 / ASSINATURA ════════════════════ -->
+<div class="page">
+  <div class="head">
+    <span class="brand">AURA · Caderno do Aluno · Aula 1</span>
+    <span class="pg-num">012 / 012</span>
+  </div>
+
+  <span class="sec-tag" style="background: var(--violet); color: var(--paper);">Marco 1 · Despertar do Espelho</span>
+  <h2 class="sec-h" style="font-size: 38px;">Registro do Marco</h2>
+  <p class="sec-sub">A AURA registra quem cruza a linha. Este Marco é seu.</p>
+
+  <div class="ritual-block" style="border: 2px solid var(--ink); margin-top: 22px;">
+    <h4 style="color: var(--ink); font-size: 13px;">Declaração do aluno · Marco 1</h4>
+    <p style="font-family: var(--font-body); font-size: 15px; line-height: 1.55; margin: 12px 0;">Hoje, <strong>05 de maio de 2026</strong>, eu cruzei a primeira linha da jornada AURA. Olhei meu espelho interno. Nomeei a crença. Aceitei começar.</p>
+
+    <div style="margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
+      <div>
+        <p style="font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-bottom: 6px;">Assinatura do aluno</p>
+        <div class="write" style="height: 50px; border-bottom: 2px solid var(--ink);"></div>
+      </div>
+      <div>
+        <p style="font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gray-5); font-weight: 700; margin-bottom: 6px;">Data · hora</p>
+        <div class="write field" style="text-align: center; height: 38px;">__/__/2026 · __:__</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ritual-block" style="margin-top: 22px;">
+    <h4>O que acontece a seguir</h4>
+    <table class="tbl">
+      <tbody>
+        <tr><td class="num" style="width:90px;">QUA 07/05</td><td>12h · Ritual Check-in (1 palavra · WhatsApp)</td></tr>
+        <tr><td class="num">SEG 12/05</td><td>Salomão dispara provocação semanal Bloco 1</td></tr>
+        <tr><td class="num">SÁB 16/05</td><td><strong>AULA 2 · Crenças que Constroem Tetos</strong> · 19h-21h · Meet</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top: 22px;">
+    <strong>Lembre:</strong> traga este caderno preenchido na Aula 2. Os 3 momentos anotados são matéria-prima da próxima ferramenta — Inventário de Crenças. Sem o material, a aula vira teoria. Com o material, vira renúncia.
+  </div>
+
+  <div class="book-foot">
+    <span>Aula 1 · Marco 1 · Despertar do Espelho · 05/05/2026</span>
+    <span>© Augustto Leão · Sellect Intelligence · Reprodução proibida</span>
+  </div>
+</div>
+
+</body>
+</html>
