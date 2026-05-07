@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Inventário Google · Patrimônio Digital</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0f;
+    color: #e4e4f0;
+    min-height: 100vh;
+    line-height: 1.55;
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  /* ─── HEADER ─── */
+  .header { text-align: center; margin-bottom: 56px; }
+  .badge {
+    display: inline-block;
+    background: rgba(212, 160, 74, .12);
+    border: 1px solid rgba(212, 160, 74, .25);
+    color: #d4a04a;
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .header h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, #fff 0%, #d4a04a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p {
+    font-size: 15px;
+    color: #888;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ─── BREADCRUMB BACK ─── */
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #888;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 22px;
+    transition: color .2s;
+  }
+  .back:hover { color: #d4a04a; }
+
+  /* ─── SECTION ─── */
+  .section {
+    margin-bottom: 48px;
+  }
+  .section h2 {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #d4a04a;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .section .h-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .section .h-sub {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 24px;
+    line-height: 1.55;
+  }
+
+  /* ─── KEY-VALUE CARDS ─── */
+  .accounts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  .acc {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 18px 22px;
+    border-left: 3px solid var(--c, #d4a04a);
+  }
+  .acc[data-c="primary"] { --c: #d4a04a; }
+  .acc[data-c="backup"]  { --c: #5e9bff; }
+  .acc[data-c="oficial"] { --c: #7ed957; }
+  .acc .lab {
+    font-size: 9px; font-weight: 800;
+    letter-spacing: 2.4px; text-transform: uppercase;
+    color: var(--c, #d4a04a); margin-bottom: 6px;
+  }
+  .acc .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    word-break: break-all;
+    margin-bottom: 6px;
+  }
+  .acc .desc {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  /* ─── TABELA ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    font-size: 13px;
+  }
+  thead th {
+    background: rgba(212,160,74,.08);
+    color: #d4a04a;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,.04); }
+  td.mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #888; word-break: break-all; }
+  td.ok    { color: #7ed957; font-weight: 600; }
+  td.warn  { color: #ffba36; font-weight: 600; }
+  td.err   { color: #ff5e5e; font-weight: 600; }
+  td a { color: #d4a04a; text-decoration: none; font-weight: 600; }
+  td a:hover { text-decoration: underline; }
+
+  /* ─── ALERT BOXES ─── */
+  .alert {
+    background: rgba(255,94,94,.06);
+    border: 1px solid rgba(255,94,94,.25);
+    border-left: 3px solid #ff5e5e;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+  }
+  .alert.warn { background: rgba(255,186,54,.06); border-color: rgba(255,186,54,.25); border-left-color: #ffba36; }
+  .alert.ok   { background: rgba(126,217,87,.06); border-color: rgba(126,217,87,.25); border-left-color: #7ed957; }
+  .alert .lab {
+    font-size: 9px; font-weight: 800;
+    letter-spacing: 2.4px; text-transform: uppercase;
+    color: #ff5e5e; margin-bottom: 6px;
+  }
+  .alert.warn .lab { color: #ffba36; }
+  .alert.ok .lab   { color: #7ed957; }
+  .alert .ttl {
+    font-size: 16px; font-weight: 700;
+    color: #fff; margin-bottom: 6px;
+  }
+  .alert .desc { font-size: 13px; color: #c9c9d4; line-height: 1.55; }
+  .alert .desc code { background: rgba(0,0,0,.3); padding: 1px 7px; border-radius: 3px; font-size: 12px; color: #d4a04a; font-family: 'JetBrains Mono',monospace; }
+
+  /* ─── ACTION CHECKLIST ─── */
+  .checklist {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    padding: 22px 26px;
+  }
+  .checklist h4 {
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: #d4a04a;
+    font-weight: 800; margin-bottom: 14px;
+  }
+  .checklist ol {
+    counter-reset: step; list-style: none; padding: 0;
+  }
+  .checklist ol li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 32px 1fr 110px;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed rgba(255,255,255,.06);
+    align-items: start;
+  }
+  .checklist ol li:last-child { border-bottom: none; }
+  .checklist ol li::before {
+    content: counter(step);
+    background: #d4a04a;
+    color: #0a0a0f;
+    font-weight: 800;
+    width: 26px; height: 26px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-family: 'JetBrains Mono',monospace;
+  }
+  .checklist ol li .what { color: #e4e4f0; font-size: 13px; line-height: 1.5; }
+  .checklist ol li .what b { color: #fff; }
+  .checklist ol li .what code { background: rgba(212,160,74,.1); color: #d4a04a; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: 'JetBrains Mono',monospace; }
+  .checklist ol li .when {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 11px;
+    color: #888;
+    text-align: right;
+  }
+
+  /* ─── QUOTAS ─── */
+  .quotas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .quota {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .quota .name {
+    font-size: 10px; letter-spacing: 1.6px;
+    text-transform: uppercase; color: #888;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .quota .max {
+    font-size: 22px; font-weight: 800;
+    color: #d4a04a; font-family: 'JetBrains Mono',monospace;
+    margin-bottom: 4px;
+  }
+  .quota .use {
+    font-size: 11px; color: #7ed957;
+    font-family: 'JetBrains Mono',monospace;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .footer p {
+    font-size: 11px; color: #555;
+    line-height: 1.8;
+  }
+  .footer strong { color: #d4a04a; }
+
+  @media (max-width: 640px) {
+    .container { padding: 32px 18px 60px; }
+    table, thead, tbody, tr, th, td { display: block; }
+    thead { display: none; }
+    tr { border-bottom: 1px solid rgba(255,255,255,.06); padding: 12px 0; }
+    td { border: none; padding: 4px 16px; }
+    td:first-child { font-weight: 700; color: #fff; padding-top: 12px; }
+    .checklist ol li { grid-template-columns: 32px 1fr; }
+    .checklist ol li .when { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <a href="index.html" class="back">&larr; Voltar ao hub</a>
+
+  <div class="header">
+    <div class="badge">Documento Interno · Patrimônio Digital</div>
+    <h1>Inventário Google AURA</h1>
+    <p>Mapa completo de todos os recursos Google da Mentoria AURA — Forms, Sheets, Apps Scripts, pastas Drive, contas, triggers e quotas. Atualizado em 07/05/2026.</p>
+  </div>
+
+  <!-- ═══════════════ CONTAS ═══════════════ -->
+  <div class="section">
+    <h2>1 · Contas Google</h2>
+    <div class="h-title">Quem tem acesso administrativo</div>
+    <div class="h-sub">3 emails configurados, cada um com função distinta. <b>Backup adicionado em 07/05/2026.</b></div>
+
+    <div class="accounts">
+      <div class="acc" data-c="primary">
+        <div class="lab">● Conta-mãe operacional</div>
+        <div class="val">franklinaugustto@gmail.com</div>
+        <div class="desc">Owner de TODOS os Forms · Sheets · Apps Scripts. Remetente dos emails "Salomão · AURA". Conta usada em todos os triggers.</div>
+      </div>
+      <div class="acc" data-c="backup">
+        <div class="lab">● Conta backup administrativa</div>
+        <div class="val">sellectinteligence@gmail.com</div>
+        <div class="desc">BCC em todos os Forms · controle administrativo total · adicionada em 07/05/2026 como redundância contra ponto único de falha.</div>
+      </div>
+      <div class="acc" data-c="oficial">
+        <div class="lab">● Email oficial empresa</div>
+        <div class="val">contato@augusttoleao.com.br</div>
+        <div class="desc">Email institucional · usado em contratos, NF, comunicações jurídicas. Substitui o erro <code style="background:rgba(255,94,94,.1);color:#ff5e5e;padding:1px 5px;border-radius:3px;font-size:11px;font-family:monospace;">augusto.leao@gmail.com</code> (não existe).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ FORMS ═══════════════ -->
+  <div class="section">
+    <h2>2 · Google Forms</h2>
+    <div class="h-title">4 Forms ativos · todos validados HTTP 200</div>
+    <div class="h-sub">Cada Form tem Apps Script standalone com trigger onFormSubmit + email diagnóstico HTML AURA + UPSERT em <code style="background:rgba(212,160,74,.1);color:#d4a04a;padding:1px 5px;border-radius:3px;font-size:12px;font-family:monospace;">memoria_aluno</code>.</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Form</th>
+          <th>Aula vinculada</th>
+          <th>Status</th>
+          <th>Apps Script</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">01</td>
+          <td><b>Boas-Vindas</b><br><span style="font-size:11px;color:#888;">11 perguntas · cadastro pós-venda</span></td>
+          <td>Pré-aula (onboarding)</td>
+          <td class="ok">🟢 Ativo</td>
+          <td class="mono">forms/boas-vindas/Code.gs</td>
+        </tr>
+        <tr>
+          <td class="mono">02</td>
+          <td><b>Mapa da Autoimagem</b><br><span style="font-size:11px;color:#888;">21 perguntas · 7 dim × 2 notas + frase</span></td>
+          <td>Aula 1 · Espelho Interno</td>
+          <td class="ok">🟢 Ativo (criado 05/05)</td>
+          <td class="mono">forms/mapa-autoimagem.gs</td>
+        </tr>
+        <tr>
+          <td class="mono">03</td>
+          <td><b>Termostato Financeiro</b><br><span style="font-size:11px;color:#888;">25 perguntas · 5 dim · score + R$</span></td>
+          <td>Aula 3 · Reconstrução do Valor</td>
+          <td class="ok">🟢 Ativo (reservado p/ 30/05)</td>
+          <td class="mono">forms/termostato-financeiro.gs</td>
+        </tr>
+        <tr>
+          <td class="mono">04</td>
+          <td><b>Feedback Pós-Aula</b><br><span style="font-size:11px;color:#888;">3 escalas + sentimento + autoriza depoimento</span></td>
+          <td>Todas as 12 aulas</td>
+          <td class="ok">🟢 Ativo</td>
+          <td class="mono">forms/feedback-pos-aula.gs</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════ SHEETS ═══════════════ -->
+  <div class="section">
+    <h2>3 · Google Sheets</h2>
+    <div class="h-title">2 Sheets centrais · base de inteligência AURA</div>
+    <div class="h-sub">Toda informação dos alunos passa por aqui — agentes n8n, Salomão, PedroSup e Maestro consomem como fonte única.</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Sheet</th>
+          <th>ID</th>
+          <th>Permissão</th>
+          <th>Função</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Operacional</b><br><span style="font-size:11px;color:#888;">12 abas · agentes n8n leem</span></td>
+          <td class="mono">1mr1q8T1KAMra... mMgE</td>
+          <td class="err">🔴 Público</td>
+          <td>contatos · memoria_aluno · presenca · transacoes · alertas · reports · briefings</td>
+        </tr>
+        <tr>
+          <td><b>Inteligência</b><br><span style="font-size:11px;color:#888;">3 abas · forms escrevem</span></td>
+          <td class="mono">15J_owYxhGGgb... fzSw</td>
+          <td class="ok">🟢 Privado</td>
+          <td>mapa_autoimagem · diagnosticos (termostato) · feedback_aulas</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert" style="margin-top:14px;">
+      <div class="lab">● ALERTA CRÍTICO</div>
+      <div class="ttl">Sheet operacional está PÚBLICO</div>
+      <div class="desc">Qualquer pessoa com o link consegue ver dados sensíveis dos alunos (CPF · WhatsApp · contato pessoal · histórico). <b>Restringir acesso AGORA</b> via Compartilhar → "Restrito" → adicionar apenas <code>franklinaugustto@gmail.com</code> + <code>sellectinteligence@gmail.com</code> + n8n service account se houver.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ APPS SCRIPTS ═══════════════ -->
+  <div class="section">
+    <h2>4 · Apps Scripts</h2>
+    <div class="h-title">5 projetos · todos com triggers ativos</div>
+    <div class="h-sub">Acessar em <code style="background:rgba(212,160,74,.1);color:#d4a04a;padding:1px 5px;border-radius:3px;font-size:12px;font-family:monospace;">script.google.com</code> · listados em "Meus projetos".</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Projeto</th>
+          <th>Função criadora</th>
+          <th>Trigger</th>
+          <th>Linhas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>AURA · Boas-Vindas</b></td>
+          <td class="mono">criarFormBoasVindas</td>
+          <td class="mono">onFormSubmitUpsert</td>
+          <td class="mono">~440</td>
+        </tr>
+        <tr>
+          <td><b>AURA · Mapa da Autoimagem</b></td>
+          <td class="mono">criarMapaAutoimagem</td>
+          <td class="mono">aoSubmeterMapa</td>
+          <td class="mono">~485</td>
+        </tr>
+        <tr>
+          <td><b>AURA · Termostato Financeiro</b></td>
+          <td class="mono">criarTermostatoFinanceiro</td>
+          <td class="mono">aoSubmeterTermostato</td>
+          <td class="mono">~670</td>
+        </tr>
+        <tr>
+          <td><b>AURA · Feedback Pós-Aula</b></td>
+          <td class="mono">criarFeedbackPosAula</td>
+          <td class="mono">aoSubmeterFeedback</td>
+          <td class="mono">~285</td>
+        </tr>
+        <tr>
+          <td><b>AURA · Gerar Contrato</b></td>
+          <td class="mono">gerarContratoPorTelefone(tel, op)</td>
+          <td class="mono">manual</td>
+          <td class="mono">~330</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════ DRIVE ═══════════════ -->
+  <div class="section">
+    <h2>5 · Drive · pastas</h2>
+    <div class="h-title">1 pasta dedicada · 4 pendentes de criar</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Pasta</th>
+          <th>Status</th>
+          <th>Função</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>AURA - Contratos</b></td>
+          <td class="ok">🟢 Existe</td>
+          <td>auto-criada · Docs gerados pelo Apps Script <code class="mono" style="background:rgba(212,160,74,.1);color:#d4a04a;padding:1px 5px;font-size:11px;border-radius:3px;">{data}-{nome}.gdoc</code></td>
+        </tr>
+        <tr>
+          <td><b>AURA - Aulas/Aula 01</b></td>
+          <td class="warn">🟡 Criar</td>
+          <td>gravações master + individuais (atualmente em tldv.io e Meet)</td>
+        </tr>
+        <tr>
+          <td><b>AURA - Apresentações Alunos</b></td>
+          <td class="warn">🟡 Criar</td>
+          <td>vídeos individuais 1-min de cada aluno · matéria-prima Bloco 3</td>
+        </tr>
+        <tr>
+          <td><b>AURA - Materiais Imprimíveis</b></td>
+          <td class="warn">🟡 Criar</td>
+          <td>cadernos · PDFs · ferramentas · backup local dos forms</td>
+        </tr>
+        <tr>
+          <td><b>AURA - Backups</b></td>
+          <td class="warn">🟡 Criar</td>
+          <td>exportações periódicas dos Sheets · snapshots Apps Scripts</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════ TRIGGERS ═══════════════ -->
+  <div class="section">
+    <h2>6 · Triggers e quotas</h2>
+    <div class="h-title">Capacidade da conta · uso atual vs limite</div>
+    <div class="h-sub">Cota Google Apps Script (consumer · grátis) · folga atual confortável.</div>
+
+    <div class="quotas">
+      <div class="quota">
+        <div class="name">MailApp.send</div>
+        <div class="max">100/dia</div>
+        <div class="use">~10 uso atual</div>
+      </div>
+      <div class="quota">
+        <div class="name">GmailApp.send</div>
+        <div class="max">500/dia</div>
+        <div class="use">~20 uso atual</div>
+      </div>
+      <div class="quota">
+        <div class="name">UrlFetchApp</div>
+        <div class="max">20.000/dia</div>
+        <div class="use">~0 uso atual</div>
+      </div>
+      <div class="quota">
+        <div class="name">Triggers</div>
+        <div class="max">20 ativos</div>
+        <div class="use">5 ativos</div>
+      </div>
+      <div class="quota">
+        <div class="name">Tempo runtime</div>
+        <div class="max">90 min/dia</div>
+        <div class="use">~2 min uso</div>
+      </div>
+      <div class="quota">
+        <div class="name">Submissions/Form</div>
+        <div class="max">∞ (sem limite)</div>
+        <div class="use">~10 (Mapa A1)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ RISCOS ═══════════════ -->
+  <div class="section">
+    <h2>7 · Riscos consolidados</h2>
+    <div class="h-title">3 alertas · ordem de urgência</div>
+
+    <div class="alert">
+      <div class="lab">● 🔴 CRÍTICO · ação imediata</div>
+      <div class="ttl">Sheet operacional público</div>
+      <div class="desc">Sheet <code>1mr1q8T1KAMraPW-Ra2ZlmHLj3jF9rh3Kz9m_bVrmMgE</code> está acessível via link · contém CPF, WhatsApp e dados sensíveis de todos os alunos. Restringir HOJE.</div>
+    </div>
+
+    <div class="alert warn">
+      <div class="lab">● 🟡 ATENÇÃO · em mitigação</div>
+      <div class="ttl">Tudo numa conta pessoal</div>
+      <div class="desc">Risco de ponto único de falha. <b>Mitigado parcialmente em 07/05/2026</b> com adição de <code>sellectinteligence@gmail.com</code> como BCC e backup administrativo. Migração completa pra Workspace corporativo (<code>aura@sellect.com.br</code>) recomendada quando contratar 2ª pessoa pro time AURA.</div>
+    </div>
+
+    <div class="alert ok">
+      <div class="lab">● 🟢 SOB CONTROLE</div>
+      <div class="ttl">Quotas Google folgadas</div>
+      <div class="desc">Uso atual a menos de 10% dos limites em todas as categorias. Suporta tranquilamente até ~50 alunos ativos respondendo Forms simultaneamente.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ AÇÕES ═══════════════ -->
+  <div class="section">
+    <h2>8 · Plano de ação</h2>
+    <div class="h-title">8 ações priorizadas · começar de cima pra baixo</div>
+
+    <div class="checklist">
+      <h4>Ações administrativas Google</h4>
+      <ol>
+        <li>
+          <span class="what"><b>Restringir acesso ao Sheet operacional</b><br>Compartilhar → "Restrito" → adicionar <code>franklinaugustto@gmail.com</code> + <code>sellectinteligence@gmail.com</code> + service accounts n8n</span>
+          <span class="when">5 min · agora</span>
+        </li>
+        <li>
+          <span class="what"><b>Adicionar sellectinteligence@gmail.com como editor</b> em todos os Forms<br>4 Forms · Compartilhar → adicionar email → permissão "Editor"</span>
+          <span class="when">5 min · hoje</span>
+        </li>
+        <li>
+          <span class="what"><b>Adicionar sellectinteligence@gmail.com como editor</b> nos Apps Scripts<br>5 projetos no script.google.com · Configurações → Compartilhar</span>
+          <span class="when">8 min · hoje</span>
+        </li>
+        <li>
+          <span class="what"><b>Re-deploy dos Apps Scripts</b> com COPIAS_ADMIN<br>Cole novo código (já no .gs local) · Salvar · trigger continua mesmo</span>
+          <span class="when">12 min · hoje</span>
+        </li>
+        <li>
+          <span class="what"><b>Criar 4 pastas Drive</b><br><code>AURA - Aulas</code> · <code>AURA - Apresentações Alunos</code> · <code>AURA - Materiais Imprimíveis</code> · <code>AURA - Backups</code></span>
+          <span class="when">3 min · hoje</span>
+        </li>
+        <li>
+          <span class="what"><b>Verificar se sellectinteligence@gmail.com já recebe BCCs</b><br>Force submit teste no Form Mapa após re-deploy · confirmar BCC chegou</span>
+          <span class="when">5 min · hoje</span>
+        </li>
+        <li>
+          <span class="what"><b>Documentar credentials n8n</b><br>Verificar se OAuth Google Sheets do n8n usa <code>franklinaugustto@gmail.com</code> · adicionar 2ª credential com backup</span>
+          <span class="when">15 min · esta semana</span>
+        </li>
+        <li>
+          <span class="what"><b>Avaliar migração para Google Workspace</b><br>Quando contratar 2ª pessoa AURA · domínio <code>sellect.com.br</code> ou <code>augusttoleao.com.br</code> · custo: R$14/usuário/mês</span>
+          <span class="when">decisão futura</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><strong>Sellect Gestão Empresarial</strong> · CNPJ 54.392.051/0001-35<br>
+    Mentoria AURA · Inventário interno · Confidencial · Versão 07/05/2026<br>
+    Atualizado por Franklin · Backup administrativo: <strong>sellectinteligence@gmail.com</strong></p>
+  </div>
+
+</div>
+
+</body>
+</html>
