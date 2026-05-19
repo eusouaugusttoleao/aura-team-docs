@@ -82,13 +82,13 @@
     margin-left:auto;
     font-family:var(--font-mono);
     font-size:10px;
-    color:var(--fire);
+    color:var(--dusk);
     letter-spacing:.36em;
     text-transform:uppercase;
   }
   .student-tag::before{
     content:"●";
-    color:var(--fire);
+    color:var(--dusk);
     margin-right:8px;
   }
 
@@ -203,11 +203,11 @@
     font-family:var(--font-mono);
     font-size:10px;
     letter-spacing:.4em;
-    color:var(--fire);
+    color:var(--dusk);
     text-transform:uppercase;
     margin-bottom:24px;
     padding-bottom:8px;
-    border-bottom:1px solid var(--fire);
+    border-bottom:1px solid var(--dusk);
   }
   .cta-card h2{
     font-family:var(--font-display);
@@ -241,7 +241,7 @@
     display:inline-flex;
     align-items:center;
     gap:12px;
-    background:var(--fire);
+    background:var(--ink);
     color:var(--cream);
     padding:18px 32px;
     text-decoration:none;
@@ -250,12 +250,12 @@
     letter-spacing:.32em;
     text-transform:uppercase;
     font-weight:500;
-    border:1px solid var(--fire);
+    border:1px solid var(--ink);
     transition:all .2s ease;
   }
   .cta-card .meet-link:hover{
-    background:var(--ink);
-    border-color:var(--ink);
+    background:var(--dusk-deep);
+    border-color:var(--dusk-deep);
   }
   .cta-card .countdown{
     text-align:center;
@@ -287,7 +287,7 @@
     font-family:var(--font-sub);
     font-style:italic;
     font-size:14px;
-    color:var(--fire);
+    color:var(--dusk);
     margin-top:12px;
   }
 
@@ -344,7 +344,7 @@
   .rule .num{
     font-family:var(--font-display);
     font-size:14px;
-    color:var(--fire);
+    color:var(--dusk);
     font-weight:500;
     letter-spacing:.4em;
     margin-bottom:16px;
@@ -368,8 +368,8 @@
 
   .anchor-block{
     background:var(--cream-soft);
-    border-top:2px solid var(--fire);
-    border-bottom:2px solid var(--dusk);
+    border-top:1px solid var(--dusk);
+    border-bottom:1px solid var(--dusk);
     padding:64px 48px;
     text-align:center;
     margin:64px 0 0;
@@ -387,7 +387,7 @@
   .anchor-block .author{
     font-family:var(--font-mono);
     font-size:10px;
-    color:var(--fire);
+    color:var(--dusk);
     letter-spacing:.38em;
     text-transform:uppercase;
   }
@@ -406,7 +406,7 @@
     letter-spacing:.32em;
     text-transform:uppercase;
   }
-  .agenda-bloco b{color:var(--fire-hot);margin-right:14px;font-weight:500}
+  .agenda-bloco b{color:var(--dusk-soft);margin-right:14px;font-weight:500}
   .agenda-aula{
     background:var(--cream);
     padding:24px 28px;
@@ -421,7 +421,7 @@
   .agenda-aula .nm{
     font-family:var(--font-mono);
     font-size:11px;
-    color:var(--fire);
+    color:var(--dusk);
     letter-spacing:.3em;
     text-transform:uppercase;
   }
@@ -451,16 +451,16 @@
   .agenda-aula.passada{opacity:.42}
   .agenda-aula.passada .ttl{text-decoration:line-through;text-decoration-color:var(--ink-mute)}
   .agenda-aula.proxima{
-    background:linear-gradient(90deg, rgba(216,100,32,.10), var(--cream) 75%);
-    border-left:3px solid var(--fire);
+    background:linear-gradient(90deg, rgba(85,119,160,.10), var(--cream) 75%);
+    border-left:3px solid var(--dusk);
   }
-  .agenda-aula.proxima .dt{color:var(--fire);font-weight:500}
+  .agenda-aula.proxima .dt{color:var(--dusk);font-weight:500}
   .agenda-aula.proxima .nm::after{
     content:"hoje";
     display:inline-block;
     margin-left:10px;
     padding:3px 8px;
-    background:var(--fire);
+    background:var(--ink);
     color:var(--cream);
     font-family:var(--font-mono);
     font-size:9px;
@@ -484,9 +484,9 @@
     transition:all .25s ease;
   }
   .agent:hover{background:var(--cream)}
-  .agent.principal{border-top-color:var(--fire)}
+  .agent.principal{border-top-color:var(--ink)}
   .agent.secundario{border-top-color:var(--dusk)}
-  .agent.suporte{border-top-color:var(--fire-hot)}
+  .agent.suporte{border-top-color:var(--dusk-soft)}
   .agent.exception{border-top-color:var(--dusk-soft)}
 
   .agent .name{
@@ -501,13 +501,13 @@
   .agent .role{
     font-family:var(--font-mono);
     font-size:10px;
-    color:var(--fire);
+    color:var(--dusk);
     letter-spacing:.32em;
     text-transform:uppercase;
     margin-bottom:18px;
   }
   .agent.secundario .role{color:var(--dusk)}
-  .agent.suporte .role{color:var(--fire-hot)}
+  .agent.suporte .role{color:var(--dusk-soft)}
   .agent.exception .role{color:var(--dusk-soft)}
 
   .agent .desc{
@@ -529,7 +529,7 @@
     border:1px solid var(--cream-edge);
     display:inline-block;
   }
-  .agent .when b{color:var(--fire);font-weight:500}
+  .agent .when b{color:var(--dusk);font-weight:500}
 
   /* ============================================================ RITUAIS */
   .rituais{
@@ -550,14 +550,14 @@
   .ritual .icon{
     font-family:var(--font-display);
     font-size:48px;
-    color:var(--fire);
+    color:var(--dusk);
     font-weight:700;
     line-height:1;
   }
-  .ritual.v2 .icon{color:var(--dusk)}
-  .ritual.v3 .icon{color:var(--fire-hot)}
+  .ritual.v2 .icon{color:var(--dusk-soft)}
+  .ritual.v3 .icon{color:var(--dusk)}
   .ritual.v4 .icon{color:var(--dusk-soft)}
-  .ritual.v5 .icon{color:var(--fire)}
+  .ritual.v5 .icon{color:var(--ink)}
   .ritual.v6 .icon{color:var(--dusk)}
   .ritual .name{
     font-family:var(--font-display);
@@ -571,7 +571,7 @@
   .ritual .when{
     font-family:var(--font-mono);
     font-size:10px;
-    color:var(--fire);
+    color:var(--dusk);
     letter-spacing:.3em;
     text-transform:uppercase;
     margin-bottom:14px;
@@ -599,7 +599,7 @@
     align-items:baseline;
     transition:border-color .2s ease;
   }
-  .check:has(input:checked){border-left-color:var(--fire);background:var(--cream)}
+  .check:has(input:checked){border-left-color:var(--ink);background:var(--cream)}
   .check input[type="checkbox"]{
     appearance:none;
     width:22px;
@@ -612,8 +612,8 @@
     transition:all .2s ease;
   }
   .check input[type="checkbox"]:checked{
-    background:var(--fire);
-    border-color:var(--fire);
+    background:var(--ink);
+    border-color:var(--ink);
   }
   .check input[type="checkbox"]:checked::after{
     content:"✓";
@@ -642,7 +642,7 @@
     display:inline-block;
     margin-right:6px;
   }
-  .check label a{color:var(--fire);text-decoration:none;border-bottom:1px solid var(--fire-deep)}
+  .check label a{color:var(--dusk);text-decoration:none;border-bottom:1px solid var(--dusk-soft)}
   .check label a:hover{color:var(--ink);border-color:var(--ink)}
 
   /* ============================================================ LINKS */
@@ -667,7 +667,7 @@
   .link .icon{
     font-family:var(--font-display);
     font-size:22px;
-    color:var(--fire);
+    color:var(--dusk);
     margin-bottom:14px;
     display:block;
   }
