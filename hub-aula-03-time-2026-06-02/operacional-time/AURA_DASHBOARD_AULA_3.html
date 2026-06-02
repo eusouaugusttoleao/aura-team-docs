@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Dashboard · D-day Aula 3 · 02/06/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     AURA DASHBOARD · D-day Aula 3 · VERSÃO WHITE
+     Clone estrutural do AURA_DASHBOARD_AULA_1 com paleta invertida
+     DS 04 V3 Cream · accent dusk azul · categorias mantidas
+     ============================================================ */
+  :root {
+    --paper:        #fafaf6;
+    --bg:           #f5efe4;
+    --surface:      #f1ece1;
+    --surface-2:    #faf5ea;
+    --hover:        #ebe6dc;
+    --line:         #d4cdbf;
+    --line-soft:    #e6e0d2;
+
+    --ink:          #0a0a0a;
+    --text:         #1a1a1a;
+    --text-mute:    #6a6258;
+    --text-dim:     #8a8278;
+    --text-faint:   #a8a08a;
+
+    /* DS 04 V2 Azul · accent principal */
+    --dusk:         #5577A0;
+    --dusk-soft:    rgba(85,119,160,0.10);
+    --dusk-deep:    #2A3D5E;
+    --dusk-light:   #7A95B8;
+
+    /* accent secundário */
+    --gold:         #a07a08;
+    --gold-soft:    rgba(160,122,8,0.10);
+
+    --teal:         #006e85;
+    --lime:         #3f7a22;
+    --orange:       #c45a1a;
+    --red:          #b8141a;
+
+    /* matriz Eisenhower · cores mantidas */
+    --emerg:        #b8141a;
+    --import:       #c45a1a;
+    --essen:        #3f7a22;
+    --deleg:        #006e85;
+
+    --font-display: 'Outfit', -apple-system, sans-serif;
+    --font-body:    'Playfair Display', Georgia, serif;
+    --font-mono:    'DM Mono', 'JetBrains Mono', monospace;
+    --font-hero:    'Cinzel', 'Trajan Pro', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at top right, rgba(85,119,160,0.05), transparent 50%),
+      radial-gradient(ellipse at bottom left, rgba(160,122,8,0.04), transparent 50%);
+  }
+
+  /* ============= STATUS BAR ============= */
+  .statusbar {
+    position: sticky; top: 0;
+    background: rgba(250,250,246,0.96);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    z-index: 100;
+  }
+  .brand { color: var(--dusk-deep); font-weight: 800; letter-spacing: 0.32em; }
+  .brand .dot { display: inline-block; width: 6px; height: 6px; background: var(--lime); border-radius: 50%; margin-right: 8px; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .countdown { display: flex; gap: 12px; align-items: center; color: var(--text-mute); font-family: var(--font-mono); font-weight: 600; }
+  .countdown .num { color: var(--dusk); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .countdown .label { color: var(--text-dim); font-size: 10px; }
+  .now-time { color: var(--lime); font-family: var(--font-mono); }
+
+  /* ============= HEADER ============= */
+  .hero { padding: 64px 32px 48px; max-width: 1400px; margin: 0 auto; }
+  .hero-tag {
+    display: inline-block;
+    background: var(--dusk-soft);
+    border: 1px solid var(--dusk);
+    color: var(--dusk-deep);
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    padding: 8px 14px; margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.05; margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .hero h1 em { font-style: normal; color: var(--dusk); }
+  .hero .sub {
+    font-family: var(--font-body); font-style: italic;
+    font-size: 19px; color: var(--text-mute);
+    max-width: 720px; line-height: 1.5;
+  }
+
+  /* ============= STATS GRID ============= */
+  .stats {
+    max-width: 1400px; margin: 0 auto;
+    padding: 0 32px 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .stat {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    padding: 22px 22px 18px;
+    position: relative; overflow: hidden;
+  }
+  .stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent, var(--dusk)); }
+  .stat[data-c="lime"]   { --accent: var(--lime); }
+  .stat[data-c="dusk"]   { --accent: var(--dusk); }
+  .stat[data-c="teal"]   { --accent: var(--teal); }
+  .stat[data-c="orange"] { --accent: var(--orange); }
+  .stat[data-c="red"]    { --accent: var(--red); }
+  .stat[data-c="gold"]   { --accent: var(--gold); }
+
+  .stat .num {
+    font-family: var(--font-display); font-size: 38px; font-weight: 800;
+    color: var(--accent, var(--dusk)); letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums; line-height: 1; margin-bottom: 8px;
+  }
+  .stat .lab { font-size: 11px; color: var(--text-mute); letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+  .stat .desc { font-size: 12px; color: var(--text-dim); margin-top: 6px; font-family: var(--font-mono); }
+
+  /* ============= NAV ============= */
+  .nav {
+    max-width: 1400px; margin: 0 auto;
+    padding: 0 32px 24px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .nav a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--text-mute);
+    text-decoration: none;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; font-weight: 600;
+    transition: all 0.15s;
+  }
+  .nav a:hover { background: var(--hover); color: var(--ink); border-color: var(--dusk); }
+  .nav a .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* ============= SECTION ============= */
+  .section { max-width: 1400px; margin: 0 auto; padding: 32px; }
+  .section h2 { font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--text-dim); font-weight: 800; margin-bottom: 8px; }
+  .section .h-title { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 28px; line-height: 1.1; color: var(--ink); }
+  .section .h-title em { font-style: normal; }
+
+  /* ============= CATEGORIA CARDS ============= */
+  .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .cat-mini {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    padding: 20px 22px;
+    border-left: 4px solid var(--c, var(--dusk));
+  }
+  .cat-mini[data-cat="emerg"]  { --c: var(--emerg); }
+  .cat-mini[data-cat="import"] { --c: var(--import); }
+  .cat-mini[data-cat="essen"]  { --c: var(--essen); }
+  .cat-mini[data-cat="deleg"]  { --c: var(--deleg); }
+
+  .cat-mini .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .cat-mini .name { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; color: var(--c); }
+  .cat-mini .count { font-family: var(--font-mono); font-weight: 700; font-size: 14px; color: var(--ink); }
+  .cat-mini .progress-bar { height: 6px; background: var(--line-soft); margin-bottom: 12px; overflow: hidden; }
+  .cat-mini .progress-fill { height: 100%; background: var(--c); transition: width 0.4s; }
+  .cat-mini .desc { font-size: 12px; color: var(--text-mute); line-height: 1.5; }
+  .cat-mini .desc b { color: var(--ink); }
+
+  /* ============= CHECKLIST ============= */
+  .checklist {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    overflow: hidden; margin-bottom: 18px;
+  }
+  .checklist-head {
+    background: linear-gradient(90deg, var(--c-bg, rgba(85,119,160,0.06)), transparent 80%);
+    border-bottom: 1px solid var(--line);
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .checklist[data-cat="emerg"]  { --c: var(--emerg); --c-bg: rgba(184,20,26,0.08); }
+  .checklist[data-cat="import"] { --c: var(--import); --c-bg: rgba(196,90,26,0.08); }
+  .checklist[data-cat="essen"]  { --c: var(--essen); --c-bg: rgba(63,122,34,0.08); }
+  .checklist[data-cat="deleg"]  { --c: var(--deleg); --c-bg: rgba(0,110,133,0.08); }
+
+  .checklist-head .left { display: flex; align-items: center; gap: 14px; }
+  .checklist-head .badge {
+    background: var(--c);
+    color: #fff;
+    padding: 5px 11px;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .checklist-head .name { font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.005em; }
+  .checklist-head .stats-mini { font-family: var(--font-mono); font-size: 11px; color: var(--text-mute); text-align: right; }
+  .checklist-head .stats-mini b { color: var(--c); font-size: 14px; }
+
+  .item {
+    display: grid;
+    grid-template-columns: 36px 1fr 130px 110px;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line-soft);
+    align-items: start; transition: background 0.1s;
+  }
+  .item:hover { background: var(--hover); }
+  .item:last-child { border-bottom: none; }
+
+  .check-wrap { display: flex; align-items: flex-start; padding-top: 2px; }
+  .check {
+    appearance: none; width: 22px; height: 22px;
+    border: 2px solid var(--text-faint);
+    background: transparent;
+    cursor: pointer; position: relative;
+    transition: all 0.15s; flex-shrink: 0;
+  }
+  .check:hover { border-color: var(--c); }
+  .check:checked { background: var(--c); border-color: var(--c); }
+  .check:checked::after {
+    content: '✓'; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff; font-size: 14px; font-weight: 900;
+  }
+
+  .item .body { font-size: 14px; line-height: 1.55; }
+  .item .body .title { font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .item.done .body .title { text-decoration: line-through; color: var(--text-dim); }
+  .item .body .meta { font-size: 12px; color: var(--text-dim); font-family: var(--font-mono); }
+  .item .body .meta code { color: var(--dusk-deep); background: var(--line-soft); padding: 1px 6px; border-radius: 2px; }
+  .item .body .desc { font-size: 12px; color: var(--text-mute); margin-top: 4px; line-height: 1.5; }
+
+  .item .who {
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-dim);
+    font-weight: 600; align-self: center;
+  }
+  .item .who span {
+    display: inline-block; padding: 4px 9px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .item .who.franklin span { color: var(--dusk-deep); border-color: rgba(85,119,160,0.4); }
+  .item .who.gabriel  span { color: var(--teal); border-color: rgba(0,110,133,0.3); }
+  .item .who.augustto span { color: var(--orange); border-color: rgba(196,90,26,0.4); }
+  .item .who.auto     span { color: var(--lime); border-color: rgba(63,122,34,0.3); }
+  .item .who.time     span { color: var(--gold); border-color: rgba(160,122,8,0.3); }
+  .item .who.cris     span { color: var(--red); border-color: rgba(184,20,26,0.3); }
+  .item .who.claude   span { color: var(--dusk); border-color: rgba(85,119,160,0.4); }
+
+  .item .time {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--text-mute); align-self: center; text-align: right;
+  }
+  .item .time .clock { color: var(--c); font-weight: 700; font-size: 13px; }
+
+  /* ============= TIMELINE ============= */
+  .timeline { background: var(--paper); border: 1px solid var(--line); padding: 24px 28px; }
+  .tl-row {
+    display: grid; grid-template-columns: 90px 1fr 200px; gap: 18px;
+    padding: 12px 0; border-bottom: 1px dashed var(--line-soft);
+    align-items: center;
+  }
+  .tl-row:last-child { border-bottom: none; }
+  .tl-row.urgent .tl-time { color: var(--gold); }
+  .tl-row.live .tl-time { color: var(--red); }
+  .tl-row.live { background: rgba(184,20,26,0.04); margin: 0 -16px; padding: 12px 16px; border-radius: 4px; }
+  .tl-row.foto { background: rgba(184,20,26,0.08); margin: 0 -16px; padding: 12px 16px; border-left: 4px solid var(--red); }
+  .tl-row.foto .tl-action { color: var(--red); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .tl-time { font-family: var(--font-mono); font-weight: 700; font-size: 14px; color: var(--text-mute); letter-spacing: 0.04em; }
+  .tl-action { color: var(--ink); font-size: 14px; }
+  .tl-action b { color: var(--dusk-deep); }
+  .tl-who { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); text-align: right; font-weight: 600; }
+
+  /* ============= DEPS ============= */
+  .deps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .dep { background: var(--surface-2); border: 1px solid var(--line); padding: 18px 22px; position: relative; }
+  .dep .lab { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; margin-bottom: 8px; }
+  .dep .val { font-size: 14px; color: var(--ink); font-family: var(--font-mono); word-break: break-all; line-height: 1.4; }
+  .dep.ok::after   { content: '●'; position: absolute; top: 16px; right: 18px; color: var(--lime); font-size: 18px; }
+  .dep.warn::after { content: '●'; position: absolute; top: 16px; right: 18px; color: var(--gold); font-size: 18px; }
+  .dep.err::after  { content: '●'; position: absolute; top: 16px; right: 18px; color: var(--red); font-size: 18px; }
+
+  /* ============= LEDGER ============= */
+  .ledger { background: var(--surface-2); border: 1px solid var(--line); padding: 22px 28px; margin-bottom: 18px; }
+  .ledger h3 { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--dusk-deep); font-weight: 800; margin-bottom: 14px; }
+  .ledger ul { list-style: none; padding: 0; }
+  .ledger li {
+    padding: 10px 0; border-bottom: 1px dashed var(--line-soft);
+    display: grid; grid-template-columns: 90px 1fr; gap: 14px; font-size: 13px;
+  }
+  .ledger li:last-child { border-bottom: none; }
+  .ledger li .when { font-family: var(--font-mono); color: var(--dusk); font-weight: 700; font-size: 12px; }
+  .ledger li .what { color: var(--text); line-height: 1.5; }
+  .ledger li .what b { color: var(--ink); }
+  .ledger li .what code { color: var(--dusk-deep); background: var(--line-soft); padding: 1px 6px; border-radius: 2px; font-family: var(--font-mono); font-size: 12px; }
+
+  /* ============= FOOTER ============= */
+  .footer {
+    max-width: 1400px; margin: 32px auto 0;
+    padding: 32px 32px 64px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--text-dim); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .footer .ag { color: var(--dusk-deep); font-weight: 700; }
+
+  /* ============= GLOBAL PROGRESS ============= */
+  .global-progress { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: var(--line-soft); z-index: 99; }
+  .global-progress .fill { height: 100%; background: linear-gradient(90deg, var(--lime), var(--dusk), var(--gold)); width: 0%; transition: width 0.5s; }
+
+  @media (max-width: 768px) {
+    .item { grid-template-columns: 30px 1fr; gap: 10px; }
+    .item .who, .item .time { display: none; }
+    .tl-row { grid-template-columns: 70px 1fr; gap: 10px; }
+    .tl-who { display: none; }
+    .hero { padding: 40px 20px 32px; }
+    .section { padding: 20px; }
+    .stats { padding: 0 20px 20px; }
+    .nav { padding: 0 20px 20px; }
+  }
+
+  @media print {
+    .statusbar, .nav, .global-progress { display: none; }
+    body { background: white; color: black; background-image: none; }
+    .checklist, .stat, .timeline, .ledger, .dep, .cat-mini { background: white; border-color: #ccc; color: black; }
+    .item .body .title, .stat .num, .hero h1 em, .section .h-title { color: black !important; }
+    .check { border-color: #999 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="statusbar">
+  <div class="brand"><span class="dot"></span>AURA · DASHBOARD</div>
+  <div class="countdown" id="countdown">
+    <span class="label">D-day</span>
+    <span class="num" id="cd-d">--</span><span class="label">d</span>
+    <span class="num" id="cd-h">--</span><span class="label">h</span>
+    <span class="num" id="cd-m">--</span><span class="label">min</span>
+  </div>
+  <div class="now-time" id="now">--:--:--</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-tag">Plano de Ação · D-day · 02/06/2026</span>
+  <h1>Plano de Ação · <em>Aula 3</em><br>Reconstrução do Valor Próprio</h1>
+  <p class="sub">Tudo que precisa estar em pé até as <b style="color:var(--dusk-deep);">19:10 BRT</b> de terça 02/06. Encerramento do Bloco 1. Checklist persiste no seu navegador. Imprima ou compartilhe — funciona offline.</p>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat" data-c="dusk">
+    <div class="num">21</div>
+    <div class="lab">Slides Aula 3</div>
+    <div class="desc">19:10–21:00 · ✅ deck pronto 28/05</div>
+  </div>
+  <div class="stat" data-c="orange">
+    <div class="num">5</div>
+    <div class="lab">Áudios Augustto</div>
+    <div class="desc">a1-recap · a2-tema · a3 · a4 · a5</div>
+  </div>
+  <div class="stat" data-c="gold">
+    <div class="num">9</div>
+    <div class="lab">Workflows Aula 3</div>
+    <div class="desc">T-1d · T-3d · 3×T-0 · T-7d A4 · T+5min · audit</div>
+  </div>
+  <div class="stat" data-c="lime">
+    <div class="num">1</div>
+    <div class="lab">Ferramenta-âncora</div>
+    <div class="desc">Carta ao Eu do Futuro (lacrada 06/10)</div>
+  </div>
+  <div class="stat" data-c="teal">
+    <div class="num">3</div>
+    <div class="lab">Apoios em pé</div>
+    <div class="desc">Caderno · Recap · Cronômetro</div>
+  </div>
+  <div class="stat" data-c="red">
+    <div class="num" id="pend-count">--</div>
+    <div class="lab">Pendentes total</div>
+    <div class="desc">checklist abaixo · marca conforme finaliza</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="#emerg"><span class="dot" style="background:var(--emerg)"></span>Emergentes</a>
+  <a href="#import"><span class="dot" style="background:var(--import)"></span>Importantes</a>
+  <a href="#essen"><span class="dot" style="background:var(--essen)"></span>Essenciais</a>
+  <a href="#deleg"><span class="dot" style="background:var(--deleg)"></span>Delegáveis</a>
+  <a href="#tl"><span class="dot" style="background:var(--dusk)"></span>Cronograma</a>
+  <a href="#deps"><span class="dot" style="background:var(--text-mute)"></span>Dependências</a>
+  <a href="#pos"><span class="dot" style="background:var(--gold)"></span>Pós-aula</a>
+  <a href="#deb"><span class="dot" style="background:var(--text-dim)"></span>Débitos</a>
+</div>
+
+<!-- VISÃO GERAL -->
+<div class="section">
+  <h2>Visão geral · 4 categorias</h2>
+  <div class="h-title">Onde sua atenção <em style="color:var(--dusk)">precisa estar agora</em></div>
+  <div class="cats">
+    <div class="cat-mini" data-cat="emerg">
+      <div class="head"><span class="name">● Emergentes</span><span class="count" data-cat="emerg-count">0/4</span></div>
+      <div class="progress-bar"><div class="progress-fill" data-cat="emerg-fill" style="width:0%"></div></div>
+      <div class="desc">Bloqueiam a aula. Sem isso, não roda. <b>Última hora: seg 01/06 18:00.</b></div>
+    </div>
+    <div class="cat-mini" data-cat="import">
+      <div class="head"><span class="name">● Importantes</span><span class="count" data-cat="import-count">0/5</span></div>
+      <div class="progress-bar"><div class="progress-fill" data-cat="import-fill" style="width:0%"></div></div>
+      <div class="desc">Garantem qualidade. Prazo dom 01/06 18:00.</div>
+    </div>
+    <div class="cat-mini" data-cat="essen">
+      <div class="head"><span class="name">● Essenciais</span><span class="count" data-cat="essen-count">0/5</span></div>
+      <div class="progress-bar"><div class="progress-fill" data-cat="essen-fill" style="width:0%"></div></div>
+      <div class="desc">Janela 18:00–19:10 ter 02/06. Setup · respiração · operação.</div>
+    </div>
+    <div class="cat-mini" data-cat="deleg">
+      <div class="head"><span class="name">● Delegáveis</span><span class="count" data-cat="deleg-count">0/4</span></div>
+      <div class="progress-bar"><div class="progress-fill" data-cat="deleg-fill" style="width:0%"></div></div>
+      <div class="desc">Time + n8n executam. Augustto/Franklin só auditam.</div>
+    </div>
+  </div>
+</div>
+
+<!-- EMERGENTES -->
+<div class="section" id="emerg">
+  <div class="checklist" data-cat="emerg">
+    <div class="checklist-head">
+      <div class="left"><span class="badge">Emergente</span><span class="name">Bloqueiam a aula</span></div>
+      <div class="stats-mini">prazo: <b>seg 01/06 18:00</b></div>
+    </div>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="emerg" data-id="e1"></span>
+      <div class="body">
+        <div class="title">Caderno do Aluno Aula 3 finalizado (PDF 8 folhas A4)</div>
+        <div class="meta">clonar <code>CADERNO-AULA2-aluno-v1.html</code> · migrar conteúdo da Carta ao Eu do Futuro · Drive público</div>
+        <div class="desc">Sem caderno o aluno chega sem matriz pra escrever. Carta vira improviso. Imprimível em casa (Plano B do kit) — fonte verificada 120g+.</div>
+      </div>
+      <div class="who claude"><span>Claude</span></div>
+      <div class="time"><span class="clock">3 h</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="emerg" data-id="e2"></span>
+      <div class="body">
+        <div class="title">Gravar 5 áudios Augustto + subir nas colunas do Sheets</div>
+        <div class="meta">a1-recap · a2-tema · a3-despertar (T-0a 17:17) · a4-aquecimento (T-0b 18:18) · a5-convocação (T-0c 19:00)</div>
+        <div class="desc">Workflows degradam se URL vazia · texto vai mesmo assim. Decisão: gravados → URLs públicas Drive. Não gravados → registrar como vazio.</div>
+      </div>
+      <div class="who augustto"><span>Augustto</span></div>
+      <div class="time"><span class="clock">90 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="emerg" data-id="e3"></span>
+      <div class="body">
+        <div class="title">Subir lista oficial Turma 1 atualizada no Sheets · aba <code>alunos</code></div>
+        <div class="meta">sheets <code>1mr1q8T1KAMraPW...</code> · status=ativo · whatsapp DDI 55</div>
+        <div class="desc">14 destinatários da fonte da verdade Turma 1 (12 alunos + Augustto + Talitta observadores). Sem isso, T-0a/b/c não disparam pra ninguém.</div>
+      </div>
+      <div class="who franklin"><span>Franklin</span></div>
+      <div class="time"><span class="clock">15 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="emerg" data-id="e4"></span>
+      <div class="body">
+        <div class="title">OBS Studio 100% validado em consumer real (gravação 5min limpa)</div>
+        <div class="meta">profile <code>AURA-Aula-3</code> · 6 cenas · Virtual Camera Meet · hotkeys F1–F6</div>
+        <div class="desc">FIX do erro #1 do pós-mortem A2 · não pode ser preview, é gravação efetiva. Browser sources com URLs Aula 3 atualizadas.</div>
+      </div>
+      <div class="who franklin"><span>Franklin</span></div>
+      <div class="time"><span class="clock">60 min</span></div>
+    </label>
+  </div>
+</div>
+
+<!-- IMPORTANTES -->
+<div class="section" id="import">
+  <div class="checklist" data-cat="import">
+    <div class="checklist-head">
+      <div class="left"><span class="badge">Importante</span><span class="name">Garantem qualidade</span></div>
+      <div class="stats-mini">prazo: <b>dom 01/06 18:00</b></div>
+    </div>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="import" data-id="i1"></span>
+      <div class="body">
+        <div class="title">Recap Loop Netflix A2→A3 (skill <code>aura-recap-loop</code>)</div>
+        <div class="meta">output: <code>RECAP_AULA_2_LOOP.html</code> dentro da pasta Aula 3 · roda 18:50–19:00</div>
+        <div class="desc">Tela de espera animada Netflix-style · 3 slides autoplay · stats Aula 2 · accent rotativo. Validado A1→A2.</div>
+      </div>
+      <div class="who claude"><span>Claude</span></div>
+      <div class="time"><span class="clock">15 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="import" data-id="i2"></span>
+      <div class="body">
+        <div class="title">Cronômetro 20min pré-live A3 (clonar A2 · ajustar data 02/06)</div>
+        <div class="meta">base: <code>CRONOMETRO_20MIN_AULA_2_V2_DS04.html</code> · contagem 19:10</div>
+        <div class="desc">Visível para Augustto durante slide 12 (escrita 20 min) e cronômetro pré-live (18:50 → 19:10).</div>
+      </div>
+      <div class="who claude"><span>Claude</span></div>
+      <div class="time"><span class="clock">10 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="import" data-id="i3"></span>
+      <div class="body">
+        <div class="title">Flyboard Aula 3 (skill <code>aura-flyboard-live</code>)</div>
+        <div class="meta">cockpit cues: 19:00 · 19:10 abertura · 20:55 FOTO OFICIAL · 21:00 fim · 21:05 form Carta · 21:10 T-7d A4</div>
+        <div class="desc">Painel time (Gabriel · Talitta · Rosi · Cris) · atalhos 1-clique · status workflows n8n em tempo real.</div>
+      </div>
+      <div class="who claude"><span>Claude</span></div>
+      <div class="time"><span class="clock">20 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="import" data-id="i4"></span>
+      <div class="body">
+        <div class="title">Confirmar link Meet oficial está ativo (<code>fcz-phxr-gfp</code>)</div>
+        <div class="meta">meet.google.com/<b style="color:var(--dusk-deep);">fcz-phxr-gfp</b> · evento <code>plnjt2nlfupo82fhqj5gfal1vo</code></div>
+        <div class="desc">REGRA INVIOLÁVEL · BANIDOS <code>fcz-phxr-gfp</code> + <code>qct-jdkf-ufj</code>. Entrar como host antes 18:30. Confirmar Calendar Sellect disparou notificação.</div>
+      </div>
+      <div class="who franklin"><span>Franklin</span></div>
+      <div class="time"><span class="clock">5 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="import" data-id="i5"></span>
+      <div class="body">
+        <div class="title">Form Google "Carta ao Eu do Futuro" preparado + link curto</div>
+        <div class="meta">aba nova Sheets <code>aula3_cartas_futuro</code> · campos: nome · identidade decidida · 3 decisões · ação semana</div>
+        <div class="desc">Disparo pós-aula via Salomão T+5min · captura quem cumpriu o Marco 3. Sem isso, ranking ASP fica cego.</div>
+      </div>
+      <div class="who claude"><span>Claude</span></div>
+      <div class="time"><span class="clock">20 min</span></div>
+    </label>
+  </div>
+</div>
+
+<!-- ESSENCIAIS -->
+<div class="section" id="essen">
+  <div class="checklist" data-cat="essen">
+    <div class="checklist-head">
+      <div class="left"><span class="badge">Essencial</span><span class="name">Preparação 18:00–19:10 (ter 02/06)</span></div>
+      <div class="stats-mini">janela: <b>18:00–19:10</b></div>
+    </div>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="essen" data-id="es1"></span>
+      <div class="body">
+        <div class="title">OBS configurado · cena "Tela de espera" no ar 18:50</div>
+        <div class="meta">cena Aula 3 com Recap Loop + Cronômetro como sources · master gravando</div>
+        <div class="desc">Aluno entra antes 19:10 e vê tela viva. Cria expectativa silenciosa do "ritual começou".</div>
+      </div>
+      <div class="who franklin"><span>Franklin</span></div>
+      <div class="time"><span class="clock">10 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="essen" data-id="es2"></span>
+      <div class="body">
+        <div class="title">Câmera + microfone + iluminação Augustto testados</div>
+        <div class="meta">áudio limpo · enquadramento médio · luz frontal sem sombra</div>
+        <div class="desc">Teste de 1 minuto gravando e ouvindo. Aula 3 é o encerramento do Bloco 1 — qualidade audiovisual não é detalhe.</div>
+      </div>
+      <div class="who augustto"><span>Augustto</span></div>
+      <div class="time"><span class="clock">10 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="essen" data-id="es3"></span>
+      <div class="body">
+        <div class="title">Augustto · preparação solo (7-7-7)</div>
+        <div class="meta">7 min respiração · 7 min revisão roteiro · 7 min silêncio</div>
+        <div class="desc">Sala vazia. Sem celular. Voz aquecida. Antes de qualquer aluno entrar. Aula 3 tem 2 momentos de silêncio profundo (escrita 20 min + gravação áudio 12 min).</div>
+      </div>
+      <div class="who augustto"><span>Augustto</span></div>
+      <div class="time"><span class="clock">21 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="essen" data-id="es4"></span>
+      <div class="body">
+        <div class="title">Briefing Cris · cue Foto Oficial 20:55 (CÂMERAS LIGADAS)</div>
+        <div class="meta">slide 20 do deck tem pill vermelho gritante · "NÃO DESLIGUE"</div>
+        <div class="desc">FIX do erro #3 do pós-mortem A2 · Cris orquestra. "Sorriam. 3 · 2 · 1." antes da fala de fecho do Augustto.</div>
+      </div>
+      <div class="who cris"><span>Cris</span></div>
+      <div class="time"><span class="clock">5 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="essen" data-id="es5"></span>
+      <div class="body">
+        <div class="title">Número AURA pronto pra receber 12-14 áudios de Declaração em sequência</div>
+        <div class="meta">UazAPI <code>556192979889</code> · pasta <code>/declaracoes-aluno/{nome}/</code> no Drive</div>
+        <div class="desc">Slide 17 · 12 min de gravação individual · cada aluno envia áudio 30s pelo WhatsApp. Backup: email com assunto "DECLARAÇÃO · {nome}".</div>
+      </div>
+      <div class="who time"><span>Gabriel/Talitta</span></div>
+      <div class="time"><span class="clock">5 min</span></div>
+    </label>
+  </div>
+</div>
+
+<!-- DELEGÁVEIS -->
+<div class="section" id="deleg">
+  <div class="checklist" data-cat="deleg">
+    <div class="checklist-head">
+      <div class="left"><span class="badge">Delegável</span><span class="name">Time + n8n executam</span></div>
+      <div class="stats-mini">você só <b>audita</b></div>
+    </div>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="deleg" data-id="d1"></span>
+      <div class="body">
+        <div class="title">Workflow T+5min pós-aula NOVO (form Carta + caderno aos presentes)</div>
+        <div class="meta">disparo ter 02/06 21:05 · skill <code>n8n-ops</code> · target: presentes A3</div>
+        <div class="desc">FIX do erro #2 do pós-mortem A2 (form Inventário não disparado aos 16). Captura quem ficou até o fim · libera Marco 3.</div>
+      </div>
+      <div class="who claude"><span>Claude</span></div>
+      <div class="time"><span class="clock">25 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="deleg" data-id="d2"></span>
+      <div class="body">
+        <div class="title">Disparos automáticos T-1d (seg 01/06 18h) · T-3d (sáb 30/05 12h) · 3×T-0 (ter 02/06)</div>
+        <div class="meta">workflows n8n: t1d-aula3 · t3d-aula3 · t0a-17:17 · t0b-18:18 · t0c-19:00</div>
+        <div class="desc">Já agendados via skill <code>n8n-ops</code>. Auditar via <code>n8n.sh audit</code> sex 30/05 18:00 — esperado verde.</div>
+      </div>
+      <div class="who auto"><span>Auto · n8n</span></div>
+      <div class="time"><span class="clock">0 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="deleg" data-id="d3"></span>
+      <div class="body">
+        <div class="title">Disparo T-7d Aula 4 (ter 02/06 21:10) · semente abertura Bloco 2</div>
+        <div class="meta">workflow n8n: t7d-aula4 · convite + áudio Salomão</div>
+        <div class="desc">Roda 10 min depois da aula. Você só audita execução: quantos alunos receberam.</div>
+      </div>
+      <div class="who auto"><span>Auto · n8n</span></div>
+      <div class="time"><span class="clock">0 min</span></div>
+    </label>
+
+    <label class="item">
+      <span class="check-wrap"><input type="checkbox" class="check" data-cat="deleg" data-id="d4"></span>
+      <div class="body">
+        <div class="title">PedroSup · dossiê pós-A3 (auto qua 03/06 8h)</div>
+        <div class="meta">workflow n8n: 11 PedroSup Monitor (Diario 8h)</div>
+        <div class="desc">Roda automático. Gera dossiê: presença na A3, carta entregue (sim/não), declaração gravada (sim/não), risco. Augustto só lê output.</div>
+      </div>
+      <div class="who auto"><span>Auto · n8n</span></div>
+      <div class="time"><span class="clock">0 min</span></div>
+    </label>
+  </div>
+</div>
+
+<!-- CRONOGRAMA -->
+<div class="section" id="tl">
+  <h2>Cronograma · D-day</h2>
+  <div class="h-title">Janela operacional · ter 02/06 · <em style="color:var(--dusk)">18:00 às 21:30</em></div>
+  <div class="timeline">
+    <div class="tl-row urgent"><div class="tl-time">18:00</div><div class="tl-action">Subida final · checagem Sheets · OBS · áudios · Recap Loop</div><div class="tl-who">Franklin + Gabriel</div></div>
+    <div class="tl-row"><div class="tl-time">18:18</div><div class="tl-action">n8n auto · <b>T-0b</b> dispara (lembrete +42min)</div><div class="tl-who">Auto</div></div>
+    <div class="tl-row"><div class="tl-time">18:30</div><div class="tl-action">Augustto · preparação solo · 7-7-7 (sala vazia)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row"><div class="tl-time">18:50</div><div class="tl-action">Gabriel inicia gravação master · cena "Tela de espera" + Recap Loop A2</div><div class="tl-who">Gabriel</div></div>
+    <div class="tl-row"><div class="tl-time">19:00</div><div class="tl-action">n8n auto · <b>T-0c</b> dispara · Slide 00 "Tela de espera" no ar</div><div class="tl-who">Auto + Franklin</div></div>
+    <div class="tl-row live"><div class="tl-time">19:10</div><div class="tl-action"><b>AULA 3 COMEÇA</b> · "4 semanas. Fim do primeiro bloco."</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row"><div class="tl-time">19:15</div><div class="tl-action">Retorno dos 3 momentos da crença (slide 2)</div><div class="tl-who">Augustto + alunos</div></div>
+    <div class="tl-row"><div class="tl-time">19:22</div><div class="tl-action">Teoria · Confiança vs Identidade · Cérebro da Identidade (slides 4-5)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row"><div class="tl-time">19:34</div><div class="tl-action"><b>Reel "Eu já fui panfleteiro"</b> (slide 6 · 30s)</div><div class="tl-who">Cris dispara</div></div>
+    <div class="tl-row"><div class="tl-time">19:36</div><div class="tl-action">Mecanismo da reconstrução · Precisão · 4 elementos da carta (slides 7-9)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row"><div class="tl-time">19:52</div><div class="tl-action"><b>Visualização guiada</b> · 6 min (slide 11)</div><div class="tl-who">Augustto · trilha</div></div>
+    <div class="tl-row"><div class="tl-time">19:58</div><div class="tl-action"><b>Escrita da Carta ao Eu do Futuro</b> · 20 min silêncio (slide 12)</div><div class="tl-who">Alunos · Gabriel muta</div></div>
+    <div class="tl-row"><div class="tl-time">20:18</div><div class="tl-action">Revisão em voz baixa · 8 min (slide 13)</div><div class="tl-who">Alunos</div></div>
+    <div class="tl-row"><div class="tl-time">20:26</div><div class="tl-action">Lacração da carta · cerimônia (slide 14)</div><div class="tl-who">Augustto guia</div></div>
+    <div class="tl-row"><div class="tl-time">20:28</div><div class="tl-action">Estrutura da Declaração · 3 movimentos (slide 16)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row"><div class="tl-time">20:32</div><div class="tl-action"><b>Gravação Áudio Declaração</b> · 12 min · WhatsApp AURA (slide 17)</div><div class="tl-who">Alunos · Talitta recebe</div></div>
+    <div class="tl-row"><div class="tl-time">20:44</div><div class="tl-action">Marco 3 registrado · Bloco 1 ENCERRADO (slide 18)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row"><div class="tl-time">20:50</div><div class="tl-action">Ritual 3 · Declaração de Identidade (sextas 12h) (slide 19)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row foto"><div class="tl-time">20:55</div><div class="tl-action">📸 FOTO OFICIAL · CÂMERAS LIGADAS · NÃO DESLIGUE</div><div class="tl-who">Cris orquestra</div></div>
+    <div class="tl-row"><div class="tl-time">20:57</div><div class="tl-action">Fecho ritual · ponte pro Bloco 2 (slide 20)</div><div class="tl-who">Augustto</div></div>
+    <div class="tl-row urgent"><div class="tl-time">21:00</div><div class="tl-action"><b>FIM OFICIAL</b> · aula encerra</div><div class="tl-who">—</div></div>
+    <div class="tl-row"><div class="tl-time">21:05</div><div class="tl-action">n8n auto · <b>T+5min</b> dispara form Carta + caderno aos presentes</div><div class="tl-who">Auto</div></div>
+    <div class="tl-row"><div class="tl-time">21:10</div><div class="tl-action">n8n auto · <b>T-7d Aula 4</b> dispara (semente Bloco 2)</div><div class="tl-who">Auto</div></div>
+    <div class="tl-row"><div class="tl-time">21:30</div><div class="tl-action">Salvar gravações · áudios Declaração organizados · backup local</div><div class="tl-who">Gabriel</div></div>
+  </div>
+</div>
+
+<!-- DEPENDÊNCIAS -->
+<div class="section" id="deps">
+  <h2>Dependências externas</h2>
+  <div class="h-title">O que <em style="color:var(--dusk)">não está sob seu controle direto</em></div>
+  <div class="deps">
+    <div class="dep ok"><div class="lab">n8n cloud</div><div class="val">sellectinteligence.app.n8n.cloud</div></div>
+    <div class="dep ok"><div class="lab">UazAPI WhatsApp</div><div class="val">aurasellect.uazapi.com<br>556192979889 ativo</div></div>
+    <div class="dep ok"><div class="lab">OpenAI</div><div class="val">credencial PWaN8UnVjZqYXzqo</div></div>
+    <div class="dep ok"><div class="lab">Google Sheets</div><div class="val">1mr1q8T1KAMraPW...<br>aba alunos + aula3_cartas_futuro</div></div>
+    <div class="dep ok"><div class="lab">Google Meet OFICIAL</div><div class="val">meet.google.com/<br><b style="color:var(--dusk-deep);">fcz-phxr-gfp</b><br>evento plnjt2nlfupo82fhqj5gfal1vo</div></div>
+    <div class="dep warn"><div class="lab">Sheets aba "alunos"</div><div class="val">14 destinatários Turma 1<br>precisa estar atualizado</div></div>
+    <div class="dep warn"><div class="lab">5 áudios Augustto</div><div class="val">a1 a2 a3 a4 a5<br>workflow degrada para texto se vazio</div></div>
+    <div class="dep warn"><div class="lab">OBS + cenas</div><div class="val">profile AURA-Aula-3<br>validar 5min em consumer real</div></div>
+    <div class="dep ok"><div class="lab">Kit Carta Timbrada</div><div class="val">Plano B email PDF até dom 01/06<br>(Plano A físico se deu tempo)</div></div>
+  </div>
+</div>
+
+<!-- PÓS-AULA -->
+<div class="section" id="pos">
+  <h2>Pós-aula · próximas 2 semanas</h2>
+  <div class="h-title">Operação até a <em style="color:var(--dusk)">Aula 4 · ter 16/06</em></div>
+  <div class="ledger">
+    <h3>Cronograma pós</h3>
+    <ul>
+      <li><span class="when">D+0 ter</span><span class="what"><b>Salvar gravações</b> master + áudios Declaração em <code>gravacoes/aula-03/</code> · auditar T+5min (21:05) + T-7d A4 (21:10)</span></li>
+      <li><span class="when">D+1 qua</span><span class="what"><b>Editar cortes</b> da aula (skill <code>aura-reel-cortes</code>) · Salomão dispara mensagem T+1 ("a carta tá guardada onde?")</span></li>
+      <li><span class="when">D+2 qui</span><span class="what">Augustto grava <b>áudio personalizado</b> de resposta para cada aluno (1 por aluno · 60-90s · sem modelo)</span></li>
+      <li><span class="when">D+3 sex</span><span class="what"><b>Ritual 3 estreia</b> · primeira sexta de Declaração de Identidade · 12:00 WhatsApp</span></li>
+      <li><span class="when">D+5 dom</span><span class="what">Cris editorial dispara conteúdo Bloco 1 ENCERRADO redes sociais · reel "neto de Marias"</span></li>
+      <li><span class="when">D+14 ter</span><span class="what"><b>AULA 4 · Frequência do Posicionamento (Bloco 2)</b> · 16/06 19:10 · clonar deck A3 → migrar conteúdo · 6 workflows n8n (pattern A3)</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- DÉBITOS TÉCNICOS -->
+<div class="section" id="deb">
+  <h2>Débitos técnicos</h2>
+  <div class="h-title"><em style="color:var(--dusk)">Não bloqueia D-day</em> · planejar pós-aula</div>
+  <div class="ledger">
+    <h3>Decisões pendentes (sem urgência)</h3>
+    <ul>
+      <li><span class="when">F1</span><span class="what"><b>Aulas 4–12 não produzidas</b> · Bloco 2-4 = 9 aulas · distribuir junho-setembro · Aula 4 é a próxima (D+14)</span></li>
+      <li><span class="when">F2</span><span class="what"><b>Drip evergreen onboarding</b> · ID-13 no PLANO_CENTRAL · substituir 5 WFs hardcoded A1 (inativos) · prioridade pós ASP venda+contrato</span></li>
+      <li><span class="when">F3</span><span class="what">Migration sweep DS 04 pausada 19/05 · retomar Missão 7D → Dossiê → Relatório → Emails → Portal Diagnósticos</span></li>
+      <li><span class="when">F4</span><span class="what">2 polêmicas MasterClass ASP (REEL #2 B13.1 + REEL #7 N5) com ajuste pendente · timestamps em <code>CORTES-OFICIAIS-APROVADOS.md §9b</code></span></li>
+      <li><span class="when">F5</span><span class="what">Kit Carta Timbrada Plano A físico · avaliar produção para Turma 2 ASP (premium reforça posicionamento R$33k)</span></li>
+      <li><span class="when">F6</span><span class="what">Léxico AURA · ID-04 do PLANO_CENTRAL · criar <code>LEXICO_AURA.md</code> consolidando 6 famílias usadas no roteiro A3</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  AURA · MENTORIA · <span class="ag">Augustto Leão</span> · Turma 1 · Aula 3 · Reconstrução do Valor Próprio · 02/06/2026
+</div>
+
+<div class="global-progress"><div class="fill" id="global-fill"></div></div>
+
+<script>
+  // ============= Countdown =============
+  const target = new Date('2026-06-02T19:10:00-03:00').getTime();
+  function tick() {
+    const now = new Date();
+    const diff = target - now.getTime();
+    const cdD = document.getElementById('cd-d');
+    const cdH = document.getElementById('cd-h');
+    const cdM = document.getElementById('cd-m');
+    if (diff <= 0) {
+      cdD.textContent = '00'; cdH.textContent = '00'; cdM.textContent = '00';
+      const ct = document.getElementById('countdown');
+      ct.querySelectorAll('.label')[0].textContent = '🔴 AO VIVO';
+    } else {
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins = Math.floor((diff % 3600000) / 60000);
+      cdD.textContent = String(days).padStart(2, '0');
+      cdH.textContent = String(hours).padStart(2, '0');
+      cdM.textContent = String(mins).padStart(2, '0');
+    }
+    document.getElementById('now').textContent = now.toLocaleTimeString('pt-BR');
+  }
+  setInterval(tick, 1000); tick();
+
+  // ============= Checklist persistence =============
+  const KEY = 'aura-aula3-checklist-v1';
+  const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+  document.querySelectorAll('.check').forEach(cb => {
+    const id = cb.dataset.id;
+    if (saved[id]) { cb.checked = true; cb.closest('.item').classList.add('done'); }
+    cb.addEventListener('change', () => {
+      saved[cb.dataset.id] = cb.checked;
+      localStorage.setItem(KEY, JSON.stringify(saved));
+      cb.closest('.item').classList.toggle('done', cb.checked);
+      updateProgress();
+    });
+  });
+
+  function updateProgress() {
+    const cats = ['emerg', 'import', 'essen', 'deleg'];
+    let totalDone = 0, totalAll = 0;
+    cats.forEach(c => {
+      const all = document.querySelectorAll(`.check[data-cat="${c}"]`);
+      const done = document.querySelectorAll(`.check[data-cat="${c}"]:checked`);
+      const cnt = document.querySelector(`[data-cat="${c}-count"]`);
+      const fill = document.querySelector(`[data-cat="${c}-fill"]`);
+      if (cnt) cnt.textContent = `${done.length}/${all.length}`;
+      if (fill) fill.style.width = (all.length ? (done.length / all.length * 100) : 0) + '%';
+      totalDone += done.length; totalAll += all.length;
+    });
+    const pendCount = document.getElementById('pend-count');
+    if (pendCount) pendCount.textContent = totalAll - totalDone;
+    const globalFill = document.getElementById('global-fill');
+    if (globalFill) globalFill.style.width = (totalAll ? (totalDone / totalAll * 100) : 0) + '%';
+  }
+  updateProgress();
+</script>
+
+</body>
+</html>

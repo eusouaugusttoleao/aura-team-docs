@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>HUB · Aula 3 · Reconstrução do Valor Próprio · Gabriel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Pinyon+Script&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF7EE; --cream-2:#F4EEDE; --cream-3:#EDE5CD;
+  --dusk:#5577A0; --dusk-2:#3F5A7F;
+  --fogo:#D86420; --fogo-2:#B5511A;
+  --ink:#1A1A1A; --ink-soft:#3A3A3A; --line:#D8CFB8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:"Outfit",sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;font-size:15pt;-webkit-font-smoothing:antialiased}
+a{color:var(--dusk);text-decoration:none}
+a:hover{color:var(--fogo)}
+
+header.top{position:sticky;top:0;z-index:50;background:var(--cream);border-bottom:.6pt solid var(--line);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.brand-leao{width:32px;height:40px;background:var(--ink);-webkit-mask:url(https://eusouaugusttoleao.github.io/aura-team-docs/img/logo-leao.png) center/contain no-repeat;mask:url(https://eusouaugusttoleao.github.io/aura-team-docs/img/logo-leao.png) center/contain no-repeat}
+.brand-aura{display:inline-flex;align-items:center;color:var(--ink)}
+.brand-aura svg{width:88px;height:24px;display:block;stroke:currentColor;fill:none;stroke-width:16}
+.title-bar{text-align:center;flex:1;padding:0 16px}
+.title-bar .eyebrow{font-family:"DM Mono",monospace;font-size:9pt;letter-spacing:.22em;color:var(--dusk-2);text-transform:uppercase;margin-bottom:3px}
+.title-bar .now{font-family:"Playfair Display",serif;font-size:14pt;font-weight:500;color:var(--ink)}
+
+.hero{padding:48px 28px 36px;text-align:center;border-bottom:.5pt solid var(--line)}
+.hero .eyebrow{font-family:"DM Mono",monospace;font-size:10pt;letter-spacing:.22em;color:var(--dusk-2);text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-family:"Playfair Display",serif;font-size:44pt;line-height:1.05;color:var(--ink);font-weight:700;margin-bottom:10px;letter-spacing:-.02em}
+.hero h1 em{font-family:"Pinyon Script",cursive;color:var(--fogo);font-style:normal;font-weight:400;font-size:52pt}
+.hero .subtitle{font-family:"Outfit",sans-serif;font-size:16pt;color:var(--ink-soft);margin-bottom:24px}
+.hero-meta{display:inline-flex;gap:28px;flex-wrap:wrap;justify-content:center;padding:14px 28px;background:var(--cream-2);border-left:3pt solid var(--fogo);text-align:left}
+.hero-meta .cell{min-width:130px}
+.hero-meta .label{font-family:"DM Mono",monospace;font-size:9pt;letter-spacing:.18em;color:var(--dusk-2);text-transform:uppercase;margin-bottom:3px}
+.hero-meta .value{font-family:"Outfit",sans-serif;font-size:14pt;color:var(--ink);font-weight:500}
+.hero-meta .value a{color:var(--ink);font-weight:600;border-bottom:1pt solid var(--fogo)}
+
+.greeting{max-width:780px;margin:36px auto 0;padding:0 28px;text-align:center;font-family:"Playfair Display",serif;font-style:italic;font-size:17pt;color:var(--ink-soft);line-height:1.5}
+.greeting strong{font-style:normal;color:var(--ink);font-weight:500}
+
+.section{padding:36px 28px;border-bottom:.5pt solid var(--line);max-width:1100px;margin:0 auto}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1pt solid var(--line);padding-bottom:12px;margin-bottom:24px}
+.section-head .left{display:flex;align-items:baseline;gap:14px}
+.section-head .num{font-family:"DM Mono",monospace;font-size:11pt;color:var(--fogo);letter-spacing:.18em}
+.section-head h2{font-family:"Playfair Display",serif;font-size:24pt;color:var(--ink);font-weight:500;letter-spacing:-.01em}
+.section-head .right{font-family:"DM Mono",monospace;font-size:9pt;color:var(--dusk-2);letter-spacing:.15em;text-transform:uppercase}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{background:var(--cream-2);padding:22px 22px 20px;border-left:3pt solid var(--dusk);transition:all .2s ease;display:block;color:inherit}
+.card:hover{background:var(--cream-3);border-left-color:var(--fogo);transform:translateY(-1px)}
+.card .lbl{font-family:"DM Mono",monospace;font-size:8.5pt;letter-spacing:.18em;color:var(--dusk-2);text-transform:uppercase;margin-bottom:6px}
+.card .title{font-family:"Playfair Display",serif;font-size:16pt;color:var(--ink);font-weight:500;line-height:1.25;margin-bottom:6px}
+.card .desc{font-family:"Outfit",sans-serif;font-size:12pt;color:var(--ink-soft);line-height:1.45;margin-bottom:10px}
+.card .meta{font-family:"DM Mono",monospace;font-size:9pt;letter-spacing:.12em;color:var(--dusk);text-transform:uppercase}
+.card.fogo{border-left-color:var(--fogo)}
+.card.ink{background:var(--ink);border-left-color:var(--fogo);color:var(--cream)}
+.card.ink .lbl{color:var(--fogo)}
+.card.ink .title{color:var(--cream)}
+.card.ink .desc{color:var(--cream);opacity:.78}
+.card.ink .meta{color:var(--cream);opacity:.6}
+.card.ink:hover{background:#0F0F0F}
+
+.bigcard{display:flex;flex-direction:column;background:var(--cream-2);padding:26px 26px 22px;border-left:4pt solid var(--fogo)}
+.bigcard .lbl{font-family:"DM Mono",monospace;font-size:9pt;letter-spacing:.22em;color:var(--fogo);text-transform:uppercase;margin-bottom:8px}
+.bigcard .title{font-family:"Playfair Display",serif;font-size:19pt;color:var(--ink);font-weight:500;line-height:1.25;margin-bottom:10px}
+.bigcard .desc{font-family:"Outfit",sans-serif;font-size:13pt;color:var(--ink-soft);line-height:1.5;margin-bottom:14px}
+.bigcard .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.bigcard .pill{background:var(--ink);color:var(--cream);font-family:"DM Mono",monospace;font-size:10pt;padding:6px 14px;letter-spacing:.12em;text-transform:uppercase;border-radius:2px}
+.bigcard .pill:hover{background:var(--fogo)}
+
+.cronograma{margin-top:24px;background:var(--cream-2);padding:24px}
+.cronograma h3{font-family:"DM Mono",monospace;font-size:10pt;letter-spacing:.22em;color:var(--dusk-2);text-transform:uppercase;margin-bottom:14px}
+.cronograma table{width:100%;border-collapse:collapse;font-family:"Outfit",sans-serif;font-size:13pt}
+.cronograma th{text-align:left;padding:8px 12px;background:var(--cream-3);font-family:"DM Mono",monospace;font-size:9pt;letter-spacing:.15em;color:var(--dusk-2);text-transform:uppercase;font-weight:500}
+.cronograma td{padding:10px 12px;border-bottom:.4pt solid var(--line)}
+.cronograma .bn{font-weight:600;color:var(--fogo)}
+.cronograma .tm{font-family:"DM Mono",monospace;color:var(--ink)}
+
+.checklist{background:var(--cream-2);padding:24px 26px}
+.checklist h3{font-family:"DM Mono",monospace;font-size:10pt;letter-spacing:.22em;color:var(--dusk-2);text-transform:uppercase;margin-bottom:14px}
+.checklist ul{list-style:none}
+.checklist li{padding:8px 0 8px 28px;border-bottom:.4pt dashed var(--line);position:relative;font-size:13pt;color:var(--ink);line-height:1.4}
+.checklist li:last-child{border-bottom:none}
+.checklist li:before{content:"☐";position:absolute;left:0;color:var(--dusk);font-size:16pt;line-height:1.3}
+.checklist li.done:before{content:"✓";color:var(--fogo)}
+.checklist li b{color:var(--fogo);font-weight:600}
+
+.time-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.time-card{background:var(--cream-2);padding:20px 22px;border-left:3pt solid var(--dusk)}
+.time-card .nome{font-family:"Playfair Display",serif;font-size:17pt;color:var(--ink);font-weight:500;margin-bottom:4px}
+.time-card .role{font-family:"DM Mono",monospace;font-size:9pt;letter-spacing:.15em;color:var(--fogo);text-transform:uppercase;margin-bottom:10px}
+.time-card .tasks{font-family:"Outfit",sans-serif;font-size:12pt;color:var(--ink-soft);line-height:1.5}
+
+footer.dossie{padding:32px 28px;border-top:.6pt solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--dusk-2);font-family:"DM Mono",monospace;font-size:9pt;letter-spacing:.15em;text-transform:uppercase;background:var(--cream)}
+footer .leao-mini{width:18px;height:22px;background:var(--dusk-2);-webkit-mask:url(https://eusouaugusttoleao.github.io/aura-team-docs/img/logo-leao.png) center/contain no-repeat;mask:url(https://eusouaugusttoleao.github.io/aura-team-docs/img/logo-leao.png) center/contain no-repeat}
+footer .aura-mini{display:inline-flex;align-items:center;color:var(--dusk-2)}
+footer .aura-mini svg{width:60px;height:16px;stroke:currentColor;fill:none;stroke-width:18}
+
+@media (max-width:700px){
+  .hero h1{font-size:32pt}
+  .hero h1 em{font-size:38pt}
+  .section-head h2{font-family:"Playfair Display",serif;font-size:20pt}
+  body{font-size:14pt}
+  header.top{padding:10px 16px}
+  .title-bar .now{font-size:12pt}
+  .hero{padding:32px 18px 24px}
+  .section{padding:28px 18px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand-leao"></div>
+  <div class="title-bar">
+    <div class="eyebrow">Hub Operacional · Gabriel</div>
+    <div class="now">Aula 3 · 02 de junho de 2026</div>
+  </div>
+  <div class="brand-aura"><svg viewBox="0 0 1200 320" stroke-linecap="butt" stroke-linejoin="miter"><polygon points="80,250 260,250 170,80"/><path d="M 380 80 L 380 188 A 70 62 0 0 0 520 188 L 520 80"/><path d="M 640 250 L 640 80 L 740 80 A 47.5 42.5 0 0 1 740 165 L 640 165"/><path d="M 720 165 L 810 250"/><polygon points="900,250 1080,250 990,80"/></svg></div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Mentoria AURA · Turma 1 · Marco 03/12</div>
+  <h1>Reconstrução do <em>Valor Próprio</em></h1>
+  <div class="subtitle">Encerramento do Bloco 1 · Autoimagem</div>
+  <div class="hero-meta">
+    <div class="cell"><div class="label">Data</div><div class="value">Terça · 02/06/2026</div></div>
+    <div class="cell"><div class="label">Início</div><div class="value">19:00 sala · 19:10 ponto</div></div>
+    <div class="cell"><div class="label">Duração</div><div class="value">120 minutos</div></div>
+    <div class="cell"><div class="label">Meet</div><div class="value"><a href="https://meet.google.com/fcz-phxr-gfp" target="_blank">fcz-phxr-gfp</a></div></div>
+  </div>
+</section>
+
+<div class="greeting">
+  <strong>Gabriel.</strong><br>
+  Esse hub reúne todo o material da Aula 3 num lugar só. Materiais pros alunos · operacional do time · pipeline pós-aula · links rápidos · sua lista de tarefas do dia D.
+</div>
+
+<!-- SEC 1 · ALUNOS -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">01</span><h2>Materiais pros alunos</h2></div><div class="right">externos · pdf imprimível</div></div>
+  <div class="cards">
+    <a class="card" href="./materiais-alunos/CADERNO_ALUNO_AULA_3.pdf" target="_blank">
+      <div class="lbl">PDF · imprimível</div>
+      <div class="title">Caderno do Aluno · Aula 3</div>
+      <div class="desc">Caderno consolidado de 8 seções · marco da nova identidade · papel timbrado AURA.</div>
+      <div class="meta">524 KB</div>
+    </a>
+    <a class="card" href="./materiais-alunos/FERRAMENTA_CARTA_EU_FUTURO.pdf" target="_blank">
+      <div class="lbl">PDF · ferramenta principal</div>
+      <div class="title">Ferramenta · Carta ao Eu do Futuro</div>
+      <div class="desc">4 blocos obrigatórios · Identidade · Decisões · Sensação · Conselho. Lacração até 06/10/2026.</div>
+      <div class="meta">734 KB</div>
+    </a>
+    <a class="card" href="./materiais-alunos/RITUAL_DECLARACAO_IDENTIDADE.pdf" target="_blank">
+      <div class="lbl">PDF · ritual de fechamento</div>
+      <div class="title">Ritual · Declaração de Identidade</div>
+      <div class="desc">3 movimentos do áudio 30s · auto-identificação · decisão · compromisso comportamental.</div>
+      <div class="meta">790 KB</div>
+    </a>
+  </div>
+</section>
+
+<!-- SEC 2 · FORMS -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">02</span><h2>Formulários · Bloco 1</h2></div><div class="right">já enviados nas aulas anteriores · NOVO aula 3</div></div>
+  <div class="cards">
+    <a class="card" href="https://forms.gle/125z8zpDg2o5FBXu5" target="_blank">
+      <div class="lbl">Aula 1 · já enviado</div>
+      <div class="title">Mapa de Autoimagem</div>
+      <div class="desc">7 dimensões A→B (Capacidade · Valor · Presença · Voz · Autoridade · Merecimento · Potencial).</div>
+      <div class="meta">forms.gle/125z8zpDg2o5FBXu5</div>
+    </a>
+    <a class="card" href="https://forms.gle/1XbvTPsvYX8DYChD9" target="_blank">
+      <div class="lbl">Aula 1 · já enviado</div>
+      <div class="title">Termostato Financeiro</div>
+      <div class="desc">5 dimensões · 25 perguntas · temperatura financeira coletiva + faturamento + teto.</div>
+      <div class="meta">forms.gle/1XbvTPsvYX8DYChD9</div>
+    </a>
+    <a class="card" href="https://forms.gle/hzk6kd5Xq7ZFjNKh8" target="_blank">
+      <div class="lbl">Aula 2 · já enviado</div>
+      <div class="title">Inventário de Crenças</div>
+      <div class="desc">5 territórios · Dinheiro · Identidade · Mérito · Pertencimento · Poder. ~30min.</div>
+      <div class="meta">forms.gle/hzk6kd5Xq7ZFjNKh8</div>
+    </a>
+    <a class="card fogo" href="https://forms.gle/kgK5CJtanQqJK69p6" target="_blank">
+      <div class="lbl">Aula 3 · NOVO HOJE</div>
+      <div class="title">Carta ao Eu do Futuro</div>
+      <div class="desc">Form com 4 blocos obrigatórios + declaração + lacração. Email Salomão confirmação automática.</div>
+      <div class="meta">forms.gle/kgK5CJtanQqJK69p6</div>
+    </a>
+  </div>
+</section>
+
+<!-- SEC 3 · OPERACIONAL -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">03</span><h2>Operacional do time</h2></div><div class="right">retorno · OBS · checklist</div></div>
+  <div class="cards">
+    <a class="card ink" href="./operacional-time/ROTEIRO-RETORNO-IPAD.html" target="_blank">
+      <div class="lbl">HTML · retorno iPad</div>
+      <div class="title">Roteiro da aula · retorno iPad</div>
+      <div class="desc">21 slides com falas literais do Augustto · cronograma 120min · atalhos teclado · drawer índice. Adicione à tela de início no Safari pra virar PWA.</div>
+      <div class="meta">abre no Safari/Chrome</div>
+    </a>
+    <a class="card" href="./operacional-time/APRESENTACAO_AULA_3.html" target="_blank">
+      <div class="lbl">HTML · deck</div>
+      <div class="title">Deck · Apresentação Aula 3</div>
+      <div class="desc">Apresentação que vai pro OBS · slides 0-20 · navegação por teclado · DS 04 V2 Azul.</div>
+      <div class="meta">abre em tela cheia</div>
+    </a>
+    <a class="card" href="./operacional-time/AURA_DASHBOARD_AULA_3.html" target="_blank">
+      <div class="lbl">HTML · dashboard interno</div>
+      <div class="title">Dashboard Aula 3 · time</div>
+      <div class="desc">Visão coordenação · cronograma · responsabilidades · status workflows.</div>
+      <div class="meta">interno · não enviar pra aluno</div>
+    </a>
+    <a class="card" href="./operacional-time/RECAP_AULA_2_LOOP.html" target="_blank">
+      <div class="lbl">HTML · loop 18:50–19:00</div>
+      <div class="title">Recap Aula 2 · loop tela de espera</div>
+      <div class="desc">3 slides Netflix-style pra rodar nos 10 min antes da aula começar. Autoplay infinito.</div>
+      <div class="meta">tela de espera</div>
+    </a>
+    <a class="card" href="./operacional-time/ROTEIRO_AULA_3.md" target="_blank">
+      <div class="lbl">Markdown · referência</div>
+      <div class="title">Roteiro fonte (.md)</div>
+      <div class="desc">Arquivo-fonte do roteiro completo · 765 linhas · usado pra gerar o retorno HTML.</div>
+      <div class="meta">referência editorial</div>
+    </a>
+  </div>
+</section>
+
+<!-- SEC 4 · CRONOGRAMA -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">04</span><h2>Cronograma · 120 minutos</h2></div><div class="right">19:00–21:00 BRT</div></div>
+  <div class="cronograma">
+    <h3>Estrutura didática · 25% teoria · 30% prática · 20% ativação · 25% ritual</h3>
+    <table>
+      <thead><tr><th>Bloco</th><th>Tempo</th><th>Segmento</th><th>Slides</th><th>Responsável</th></tr></thead>
+      <tbody>
+        <tr><td class="bn">0</td><td class="tm">19:00–19:10</td><td>Sala abre · leitura silenciosa dos 3 momentos · loop Recap Aula 2 rodando</td><td>0</td><td>Gabriel</td></tr>
+        <tr><td class="bn">1</td><td class="tm">19:10–19:22</td><td>Abertura · retorno da Semana 2 · balanço Bloco 1</td><td>1–3</td><td>Augustto</td></tr>
+        <tr><td class="bn">2</td><td class="tm">19:22–19:52</td><td>Teoria · Confiança vs Identidade · Reel "Eu já fui panfleteiro"</td><td>4–10</td><td>Augustto</td></tr>
+        <tr><td class="bn">3</td><td class="tm">19:52–20:28</td><td>Prática · Carta ao Eu do Futuro (visualização + escrita + revisão + lacração)</td><td>11–15</td><td>Augustto · silêncio</td></tr>
+        <tr><td class="bn">4</td><td class="tm">20:28–20:50</td><td>Ativação · Declaração de Nova Identidade (áudio 30s)</td><td>16–18</td><td>Gabriel coleta áudios</td></tr>
+        <tr><td class="bn">5</td><td class="tm">20:50–21:00</td><td>Ritual da semana · fechamento Bloco 1 · ponte pro Bloco 2</td><td>19–20</td><td>Augustto</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SEC 5 · CHECKLIST GABRIEL -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">05</span><h2>Checklist Gabriel · dia D</h2></div><div class="right">pré · durante · pós</div></div>
+
+  <div class="checklist" style="margin-bottom:14px">
+    <h3>Pré-aula · 18:00–19:00</h3>
+    <ul>
+      <li><b>OBS aberto</b> · profile Aula 3 carregado · 6 cenas validadas · cena 1 (capa) em standby</li>
+      <li><b>Loop Recap Aula 2</b> rodando às 18:50 em uma tela compartilhada na sala</li>
+      <li>Confirmar que todos os 14 alunos receberam a confirmação no WhatsApp (lista em <code>listas-presenca/MENSAGENS-CONFIRMACAO-AULA3-2026-06-02.md</code>)</li>
+      <li>Pasta de materiais pra impressão já enviada pros alunos: <code>_AURA-Materiais-Turma1-Aulas-1-2-3-2026-06-02</code></li>
+      <li>Form <b>Carta ao Eu do Futuro</b> aberto numa aba do navegador (pra eventualmente colar no chat às 19:58)</li>
+      <li>Sheet AURA aberta · aba <code>carta-eu-futuro</code> monitorada em tempo real</li>
+      <li>Roteiro retorno aberto no iPad do Augustto (PWA · tela cheia)</li>
+      <li>Número WhatsApp AURA <b>55 61 92979889</b> com bateria + dados</li>
+    </ul>
+  </div>
+
+  <div class="checklist" style="margin-bottom:14px">
+    <h3>Durante a aula · ações cronometradas</h3>
+    <ul>
+      <li><b>19:10</b> · confirmar no chat que cada aluno enviou "3 momentos de retorno: ✅" antes de Augustto começar</li>
+      <li><b>19:34</b> · disparar reel "Eu já fui panfleteiro" no slide 6 sem delay</li>
+      <li><b>19:52</b> · iniciar trilha binaural 10s antes da fala da visualização (slide 11)</li>
+      <li><b>19:58</b> · COLAR link do form Carta Eu Futuro no chat do Meet (https://forms.gle/kgK5CJtanQqJK69p6)</li>
+      <li><b>19:58–20:18</b> · silenciar todos os microfones · câmera Augustto cortada</li>
+      <li><b>20:18–20:26</b> · revisão em voz baixa · acompanhar a Sheet (target 70% submeter)</li>
+      <li><b>20:28</b> · compartilhar número AURA no chat pra coletar áudios da declaração</li>
+      <li><b>20:32–20:44</b> · 12 min · câmera Augustto cortada · receber áudios no WhatsApp AURA</li>
+      <li>Registrar nomes dos alunos que enviaram áudio (lista pos-aula)</li>
+      <li><b>20:55–21:00</b> · fecho · trilha sobe · cortina · gravação parada às 21:01</li>
+    </ul>
+  </div>
+
+  <div class="checklist">
+    <h3>Pós-aula · 21:00–21:30</h3>
+    <ul>
+      <li>Salvar gravação · backup Drive <code>mentoria-aura/aulas/bloco-01/aula-03-gravacao.mp4</code></li>
+      <li>Organizar áudios da Declaração em pasta <code>/declaracoes-aluno/</code> por nome</li>
+      <li>Atualizar coluna <code>marco_3_nova_identidade</code> na Sheet alunos ativos (✓ por aluno que enviou áudio)</li>
+      <li>Rodar <b>gerarDossieIdentidadeTodos()</b> no Apps Script (cria dossiê HTML por aluno na pasta Drive)</li>
+      <li>NPS Bloco 1 disparado às 21:15 via Salomão</li>
+      <li>Cris recebe gravação pra cortes editoriais (semana seguinte)</li>
+      <li>Augustto começa gravação dos áudios personalizados de resposta (1 por aluno · prazo 14 dias)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SEC 6 · LINKS RÁPIDOS -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">06</span><h2>Links rápidos</h2></div><div class="right">acesso direto</div></div>
+  <div class="cards">
+    <a class="card fogo" href="https://meet.google.com/fcz-phxr-gfp" target="_blank">
+      <div class="lbl">Google Meet · oficial</div>
+      <div class="title">Sala AURA</div>
+      <div class="desc">Link único da Mentoria AURA Turma 1 · NUNCA usar outro link.</div>
+      <div class="meta">meet.google.com/fcz-phxr-gfp</div>
+    </a>
+    <a class="card" href="https://docs.google.com/spreadsheets/d/15J_owYxhGGgbrTd5vhytZLKibB433AV8pC6o-o4fzSw/edit" target="_blank">
+      <div class="lbl">Sheet · respostas</div>
+      <div class="title">Sheet AURA · 4 abas</div>
+      <div class="desc">termostato · mapa · crencas · carta-eu-futuro. Monitorar aba carta-eu-futuro em tempo real durante a aula.</div>
+      <div class="meta">abrir em nova aba</div>
+    </a>
+    <a class="card" href="https://drive.google.com/drive/folders/1qPKgk3xzu3QJtSxJMKYwh_GL898eLhg_" target="_blank">
+      <div class="lbl">Drive · saída pós-aula</div>
+      <div class="title">Pasta · Dossiês de Identidade</div>
+      <div class="desc">Onde os HTMLs dos dossiês gerados aparecem após rodar gerarDossieIdentidadeTodos().</div>
+      <div class="meta">1 arquivo por aluno</div>
+    </a>
+  </div>
+</section>
+
+<!-- SEC 7 · TIME -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">07</span><h2>Time da Aula 3</h2></div><div class="right">responsabilidades</div></div>
+  <div class="time-grid">
+    <div class="time-card">
+      <div class="nome">Augustto</div>
+      <div class="role">Mentor</div>
+      <div class="tasks">Conduz as 5 partes · fala literal nos slides 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 14, 18, 19, 20. Reel próprio no slide 6. Câmera fora durante escrita (slide 12) e gravação dos áudios (slide 17).</div>
+    </div>
+    <div class="time-card">
+      <div class="nome">Gabriel</div>
+      <div class="role">Coordenação · dia D</div>
+      <div class="tasks">OBS · cenas · loop pré-aula · validação chat · silenciar mics · compartilhar links no chat (form Carta + número WhatsApp AURA) · coleta de áudios da Declaração · pasta /declaracoes-aluno/ · rodar dossiês pós-aula.</div>
+    </div>
+    <div class="time-card">
+      <div class="nome">Salomão</div>
+      <div class="role">Agente WhatsApp</div>
+      <div class="tasks">Confirmação automática pós-submit da Carta (email lacração 06/10) · disparo NPS Bloco 1 às 21:15.</div>
+    </div>
+    <div class="time-card">
+      <div class="nome">Cris</div>
+      <div class="role">Editorial · D+1</div>
+      <div class="tasks">Recebe gravação completa · seleciona 5-8 cortes virais (auditoria Hormozi) · edita reels DS 04 white · disparo IG na semana seguinte.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEC 8 · OBSERVAÇÕES FINAIS -->
+<section class="section">
+  <div class="section-head"><div class="left"><span class="num">08</span><h2>Observações finais</h2></div><div class="right">regras-rocha</div></div>
+  <div class="bigcard">
+    <div class="lbl">Regras travadas pra esta aula</div>
+    <div class="title">3 zeros · 2 deve-acontecer</div>
+    <div class="desc">
+      <strong>Zero atraso · 19:10 em ponto.</strong> A aula começa no relógio · Augustto não espera retardatários · Gabriel monitora horário.<br><br>
+      <strong>Zero interferência durante a escrita (19:58–20:18).</strong> Câmera Augustto cortada · todos os microfones silenciados · só a trilha binaural baixa de fundo.<br><br>
+      <strong>Zero abertura antecipada da carta.</strong> Quem lacrar tem que assinar fora e datar 02/06/2026 → abertura SOMENTE 06/10/2026.<br><br>
+      <strong>Deve acontecer · 70% submeter o form da Carta antes de Augustto fechar.</strong> Se às 20:25 estiver menos de 70%, Gabriel pinga no privado pelo Meet.<br><br>
+      <strong>Deve acontecer · áudio da Declaração enviado por todos os presentes.</strong> Se faltar ao fim, lista pra disparar follow-up na quarta-feira.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="dossie">
+  <div class="leao-mini"></div>
+  <div>Hub Aula 3 · Gabriel · 02 de junho de 2026 · gerado por Franklin</div>
+  <div class="aura-mini"><svg viewBox="0 0 1200 320" stroke-linecap="butt" stroke-linejoin="miter"><polygon points="80,250 260,250 170,80"/><path d="M 380 80 L 380 188 A 70 62 0 0 0 520 188 L 520 80"/><path d="M 640 250 L 640 80 L 740 80 A 47.5 42.5 0 0 1 740 165 L 640 165"/><path d="M 720 165 L 810 250"/><polygon points="900,250 1080,250 990,80"/></svg></div>
+</footer>
+
+</body>
+</html>

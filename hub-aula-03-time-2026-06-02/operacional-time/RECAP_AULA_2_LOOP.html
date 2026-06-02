@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Previamente · Recap Aula 2 · Loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     AURA · LOOP NETFLIX "PREVIAMENTE NA AURA"
+     3 slides · autoplay · loop infinito · pré-aula 3
+     Paleta: dark cinemática (preto) com accent rotativo · ver palettes.json
+     Cinematic black bars top/bottom (16:9 vibe)
+     Gerado pela skill aura-recap-loop
+     ============================================================ */
+  :root {
+    --black:        #000000;
+    --noir:         #0a0a0a;
+    --char:         #141414;
+    --white:        #ffffff;
+    --ivory:        #fefcf6;
+    --violet:       #0097b2;
+    --violet-deep:  #0097b2;
+    --violet-glow:  #3ec7d8;
+    --gold:         #ffde59;
+    --gold-soft:    #ffeb9a;
+    --red:          #ff3d3d;
+    --green:        #6dd47a;
+    --muted:        #6a6258;
+    --line:         #1f1f1f;
+
+    --font-display: 'Oswald', 'Barlow Condensed', Impact, sans-serif;
+    --font-hero:    'Barlow Condensed', 'Oswald', sans-serif;
+    --font-body:    'Lora', Georgia, serif;
+    --font-ui:      'Inter', -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow: hidden;
+    cursor: none;
+  }
+
+  /* CINEMATIC BLACK BARS · top/bottom 7% */
+  .letterbox-top,
+  .letterbox-bottom {
+    position: fixed;
+    left: 0; right: 0;
+    height: 7vh;
+    background: var(--black);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    padding: 0 5vw;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .letterbox-top    { top: 0; justify-content: space-between; }
+  .letterbox-bottom { bottom: 0; justify-content: space-between; }
+  .letterbox-top .brand,
+  .letterbox-bottom .brand {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.28em;
+  }
+
+  /* Progress dots */
+  .dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .dots .dot {
+    width: 28px;
+    height: 2px;
+    background: rgba(255,255,255,0.18);
+    transition: background 0.4s, width 0.4s;
+  }
+  .dots .dot.active { background: var(--violet-glow); width: 56px; }
+  .dots .dot.played { background: rgba(139,60,255,0.45); }
+
+  /* SLIDE STAGE */
+  .stage {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.9s cubic-bezier(.65,.05,.36,1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 14vh 10vw;
+    will-change: opacity, transform;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .slide .bg-num {
+    position: absolute;
+    top: 8vh; right: 5vw;
+    font-family: var(--font-display);
+    font-size: 38vw;
+    font-weight: 700;
+    color: rgba(139,60,255,0.04);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+  .slide > * { position: relative; z-index: 1; }
+
+  /* TAG · top label */
+  .tag {
+    font-family: var(--font-hero);
+    font-size: clamp(13px, 1.1vw, 17px);
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--violet-glow);
+    font-weight: 700;
+    margin-bottom: 3vh;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: rise 0.8s cubic-bezier(.2,.7,.3,1) 0.2s forwards;
+  }
+  .slide:not(.active) .tag,
+  .slide:not(.active) .title,
+  .slide:not(.active) .sub,
+  .slide:not(.active) .stat-row,
+  .slide:not(.active) .tools,
+  .slide:not(.active) .closer {
+    animation: none;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  /* TITLE */
+  .title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.018em;
+    color: var(--ivory);
+    text-transform: uppercase;
+    font-size: clamp(52px, 8.4vw, 156px);
+    margin-bottom: 3vh;
+    max-width: 92%;
+    opacity: 0;
+    transform: translateY(28px);
+    animation: rise 0.95s cubic-bezier(.2,.7,.3,1) 0.45s forwards;
+  }
+  .title .violet { color: var(--violet-glow); }
+  .title .gold   { color: var(--gold); }
+
+  .sub {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 36px);
+    line-height: 1.4;
+    color: var(--gold-soft);
+    max-width: 1100px;
+    margin-bottom: 5vh;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: rise 0.95s cubic-bezier(.2,.7,.3,1) 0.7s forwards;
+  }
+
+  .closer {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 38px);
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    color: var(--white);
+    font-weight: 600;
+    margin-top: 4vh;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: rise 0.95s cubic-bezier(.2,.7,.3,1) 1.6s forwards;
+  }
+  .closer .accent { color: var(--violet-glow); }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SLIDE 2 · MISSÃO · 3 tools grid */
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+    max-width: 1400px;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: rise 0.95s cubic-bezier(.2,.7,.3,1) 0.85s forwards;
+  }
+  .tool {
+    border-left: 2px solid var(--violet);
+    padding: 2.5vh 1.6vw;
+    background: rgba(139,60,255,0.04);
+  }
+  .tool .n {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 5vw, 88px);
+    color: var(--violet-glow);
+    line-height: 0.9;
+    font-weight: 700;
+    margin-bottom: 1vh;
+  }
+  .tool .nm {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 1.7vw, 30px);
+    color: var(--ivory);
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    font-weight: 600;
+    line-height: 1.05;
+    margin-bottom: 1.4vh;
+  }
+  .tool .d {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(14px, 1.1vw, 19px);
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .ritual-strip {
+    margin-top: 4vh;
+    padding: 2vh 2vw;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    font-family: var(--font-hero);
+    font-size: clamp(14px, 1.2vw, 19px);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: rise 0.95s cubic-bezier(.2,.7,.3,1) 1.3s forwards;
+  }
+  .ritual-strip .lbl { color: var(--muted); font-weight: 600; }
+  .ritual-strip .v   { color: var(--gold); font-weight: 700; }
+  .ritual-strip .sep { color: var(--violet); }
+
+  /* SLIDE 3 · STATS · animated count */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2vw;
+    max-width: 1400px;
+    margin-bottom: 4vh;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: rise 0.95s cubic-bezier(.2,.7,.3,1) 0.7s forwards;
+  }
+  .stat {
+    text-align: left;
+    padding-left: 1.5vw;
+    border-left: 2px solid var(--violet);
+  }
+  .stat .big {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 6.6vw, 124px);
+    font-weight: 700;
+    color: var(--violet-glow);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+  }
+  .stat .big .unit {
+    font-size: 0.45em;
+    color: var(--gold);
+    margin-left: 0.1em;
+  }
+  .stat .lbl {
+    font-family: var(--font-hero);
+    font-size: clamp(13px, 1.1vw, 17px);
+    color: var(--muted);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-top: 1.4vh;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .stat:nth-child(2) .big { color: var(--gold-soft); }
+  .stat:nth-child(3) .big { color: var(--ivory); }
+  .stat:nth-child(4) .big { color: var(--violet-glow); }
+
+  /* Subtle pulse on active slide background */
+  .slide.active .bg-num {
+    animation: pulse-bg 12s ease-in-out infinite;
+  }
+  @keyframes pulse-bg {
+    0%, 100% { color: rgba(139,60,255,0.04); }
+    50%      { color: rgba(255,222,89,0.06); }
+  }
+
+  /* Top-left brand mark */
+  .mark {
+    position: absolute;
+    top: 11vh;
+    left: 5vw;
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.32em;
+    color: var(--gold);
+    font-weight: 700;
+    z-index: 10;
+  }
+
+  /* Bottom hint */
+  .footer-hint {
+    font-family: var(--font-body);
+    font-style: italic;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .footer-hint .accent { color: var(--violet-glow); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .slide { padding: 14vh 6vw; }
+    .tools, .stat-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Click anywhere to skip · controls hidden by default */
+  .skip {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- LETTERBOX TOP -->
+<div class="letterbox-top">
+  <span><span class="brand">△ AURA</span> &nbsp;&nbsp; Previamente</span>
+  <div class="dots">
+    <span class="dot" id="dot-0"></span>
+    <span class="dot" id="dot-1"></span>
+    <span class="dot" id="dot-2"></span>
+  </div>
+</div>
+
+<!-- STAGE -->
+<div class="stage">
+
+  <!-- SLIDE 1 · HOOK -->
+  <section class="slide active" id="s-0">
+    <div class="bg-num">01</div>
+    <div class="mark">△ AURA</div>
+    <span class="tag">Previamente na AURA</span>
+    <h1 class="title">14 dias atrás,<br>12 tetos<br>foram <span class="violet">nomeados</span>.</h1>
+    <p class="sub">"O problema não é o que você sabe. É o que você acredita que merece."</p>
+  </section>
+
+  <!-- SLIDE 2 · MISSÃO -->
+  <section class="slide" id="s-1">
+    <div class="bg-num">02</div>
+    <div class="mark">△ AURA</div>
+    <span class="tag">A missão dos 14 dias</span>
+    <h1 class="title">O que sobrou<br>da <span class="gold">nomeação.</span></h1>
+    <div class="tools">
+      <div class="tool">
+        <div class="n">01</div>
+        <div class="nm">INVENTÁRIO DE CRENÇAS</div>
+        <div class="d">5 frases que pesam por dentro · cada um nomeou as suas.</div>
+      </div>
+      <div class="tool">
+        <div class="n">02</div>
+        <div class="nm">RENÚNCIA EM VOZ ALTA</div>
+        <div class="d">Frase abandonada na frente da turma · sem cerimônia.</div>
+      </div>
+      <div class="tool">
+        <div class="n">03</div>
+        <div class="nm">RITUAL DA QUINTA</div>
+        <div class="d">1 renúncia por semana · texto ou áudio · pro Salomão.</div>
+      </div>
+    </div>
+    <div class="ritual-strip">
+      <span class="lbl">Ritual semanal</span>
+      <span class="sep">·</span>
+      <span class="v">Toda quinta · 12h · 1 renúncia</span>
+      <span class="sep">·</span>
+      <span class="lbl">"Quem não responde, não é lembrado."</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 · O QUE EMERGIU -->
+  <section class="slide" id="s-2">
+    <div class="bg-num">03</div>
+    <div class="mark">△ AURA</div>
+    <span class="tag">O retrato dos 14 dias</span>
+    <h1 class="title">A turma ficou<br><span class="violet">exposta.</span></h1>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="big">14<span class="unit"></span></div>
+        <div class="lbl">DIAS DESDE A NOMEAÇÃO</div>
+      </div>
+      <div class="stat">
+        <div class="big">60<span class="unit"></span></div>
+        <div class="lbl">CRENÇAS INVENTARIADAS</div>
+      </div>
+      <div class="stat">
+        <div class="big">2<span class="unit"></span></div>
+        <div class="lbl">QUINTAS DE RENÚNCIA</div>
+      </div>
+      <div class="stat">
+        <div class="big">12<span class="unit"></span></div>
+        <div class="lbl">ESPELHOS EM TRAVESSIA</div>
+      </div>
+    </div>
+    <div class="closer">Hoje, a gente <span class="accent">reconstrói.</span> &nbsp;·&nbsp; Marco 3 / 12 · Reconstrução</div>
+  </section>
+
+</div>
+
+<!-- LETTERBOX BOTTOM -->
+<div class="letterbox-bottom">
+  <span class="footer-hint">Aula 3 começa em instantes · <span class="accent">Reconstrução do Valor Próprio</span></span>
+  <span class="brand">Terça · 02/06 · 19:00</span>
+</div>
+
+<!-- CLICK TO SKIP -->
+<div class="skip" id="skip" title="Clique para próximo · ESC para parar"></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.dots .dot');
+  const total  = slides.length;
+  let current  = 0;
+  let timer    = null;
+
+  // Tempo por slide (ms) — Netflix pace
+  const DURATIONS = [7000, 11000, 11000];
+
+  function show(i) {
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    dots.forEach((d, k) => {
+      d.classList.remove('active', 'played');
+      if (k === i) d.classList.add('active');
+      else if (k < i) d.classList.add('played');
+    });
+    current = i;
+    scheduleNext();
+  }
+
+  function next() {
+    const ni = (current + 1) % total;
+    show(ni);
+  }
+
+  function scheduleNext() {
+    clearTimeout(timer);
+    timer = setTimeout(next, DURATIONS[current]);
+  }
+
+  // Click anywhere → advance
+  document.getElementById('skip').addEventListener('click', next);
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show((current - 1 + total) % total); }
+    if (e.key === 'Escape') {
+      clearTimeout(timer);
+      if (document.fullscreenElement) document.exitFullscreen();
+    }
+    if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  // Auto-start fullscreen on first interaction (browser requirement)
+  document.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+  }, { once: true });
+
+  scheduleNext();
+</script>
+
+</body>
+</html>

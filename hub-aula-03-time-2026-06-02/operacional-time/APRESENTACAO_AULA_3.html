@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA · Aula 03 · Reconstrução do Valor Próprio · Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@200;300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     AULA 03 · DS 04 V2 AZUL (regime Aulas projetadas Meet/Zoom)
+     Estrutura clonada de APRESENTACAO_AULA_2 (regra travada 20/05)
+     Conteúdo: ROTEIRO_AULA_3.md · Reconstrução do Valor Próprio
+     Marco 3 · Bloco 1 ENCERRADO
+     ============================================================ */
+  :root {
+    --bg:           #F5EFE4;
+    --surface:      #EDE7DA;
+    --surface-2:    #F1E9D7;
+    --paper:        #ffffff;
+    --text:         #0b0b0b;
+    --text-mute:    #6a6258;
+    --line:         #d4cdbf;
+    --line-soft:    #e6e0d2;
+
+    /* V2 AZUL · accent principal Aula 3 */
+    --violet:       #5577A0;   /* dusk mid */
+    --violet-soft:  #E4ECF3;   /* dusk soft */
+    --violet-deep:  #2A3D5E;   /* dusk deep */
+    --gold:         #D86420;   /* fogo (uso reduzido) */
+    --gold-bright:  #E8845C;
+    --teal:         #006e85;
+    --lime:         #3f7a22;
+    --taupe:        #8a7d6e;
+    --red:          #b8141a;
+
+    --font-display: 'Cinzel', 'Trajan Pro', 'Playfair Display', serif;
+    --font-hero:    'DM Mono', 'JetBrains Mono', monospace;
+    --font-body:    'Playfair Display', 'Lora', Georgia, serif;
+    --font-ui:      'Outfit', -apple-system, sans-serif;
+    --font-script:  'Pinyon Script', cursive;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
+
+  .deck { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+  .slide {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: none; padding: 64px 96px 96px;
+    flex-direction: column; justify-content: center;
+    background: var(--bg); overflow: hidden;
+  }
+  .slide.active { display: flex; }
+  .slide::before {
+    content: attr(data-num); position: absolute; top: 8%; right: 4%;
+    font-family: var(--font-display);
+    font-size: clamp(160px, 22vw, 360px);
+    font-weight: 700; color: var(--violet); opacity: 0.06;
+    line-height: 0.85; letter-spacing: -0.05em;
+    pointer-events: none; user-select: none; z-index: 0;
+  }
+  .slide > * { position: relative; z-index: 1; }
+
+  /* status bar */
+  .status {
+    position: fixed; top: 0; left: 0; right: 0; height: 38px;
+    background: rgba(245,239,228,0.94);
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; padding: 0 28px; gap: 28px;
+    z-index: 100; font-family: var(--font-ui); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-mute);
+  }
+  .status .brand { color: var(--violet-deep); font-weight: 700; letter-spacing: 0.24em; }
+  .status .marco { color: var(--violet); font-weight: 600; }
+  .status .time { color: var(--lime); }
+  .status .num { margin-left: auto; color: var(--text); font-weight: 600; }
+
+  /* controls */
+  .controls {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 44px;
+    background: rgba(245,239,228,0.94);
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    z-index: 100; font-family: var(--font-hero); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .controls button {
+    background: transparent; border: 1px solid var(--line);
+    color: var(--text-mute); padding: 6px 14px; cursor: pointer;
+    font-family: var(--font-hero); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    transition: all 0.12s; font-weight: 600;
+  }
+  .controls button:hover { color: var(--violet); border-color: var(--violet); }
+  .controls .keys { color: var(--taupe); margin-left: 18px; }
+  .controls .keys kbd {
+    font-family: var(--font-ui); background: var(--paper);
+    color: var(--text); padding: 2px 8px; border-radius: 4px;
+    border: 1px solid var(--line); font-size: 10px; margin: 0 3px;
+  }
+
+  /* typography */
+  .tag {
+    font-family: var(--font-hero);
+    font-size: clamp(13px, 1.1vw, 16px);
+    color: var(--lime); letter-spacing: 0.28em;
+    text-transform: uppercase; font-weight: 700; margin-bottom: 24px;
+  }
+  .tag.violet { color: var(--violet); }
+  .tag.gold { color: var(--gold); }
+  .tag.teal { color: var(--teal); }
+  .tag.red { color: var(--red); }
+  .tag.deep { color: var(--violet-deep); }
+
+  h1.title {
+    font-family: var(--font-display); font-weight: 700; line-height: 0.95;
+    letter-spacing: -0.012em; color: var(--text); text-transform: uppercase;
+    font-size: clamp(48px, 7vw, 120px); margin-bottom: 32px; max-width: 90%;
+  }
+  h1.title.hook {
+    color: var(--violet); font-style: italic; text-transform: none;
+    font-family: var(--font-body); font-weight: 500;
+  }
+  h2.subtitle {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(28px, 3.4vw, 56px); line-height: 1.05;
+    color: var(--text); text-transform: uppercase;
+    letter-spacing: -0.005em; margin-bottom: 28px; max-width: 92%;
+  }
+  .lede {
+    font-family: var(--font-body); font-style: italic;
+    font-size: clamp(20px, 2vw, 32px); line-height: 1.45;
+    color: var(--violet); max-width: 1100px; margin-bottom: 28px; font-weight: 500;
+  }
+  .body {
+    font-family: var(--font-body); font-size: clamp(18px, 1.35vw, 24px);
+    line-height: 1.6; color: var(--text); max-width: 1080px; margin-bottom: 24px;
+  }
+
+  /* blocks */
+  .block {
+    background: var(--surface); border-left: 4px solid var(--violet);
+    padding: 32px 44px; margin: 18px 0; max-width: 1100px;
+  }
+  .block.gold { border-left-color: var(--gold); }
+  .block.lime { border-left-color: var(--lime); }
+  .block.teal { border-left-color: var(--teal); }
+  .block.red  { border-left-color: var(--red); }
+  .block.deep { border-left-color: var(--violet-deep); background: var(--violet-soft); }
+
+  .rules-list { list-style: none; padding: 0; }
+  .rules-list li {
+    font-family: var(--font-display); font-size: clamp(28px, 3vw, 48px);
+    font-weight: 600; color: var(--text); text-transform: uppercase;
+    letter-spacing: -0.005em; line-height: 1.2; padding: 18px 0;
+    border-bottom: 1px solid var(--line); display: flex; gap: 24px; align-items: baseline;
+  }
+  .rules-list li:last-child { border-bottom: none; }
+  .rules-list li .num {
+    color: var(--violet); font-family: var(--font-display);
+    font-weight: 700; min-width: 80px;
+    font-size: clamp(40px, 4vw, 72px); line-height: 1;
+  }
+  .rules-list li .desc {
+    font-family: var(--font-body); font-style: italic;
+    font-size: 0.5em; color: var(--text-mute); margin-left: 16px;
+    font-weight: 400; text-transform: none;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1180px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; max-width: 1280px; }
+
+  .card {
+    background: var(--surface-2); padding: 28px 32px; border: 1px solid var(--line);
+  }
+  .card.paper { background: var(--paper); }
+  .card .label {
+    font-family: var(--font-hero); font-size: 13px; color: var(--violet);
+    letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
+  }
+  .card .value {
+    font-family: var(--font-display); font-size: clamp(32px, 3.4vw, 56px);
+    font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 12px; text-transform: uppercase;
+  }
+  .card .desc {
+    font-family: var(--font-body); font-size: 16px;
+    color: var(--text-mute); line-height: 1.5; font-style: italic;
+  }
+
+  /* checklist */
+  .checklist { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 1100px; }
+  .ch {
+    display: grid; grid-template-columns: 60px 1fr;
+    align-items: baseline; background: var(--surface);
+    border-left: 3px solid var(--lime); padding: 18px 24px; gap: 16px;
+  }
+  .ch .n { font-family: var(--font-display); color: var(--lime); font-size: 28px; font-weight: 700; }
+  .ch .txt { font-family: var(--font-body); color: var(--text); font-size: 17px; line-height: 1.55; }
+  .ch .txt strong { color: var(--violet); font-weight: 700; }
+
+  /* marco card */
+  .marco-card {
+    background: linear-gradient(135deg, rgba(85,119,160,0.12), rgba(232,132,92,0.10));
+    border: 1px solid var(--violet); padding: 48px 56px; max-width: 1100px; text-align: center;
+  }
+  .marco-card .num-big {
+    font-family: var(--font-display); font-size: clamp(120px, 16vw, 240px);
+    font-weight: 700; color: var(--violet); line-height: 0.85; letter-spacing: -0.04em;
+  }
+  .marco-card .num-big small { font-size: 0.35em; color: var(--text-mute); font-weight: 400; }
+  .marco-card .nome {
+    font-family: var(--font-display); font-size: clamp(32px, 4vw, 56px);
+    font-weight: 700; color: var(--text); text-transform: uppercase;
+    letter-spacing: -0.005em; margin: 12px 0 24px;
+  }
+  .marco-card .crit {
+    text-align: left; max-width: 720px; margin: 24px auto 0; padding: 24px 28px;
+    background: rgba(255,255,255,0.7); border-left: 3px solid var(--lime);
+  }
+  .marco-card .crit li {
+    list-style: none; font-family: var(--font-body); color: var(--text);
+    font-size: 16px; padding: 6px 0;
+  }
+  .marco-card .crit li::before { content: "✓ "; color: var(--lime); font-weight: 700; margin-right: 8px; }
+
+  /* codebox */
+  .codebox {
+    background: var(--paper); border: 1px solid var(--line);
+    border-left: 4px solid var(--violet); padding: 28px 36px;
+    font-family: var(--font-ui); font-size: clamp(15px, 1.1vw, 18px);
+    line-height: 1.7; color: var(--text); max-width: 1100px;
+    white-space: pre-wrap; margin: 12px 0;
+  }
+  .codebox strong { color: var(--violet); font-weight: 700; }
+  .codebox .accent { color: var(--gold); font-weight: 700; }
+  .codebox .deep { color: var(--violet-deep); font-weight: 700; }
+
+  /* compare table */
+  .compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--line); border: 1px solid var(--line);
+    max-width: 1180px; margin-top: 18px;
+  }
+  .compare > div { background: var(--paper); padding: 22px 26px; }
+  .compare .head {
+    font-family: var(--font-hero); font-size: 13px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 14px;
+  }
+  .compare .head.errado { color: var(--red); }
+  .compare .head.certo  { color: var(--lime); }
+  .compare .head.left   { color: var(--text-mute); }
+  .compare .head.right  { color: var(--violet); }
+  .compare .item {
+    font-family: var(--font-body); font-size: 17px;
+    color: var(--text); line-height: 1.55; padding: 6px 0;
+    border-bottom: 1px dashed var(--line-soft);
+  }
+  .compare .item:last-child { border-bottom: none; }
+
+  /* speaker */
+  .speaker {
+    position: fixed; bottom: 56px; right: 16px;
+    max-width: 380px; max-height: 60vh; overflow-y: auto;
+    background: rgba(245,239,228,0.98);
+    border: 1px solid var(--violet); border-left-width: 4px;
+    padding: 20px 22px; z-index: 90;
+    font-family: var(--font-body); font-style: italic;
+    font-size: 13px; line-height: 1.55; color: var(--text);
+    display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  }
+  .speaker.show { display: block; }
+  .speaker .label {
+    font-family: var(--font-hero); font-size: 10px;
+    color: var(--violet); letter-spacing: 0.22em;
+    text-transform: uppercase; font-weight: 700;
+    margin-bottom: 10px; font-style: normal; display: block;
+  }
+  .speaker p { margin-bottom: 10px; }
+
+  /* progress */
+  .progress {
+    position: fixed; bottom: 44px; left: 0; right: 0;
+    height: 2px; background: var(--line-soft); z-index: 99;
+  }
+  .progress .bar { height: 100%; background: var(--violet); transition: width 0.25s; }
+
+  /* foto oficial pill */
+  .foto-pill {
+    background: var(--red); color: #fff;
+    padding: 24px 36px; max-width: 720px;
+    border: 2px dashed #fff; box-shadow: 0 0 0 4px var(--red);
+    font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 36px);
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.02em; line-height: 1.15; text-align: center;
+    margin: 24px auto;
+  }
+  .foto-pill small {
+    display: block; font-family: var(--font-body); font-style: italic;
+    font-size: 0.45em; font-weight: 400; text-transform: none;
+    letter-spacing: 0; margin-top: 14px; opacity: 0.95;
+  }
+
+  /* responsivo */
+  @media (max-width: 900px) {
+    .slide { padding: 56px 32px 64px; }
+    .grid-2, .grid-3, .compare { grid-template-columns: 1fr; }
+    .controls .keys { display: none; }
+    .speaker { right: 8px; left: 8px; max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="status">
+  <span class="brand">△ AURA</span>
+  <span>Aula 03 · Reconstrução do Valor Próprio</span>
+  <span class="marco">Marco 3 · Nova Identidade</span>
+  <span class="time" id="block-label">INÍCIO · 19:00</span>
+  <span class="num" id="slide-num">0/20</span>
+</div>
+
+<!-- DECK -->
+<div class="deck">
+
+<!-- ========================================== SLIDE 0 · TELA DE ESPERA -->
+<section class="slide active" data-num="00" data-block="19:00 – 19:10 · Tela de espera + Conferência de preparação">
+  <span class="tag">Tela de espera · 19:00 – 19:10</span>
+  <h1 class="title">Aula 3<br>Reconstrução<br>do Valor Próprio</h1>
+  <div class="lede">Bloco 1 · Autoimagem · Marco 3/12 · Encerramento do Bloco 1</div>
+  <div class="body" style="font-family: var(--font-display); text-transform: uppercase; font-size: clamp(28px,3vw,48px); color: var(--violet); letter-spacing: -0.005em;">
+    19:10 em ponto.<br>Sem atraso · sem espera.
+  </div>
+  <div class="speaker"><span class="label">Operacional · Conferência de Preparação</span>
+    <p>Gabriel confere câmera ON · presença · cada aluno envia no chat antes de 19:10: <em>"3 momentos de retorno: ✅"</em> + <em>"3 crenças Eker: ✅"</em>.</p>
+    <p>Quem enviou ❌ → Rosi aciona no privado com pergunta seca. Sem matéria-prima, a Carta não roda.</p>
+    <p>Pré-aula: confirmar que cada aluno tem em mãos: KIT CARTA TIMBRADA (Plano A físico) OU papel impresso (Plano B) + caneta preta + envelope.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 1 · ABERTURA -->
+<section class="slide" data-num="01" data-block="19:10 – 19:15 · Abertura · retorno da Semana 2 · balanço do Bloco 1">
+  <span class="tag violet">Abertura · 5 min</span>
+  <h2 class="subtitle">4 semanas.<br>Fim do primeiro bloco.</h2>
+  <div class="body">
+    Aula 1, vocês viram o espelho pela primeira vez.<br>
+    Aula 2, vocês nomearam em voz alta a crença que segurava o teto.<br>
+    Hoje, Aula 3, vocês não vão nem reparar, nem reforçar — vocês vão <strong style="color: var(--violet);">RECONSTRUIR</strong>.
+  </div>
+  <div class="lede">Essa é a aula mais importante do Bloco 1.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 5 min</span>
+    <p>"19:10. Sem atraso, sem espera."</p>
+    <p>"Quatro semanas. Três aulas. Dois rituais em produção. Um bloco quase encerrado."</p>
+    <p>"Olha de onde vocês vieram: Aula 1, vocês viram o espelho pela primeira vez. Aula 2, vocês nomearam em voz alta a crença que segurava o teto. Hoje, Aula 3, vocês não vão nem reparar, nem reforçar — vocês vão RECONSTRUIR."</p>
+    <p>"Essa é a aula mais importante do Bloco 1. Porque todo mundo consegue ver o problema. Alguns conseguem nomear o problema. Mas poucos conseguem DECIDIR ser outra pessoa depois de ver e nomear."</p>
+    <p>"Hoje é sobre essa decisão."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 2 · RETORNO DOS 3 MOMENTOS -->
+<section class="slide" data-num="02" data-block="19:15 – 19:20 · Retorno dos 3 momentos da crença">
+  <span class="tag violet">Retorno da Semana 2 · 5 min</span>
+  <h2 class="subtitle">Como a crença voltou disfarçada.</h2>
+  <div class="body">
+    Tenho 3 vagas pra quem quer compartilhar.<br>
+    Não mais que 1 minuto cada.
+  </div>
+  <div class="block">
+    <div style="font-family: var(--font-body); font-style: italic; font-size: clamp(20px,1.8vw,26px); color: var(--text); line-height: 1.5;">
+      "Conta em 1 frase: quando a crença que você renunciou voltou? Como ela se vestiu?"<br><br>
+      <span style="color: var(--text-mute); font-style: normal; font-family: var(--font-hero); font-size: 0.7em; letter-spacing: 0.1em; text-transform: uppercase;">Sem me explicar. Sem justificar. Só relato.</span>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 5 min · acolhe sem comentar</span>
+    <p>Augustto pede 3 voluntários (ou convida). Não comenta cada. Apenas acolhe: "Obrigado. Próximo."</p>
+    <p><strong>Exemplos esperados (respostas curtas pré-pensadas):</strong></p>
+    <p>• "Voltou como 'só dessa vez eu dou desconto'" → "Clássica. Anota."</p>
+    <p>• "Voltou como cansaço" → "Ah. Disfarce sofisticado."</p>
+    <p>• "Voltou como 'não tô pronto ainda pra cobrar isso'" → "Essa é a mais comum. Próximo."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 3 · A LINHA DO BLOCO 1 -->
+<section class="slide" data-num="03" data-block="19:20 – 19:22 · O que aprendemos no Bloco 1">
+  <span class="tag violet">Síntese · 2 min</span>
+  <h2 class="subtitle">A linha do Bloco 1.</h2>
+  <ul class="rules-list" style="max-width: 1180px;">
+    <li><span class="num">1</span> Semana 1 · VER o espelho</li>
+    <li><span class="num">2</span> Semana 2 · NOMEAR a crença</li>
+    <li><span class="num">3</span> Semana 3 · RECONSTRUIR a identidade</li>
+  </ul>
+  <div class="block deep" style="margin-top: 18px;">
+    <div style="font-family: var(--font-body); font-size: clamp(18px, 1.4vw, 22px); color: var(--text); line-height: 1.55;">
+      <strong style="color: var(--red);">Não:</strong> reparar · melhorar · consertar.<br>
+      <strong style="color: var(--lime);">Sim:</strong> substituir deliberadamente.
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"O Bloco 1 tem uma lógica: ver, nomear, reconstruir."</p>
+    <p>"Não é 'melhorar'. Não é 'consertar'. Não é 'ficar mais confiante'."</p>
+    <p>"Você não está quebrado. Não precisa de reparo. Precisa de substituição deliberada."</p>
+    <p>"Isso é o paradigma AURA. E é o que a gente vai trabalhar hoje."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 4 · CONFIANÇA VS IDENTIDADE -->
+<section class="slide" data-num="04" data-block="19:22 – 19:28 · Teoria · Confiança vs Identidade">
+  <span class="tag violet">Teoria · 6 min</span>
+  <h2 class="subtitle">O erro de tentar ganhar confiança.</h2>
+  <div class="compare">
+    <div>
+      <div class="head left">Confiança</div>
+      <div class="item">sentimento</div>
+      <div class="item">oscila</div>
+      <div class="item">ganha / perde</div>
+      <div class="item">depende de prova</div>
+      <div class="item">resultado</div>
+    </div>
+    <div>
+      <div class="head right">Identidade</div>
+      <div class="item">decisão</div>
+      <div class="item">estável</div>
+      <div class="item">assume / renega</div>
+      <div class="item">dispensa prova</div>
+      <div class="item">causa</div>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 6 min</span>
+    <p>"Esse slide vocês vão voltar pra ele durante a mentoria inteira."</p>
+    <p>"Vocês chegaram aqui achando que precisavam de mais confiança. Todo mundo chega achando isso. Mentoria, terapia, coaching — a maioria trabalha em cima de 'aumentar autoestima', 'ganhar confiança', 'acreditar em si'."</p>
+    <p>"Problema: confiança é sentimento. Oscila. Depende de prova externa."</p>
+    <p>"Identidade é outra coisa. É decisão. Estável. Dispensa prova."</p>
+    <p>"Confiança é RESULTADO — vem depois que você age como a nova pessoa."</p>
+    <p>"Identidade é CAUSA — é a decisão que faz você agir diferente."</p>
+    <p>"A Mentoria AURA não trabalha com confiança. Não fica tentando te encher de autoestima. Te coloca pra decidir uma nova identidade. E a confiança vem como consequência."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 5 · O CÉREBRO DA IDENTIDADE -->
+<section class="slide" data-num="05" data-block="19:28 – 19:34 · O cérebro da identidade · neurociência">
+  <span class="tag violet">Neurociência · 6 min</span>
+  <h2 class="subtitle">Você não descobre sua identidade.<br>Você escolhe.</h2>
+  <div class="codebox" style="margin-top: 18px;"><strong>IDENTIDADE</strong> = conjunto de padrões comportamentais repetidos
+             sob o mesmo nome ("eu sou ___")
+
+O cérebro não descobre. <strong class="deep">Ele INSTALA.</strong>
+Você pode instalar novo padrão em <span class="accent">21 a 66 dias</span>.
+
+Condição: o novo padrão precisa ter
+  <strong>NOME</strong> + <strong>COMPROMISSO</strong> + <strong>AÇÃO diária</strong>.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 6 min</span>
+    <p>"Neurociência dura: identidade é hábito mental."</p>
+    <p>"Você não tem uma 'essência verdadeira' escondida lá no fundo esperando ser descoberta. Essa é a maior mentira de literatura barata."</p>
+    <p>"O que você tem é um conjunto de padrões repetidos sob o nome 'eu sou fulano'. Esses padrões estão gravados. Mas gravados não significa permanentes."</p>
+    <p>"Cérebro instala identidade nova em 21 a 66 dias. Depende de 3 coisas:"</p>
+    <p>"Um: NOME. A nova identidade tem que ter nome próprio. 'Eu sou empreendedor' não serve. 'Eu sou consultor financeiro especialista em pequenas indústrias' serve."</p>
+    <p>"Dois: COMPROMISSO. Tem que ser uma decisão adulta, não um desejo romântico."</p>
+    <p>"Três: AÇÃO DIÁRIA. Pequena. Consistente. Todo dia. Sem drama."</p>
+    <p>"E as 12 semanas da AURA dão exatamente esse tempo."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 6 · AUGUSTTO EM 30 SEGUNDOS · REEL -->
+<section class="slide" data-num="06" data-block="19:34 – 19:36 · Reel Augustto · Eu já fui panfleteiro">
+  <span class="tag gold">Reel · 30s</span>
+  <h1 class="title hook">"Eu não me tornei outro.<br>Eu parei de ser quem eu não era."</h1>
+  <div class="block gold">
+    <div style="font-family: var(--font-body); font-size: clamp(18px, 1.4vw, 22px); line-height: 1.55; color: var(--text);">
+      Eu já fui panfleteiro.<br>
+      Entregava cupom no semáforo de Brasília.<br>
+      Ganhava 30 reais por dia.<br><br>
+      Eu não virei outro.<br>
+      Eu parei de ser quem eu não era.<br><br>
+      Hoje ensino executivo a se posicionar.<br>
+      Não foi mérito. Foi decisão.<br>
+      Tomada num dia, reforçada por milhares.<br><br>
+      <em style="color: var(--violet);">A AURA te ensina a tomar a mesma decisão.</em>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Operacional · Reel + fala pós-reel 1 min</span>
+    <p>Cris/Talitta dispara o reel vertical (30s · Augustto close · legenda ampliada). Sem delay.</p>
+    <p><strong>Fala de Augustto pós-reel:</strong></p>
+    <p>"Eu não quero que vocês se inspirem. Quero que entendam o mecanismo."</p>
+    <p>"Não foi autoestima que me tirou do semáforo. Foi decisão seguida de ação seguida de repetição."</p>
+    <p>"Vocês vão fazer a mesma coisa hoje. Mas vão fazer num nível que eu não tive na época: com ferramenta, com método, com squad te acompanhando."</p>
+    <p>"É privilégio. Usa."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 7 · MECANISMO DA RECONSTRUÇÃO -->
+<section class="slide" data-num="07" data-block="19:36 – 19:42 · 4 etapas da substituição">
+  <span class="tag violet">Mecanismo · 6 min</span>
+  <h2 class="subtitle">4 etapas da substituição.</h2>
+  <ul class="rules-list" style="max-width: 1180px;">
+    <li><span class="num">1</span> ESPAÇO <span class="desc">renunciar abriu o vazio (Aula 2)</span></li>
+    <li><span class="num">2</span> IMAGEM <span class="desc">desenhar a nova identidade com precisão (HOJE)</span></li>
+    <li><span class="num">3</span> COMPROMISSO <span class="desc">declarar em voz alta + data (HOJE)</span></li>
+    <li><span class="num">4</span> REPETIÇÃO <span class="desc">ação diária por 90 dias (toda a mentoria)</span></li>
+  </ul>
+  <div class="block red" style="margin-top: 18px;">
+    <div style="font-family: var(--font-body); font-style: italic; font-size: clamp(17px, 1.3vw, 20px); color: var(--text); line-height: 1.5;">
+      Sem etapa 1, a nova identidade cai no espaço cheio e é rejeitada.<br>
+      Sem etapa 4, a declaração vira motivacional barato.
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 6 min</span>
+    <p>"4 etapas. Todas importam."</p>
+    <p>"A Aula 2 já fez a etapa 1 — vocês abriram o espaço quando renunciaram."</p>
+    <p>"Hoje a gente faz a 2 e a 3. A imagem da nova identidade, com precisão. E o compromisso dela, em voz alta, com data."</p>
+    <p>"A etapa 4 é a mentoria inteira. Vocês saem daqui hoje com a carta lacrada e a declaração gravada. Nas próximas 9 aulas, vocês reforçam a repetição."</p>
+    <p>"12 semanas. 90 dias. Tempo que o cérebro precisa pra aceitar a troca."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 8 · PRECISÃO NA NOVA IDENTIDADE -->
+<section class="slide" data-num="08" data-block="19:42 – 19:46 · Precisão · genérico vs específico">
+  <span class="tag violet">Precisão · 4 min</span>
+  <h2 class="subtitle">Genérico não instala.<br>Específico sim.</h2>
+  <div class="compare">
+    <div>
+      <div class="head errado">❌ NÃO INSTALA</div>
+      <div class="item">"Eu sou um vencedor"</div>
+      <div class="item">"Eu sou autoridade"</div>
+      <div class="item">"Eu mereço mais"</div>
+      <div class="item">"Eu tenho potencial"</div>
+    </div>
+    <div>
+      <div class="head certo">✅ INSTALA</div>
+      <div class="item">"Eu sou consultor em marcas B2B de luxo"</div>
+      <div class="item">"Eu sou a referência em retail strategy em BH"</div>
+      <div class="item">"Eu cobro R$ 25k por diagnóstico"</div>
+      <div class="item">"Eu fecho 2 contratos premium por trimestre"</div>
+    </div>
+  </div>
+  <div class="lede" style="margin-top: 24px;">Nome + contexto + prova concreta.</div>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min</span>
+    <p>"A nova identidade só cola se tiver precisão. Genérico não fixa."</p>
+    <p>"'Sou vencedor' é frase de camiseta. Não instala."</p>
+    <p>"'Sou consultor em marcas B2B de luxo' é identidade. Instala."</p>
+    <p>"A ferramenta de hoje — Carta ao Eu do Futuro — vai te forçar a essa precisão. Você vai escrever pra você mesmo daqui a 12 semanas, como se já fosse essa pessoa."</p>
+    <p>"E essa carta vai ser LACRADA até a Aula 12. Ninguém abre antes. Quando vocês abrirem, daqui 18 semanas, vão ler o que vocês escreveram hoje de dentro de uma versão que ainda não existia."</p>
+    <p>"Ou a carta vai estar errada — e aí vocês vão rir — ou vai estar profetizada — e aí vocês vão chorar."</p>
+    <p>"Ou as duas coisas."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 9 · O QUE A CARTA PRECISA CONTER -->
+<section class="slide" data-num="09" data-block="19:46 – 19:50 · 4 elementos obrigatórios da carta">
+  <span class="tag violet">Estrutura · 4 min</span>
+  <h2 class="subtitle">Carta ao Eu do Futuro<br>4 elementos obrigatórios.</h2>
+  <ul class="rules-list" style="max-width: 1180px;">
+    <li><span class="num">1</span> IDENTIDADE <span class="desc">quem você se tornou (nome + contexto + prova)</span></li>
+    <li><span class="num">2</span> DECISÕES <span class="desc">3 decisões que te levaram lá</span></li>
+    <li><span class="num">3</span> SENSAÇÃO <span class="desc">como você se sente sendo essa pessoa</span></li>
+    <li><span class="num">4</span> CONSELHO <span class="desc">o que você diz pro "eu de 02/06/2026"</span></li>
+  </ul>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min</span>
+    <p>"4 blocos. Sem isso, não é carta — é desabafo."</p>
+    <p>"Primeiro: IDENTIDADE. Quem é essa pessoa? Com precisão. Nome, contexto, prova."</p>
+    <p>"Segundo: DECISÕES. 3 decisões que te levaram até lá. Não resultados — decisões. O que você decidiu fazer ou parar de fazer?"</p>
+    <p>"Terceiro: SENSAÇÃO. Como se sente sendo essa pessoa? Sem romantizar — com verdade. Tem paz? Tem mais coisas pra resolver? Ganha melhor? Dorme melhor?"</p>
+    <p>"Quarto: CONSELHO. E esse é o coração. O que você — daqui a 12 semanas — quer dizer ao você de hoje, 02 de junho de 2026, sentado aqui nesse Meet?"</p>
+    <p>"Esse conselho é o que vai te acompanhar nas próximas 9 aulas."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 10 · PREPARAÇÃO PRA FERRAMENTA -->
+<section class="slide" data-num="10" data-block="19:50 – 19:52 · Preparação · 36 min de prática à frente">
+  <span class="tag violet">Preparação · 2 min</span>
+  <h2 class="subtitle">Próximos 36 minutos<br>Carta ao Eu do Futuro.</h2>
+  <div class="grid-2" style="margin-top: 18px;">
+    <div class="card paper">
+      <div class="label">Bloco 1</div>
+      <div class="value">6 min</div>
+      <div class="desc">Visualização guiada</div>
+    </div>
+    <div class="card paper">
+      <div class="label">Bloco 2</div>
+      <div class="value">20 min</div>
+      <div class="desc">Escrita</div>
+    </div>
+    <div class="card paper">
+      <div class="label">Bloco 3</div>
+      <div class="value">8 min</div>
+      <div class="desc">Revisão em voz baixa (pra si mesmo)</div>
+    </div>
+    <div class="card paper">
+      <div class="label">Bloco 4</div>
+      <div class="value">2 min</div>
+      <div class="desc">Lacração</div>
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Operacional</span>
+    <p>Cada aluno tem em mãos: papel timbrado AURA (ou folha A4 impressa) + caneta preta + envelope.</p>
+    <p>Quem não preparou: usa papel comum A4 + caneta qualquer. A carta não perde validade simbólica.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 11 · VISUALIZAÇÃO GUIADA -->
+<section class="slide" data-num="11" data-block="19:52 – 19:58 · Visualização guiada · 6 min">
+  <span class="tag deep">Prática · Visualização · 6 min</span>
+  <h1 class="title hook">Olhos fechados.<br>Corpo parado.<br>6 minutos.</h1>
+  <div class="block deep" style="max-width: 920px;">
+    <div style="font-family: var(--font-body); font-style: italic; font-size: clamp(18px,1.5vw,22px); color: var(--text); line-height: 1.55;">
+      Trilha AURA baixa. Sem timer visível.<br>
+      Augustto conduz a visualização.
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Roteiro da visualização guiada · 6 min (literal)</span>
+    <p>"Fecha os olhos. Pés no chão. Coluna reta. Respira 3 vezes fundo pelo nariz, solta pela boca."</p>
+    <p><em>[pausa 15s]</em></p>
+    <p>"Você está no dia 26 de setembro de 2026. Sábado. Dia da Aula 12. Você terminou a Mentoria AURA. Tem 18 semanas que você entrou aqui."</p>
+    <p><em>[pausa 20s]</em></p>
+    <p>"Você está no seu local de trabalho. Olha em volta. O que tem na sua mesa? Que computador? Que livros? Que projetos?"</p>
+    <p><em>[pausa 20s]</em></p>
+    <p>"Agora olha pra você. Calma. Sem pressa. Que roupa? Que postura? Como é o seu cabelo? Você dormiu bem essa semana?"</p>
+    <p><em>[pausa 20s]</em></p>
+    <p>"Você pega o celular. Você recebeu agora a confirmação de um cliente novo. Qual é o NOME desse cliente? Qual é o VALOR do contrato? Quando foi FECHADO?"</p>
+    <p><em>[pausa 30s]</em></p>
+    <p>"Respira fundo. Você abre o WhatsApp do Augustto. Vai mandar mensagem sobre o fechamento. Escreve mentalmente. Qual é o tom?"</p>
+    <p><em>[pausa 20s]</em></p>
+    <p>"Sente no corpo. Como está o peito dessa versão sua?"</p>
+    <p><em>[pausa 20s]</em></p>
+    <p>"Agora, em cima dessa imagem, sem perder ela, abre os olhos devagar. Ela está nítida? Escreva."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 12 · ESCRITA -->
+<section class="slide" data-num="12" data-block="19:58 – 20:18 · Escrita · 20 min · silêncio">
+  <span class="tag deep">Prática · Escrita · 20 min</span>
+  <h1 class="title">20 minutos.<br>Silêncio profundo.<br>Câmera ligada.</h1>
+  <div class="lede" style="margin-top: 24px;">Sem fala. Trilha AURA baixa. Augustto fora da tela.</div>
+  <div class="speaker"><span class="label">Operacional · 20 min</span>
+    <p>Gabriel silencia todos microfones durante a escrita.</p>
+    <p>Aluno escreve a mão no papel timbrado (ou edita o PDF da ferramenta).</p>
+    <p>Augustto fica fora da tela (ícone só) por respeito ao processo.</p>
+    <p>Cronômetro visível na tela: 20:00 → 00:00.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 13 · REVISÃO EM VOZ BAIXA -->
+<section class="slide" data-num="13" data-block="20:18 – 20:26 · Revisão em voz baixa · 8 min">
+  <span class="tag deep">Prática · Revisão · 8 min</span>
+  <h2 class="subtitle">Leia pra si mesmo.<br>Em voz baixa.<br>Câmera ligada.</h2>
+  <ul class="rules-list" style="max-width: 1180px;">
+    <li><span class="num">1</span> Vibrar positivo <span class="desc">se deu peso, você se rebaixou — reescreve</span></li>
+    <li><span class="num">2</span> Pode dar medo <span class="desc">carta que não dá medo não é carta</span></li>
+    <li><span class="num">3</span> Sem "sempre / todo mundo / perfeito" <span class="desc">carta mentirosa não instala</span></li>
+  </ul>
+  <div class="speaker"><span class="label">Fala de Augustto · 8 min</span>
+    <p>"Agora cada um lê a própria carta. Em voz baixa. Microfone fechado."</p>
+    <p>"Três coisas na leitura:"</p>
+    <p>"Primeira: o seu corpo tem que vibrar positivo com o que você escreveu. Se deu peso, é porque você se rebaixou na escrita — tem que reescrever."</p>
+    <p>"Segunda: se der medo, é bom sinal. Carta que não dá medo não é carta."</p>
+    <p>"Terceira: se aparecer a palavra 'sempre' ou 'todo mundo' ou 'perfeito' — tire. Carta mentirosa não instala identidade. Carta verdadeira instala."</p>
+    <p>"8 minutos. Leia, ajuste, releia."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 14 · LACRAÇÃO -->
+<section class="slide" data-num="14" data-block="20:26 – 20:28 · Lacração · 2 min · ritual">
+  <span class="tag gold">Cerimônia · 2 min</span>
+  <h2 class="subtitle">Dobrar. Assinar. Lacrar.</h2>
+  <div class="codebox" style="margin-top: 18px;"><strong>1. Dobre</strong> a carta
+
+<strong>2. Assine</strong> do lado de fora com SEU NOME COMPLETO + 02/06/2026
+
+<strong>3. Lacre</strong>
+   • Papel: envelope + data de abertura <span class="accent">06/10/2026</span>
+   • Digital: renomeie arquivo "LACRADO · ABRIR EM 06/10/2026"
+
+<span class="deep">Ninguém mais lê. Nem você. Até 06/10/2026.</span></div>
+  <div class="speaker"><span class="label">Fala de Augustto · 2 min</span>
+    <p>"Lacração. É ritual."</p>
+    <p>"Dobra. Assina o nome completo por fora. Data de 02 de junho de 2026."</p>
+    <p>"Papel: envelope lacrado — pode ser com fita, com cera, tanto faz — e data de abertura: 06 de outubro de 2026."</p>
+    <p>"Digital: renomeia o arquivo pra 'LACRADO_ABRIR_06-10-2026.pdf' e guarda numa pasta que você não entra."</p>
+    <p>"Ninguém lê essa carta até lá. Nem você. Confiança completa no 'eu do futuro'."</p>
+    <p>"Gravar áudio da próxima etapa com a carta já lacrada."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 15 · TRANSIÇÃO -->
+<section class="slide" data-num="15" data-block="20:28 · Marcador de transição · Carta lacrada → Áudio gravado">
+  <span class="tag violet">Transição · 30s</span>
+  <h1 class="title hook">Carta lacrada.<br>Agora vamos gravar a voz.</h1>
+  <div class="speaker"><span class="label">Operacional · 30 segundos</span>
+    <p>Marcador visual apenas. Augustto faz a ponte direta pro Segmento 4 (Declaração).</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 16 · ESTRUTURA DA DECLARAÇÃO -->
+<section class="slide" data-num="16" data-block="20:28 – 20:32 · Estrutura da Declaração · 3 movimentos">
+  <span class="tag violet">Ativação · 4 min</span>
+  <h2 class="subtitle">Áudio de 30 segundos<br>3 movimentos.</h2>
+  <ul class="rules-list" style="max-width: 1180px;">
+    <li><span class="num">1</span> AUTO-IDENTIFICAÇÃO <span class="desc">"Eu sou [nome completo]."</span></li>
+    <li><span class="num">2</span> DECISÃO DA IDENTIDADE <span class="desc">"Eu decidi ser [nova identidade específica]."</span></li>
+    <li><span class="num">3</span> COMPROMISSO COMPORTAMENTAL <span class="desc">"A partir de agora, eu [ação concreta]."</span></li>
+  </ul>
+  <div class="block" style="margin-top: 18px;">
+    <div style="font-family: var(--font-body); font-style: italic; font-size: clamp(16px,1.3vw,20px); color: var(--text); line-height: 1.55;">
+      <strong style="color: var(--violet); font-style: normal;">EX. 1:</strong> "Eu sou Marina. Eu decidi ser referência em consultoria financeira para mulheres empresárias. A partir de agora, eu cobro R$ 25k por diagnóstico, sem desconto, sem negociar."<br><br>
+      <strong style="color: var(--violet); font-style: normal;">EX. 2:</strong> "Eu sou Carlos. Eu decidi ser autoridade em retail strategy em BH. A partir de agora, eu publico 1 estudo de caso por mês com nome e permissão de cliente."
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 4 min</span>
+    <p>"30 segundos de áudio. 3 movimentos. Cada um claro."</p>
+    <p>"Movimento 1: nome completo. Sem apelido. Sem 'sou eu' — nome.</p>
+    <p>"Movimento 2: 'decidi ser' — verbo no passado. Decisão tomada. Não 'quero', não 'pretendo'. DECIDI."</p>
+    <p>"Movimento 3: ação concreta. Específica. Mensurável. Que começa agora — não amanhã, não na segunda."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 17 · GRAVAÇÃO INDIVIDUAL -->
+<section class="slide" data-num="17" data-block="20:32 – 20:44 · Gravação individual · 12 min">
+  <span class="tag violet">Gravação · 12 min</span>
+  <h2 class="subtitle">Grave seu áudio agora.<br>12 minutos pra criar e regravar.</h2>
+  <div class="codebox" style="margin-top: 18px;"><strong>COMO GRAVAR</strong>
+
+1. Celular · WhatsApp aberto · número AURA salvo
+2. Botão de áudio · SEGURE
+3. Grave os 3 movimentos · 30s máximo
+4. Pode regravar quantas vezes quiser
+5. Quando estiver bom, ENVIE para <span class="accent">55 61 92979889</span>
+
+<strong>TOM DO ÁUDIO</strong>
+• voz firme (não sussurro, não grito)
+• pausa entre cada movimento
+• respiração controlada
+• microfone perto da boca</div>
+  <div class="speaker"><span class="label">Operacional · 12 min</span>
+    <p>Gabriel compartilha número AURA no chat (55 61 92979889).</p>
+    <p>Augustto tira a câmera · silêncio absoluto por 12 min.</p>
+    <p>Backup: se aluno não conseguir WhatsApp, envia por email com assunto "DECLARAÇÃO · [nome]".</p>
+    <p>Todos os áudios são registrados no número AURA → pasta `/declaracoes-aluno/` no Drive.</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 18 · REGISTRO MARCO 3 -->
+<section class="slide" data-num="18" data-block="20:44 – 20:50 · Marco 3 registrado · Bloco 1 encerrado">
+  <span class="tag violet">Registro · 6 min</span>
+  <div class="marco-card">
+    <div class="num-big">3<small>/12</small></div>
+    <div class="nome">Nova Identidade</div>
+    <div style="font-family: var(--font-body); font-style: italic; color: var(--text-mute); font-size: 18px; margin-bottom: 24px;">Registrado em 02/06/2026</div>
+    <ul class="crit">
+      <li>Carta ao Eu do Futuro escrita + lacrada</li>
+      <li>Áudio de Declaração enviado (30s)</li>
+      <li>3 movimentos articulados com precisão</li>
+    </ul>
+    <div style="font-family: var(--font-display); font-size: clamp(22px,2.4vw,32px); color: var(--violet); text-transform: uppercase; letter-spacing: -0.005em; margin-top: 32px;">
+      Bloco 1 · Autoimagem · Encerrado
+    </div>
+    <div style="font-family: var(--font-body); font-style: italic; color: var(--text-mute); font-size: 16px; margin-top: 12px;">
+      Próximo marco · Frequência do Posicionamento · 16/06/2026<br>
+      🌑 → 🌒 &nbsp; Autoimagem → Posicionamento
+    </div>
+  </div>
+  <div class="speaker"><span class="label">Fala de Augustto · 6 min</span>
+    <p>"Marco 3 registrado. Bloco 1 oficialmente encerrado."</p>
+    <p>"Você entrou aqui há 4 semanas achando que precisava de mais confiança. Você sai hoje com uma carta lacrada e uma declaração gravada que diz exatamente quem você decidiu ser."</p>
+    <p>"Não é quem você acredita que vai virar. É quem você DECIDIU ser."</p>
+    <p>"Nas próximas 2 semanas, um áudio personalizado do Augustto chega no seu WhatsApp. Um por aluno. Sem modelo. Resposta direta ao que você declarou."</p>
+    <p>"E daqui a 2 semanas, a gente abre o Bloco 2 — Posicionamento. Como o mundo te reconhece. Você vai chegar na Aula 4 com a Declaração já tendo 14 dias de idade. E isso muda tudo."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 19 · RITUAL 3 · DECLARAÇÃO DE IDENTIDADE -->
+<section class="slide" data-num="19" data-block="20:50 – 20:55 · Ritual 3 · Declaração de Identidade · sextas 12:00">
+  <span class="tag teal">Ritual 3 · 5 min</span>
+  <h2 class="subtitle">Toda sexta · 12:00<br>1 áudio · 3 movimentos.</h2>
+  <div class="codebox" style="margin-top: 18px;"><strong>RITUAL 3 · DECLARAÇÃO DE IDENTIDADE</strong>
+
+<strong>Quando:</strong> toda sexta-feira · 12:00
+<strong>Canal:</strong> WhatsApp
+<strong>O que envia:</strong> ÁUDIO de 30s com os 3 movimentos
+
+  1. "Eu sou [nome]"
+  2. "Eu decidi ser [identidade]"  ← FIXO
+  3. "A partir de agora, eu [ação concreta DA SEMANA]"  ← muda toda semana
+
+<span class="accent">Quem não envia, não é lembrado.</span></div>
+  <div class="speaker"><span class="label">Fala de Augustto · 5 min</span>
+    <p>"Ritual 3. Toda sexta, meio-dia, áudio de 30s."</p>
+    <p>"Os 2 primeiros movimentos são FIXOS — nome e identidade decidida. Quem mudou identidade no meio do caminho, atualiza aqui."</p>
+    <p>"O TERCEIRO movimento muda TODA semana. É a ação da semana. O compromisso específico que você vai executar entre sexta e a próxima sexta."</p>
+    <p>"Exemplo: semana 1 — 'A partir de agora, eu publico 2 conteúdos por semana no LinkedIn'."</p>
+    <p>"Semana 2 — 'A partir de agora, eu envio proposta em até 24h após reunião'."</p>
+    <p>"Sexta que vem começa."</p>
+  </div>
+</section>
+
+<!-- ========================================== SLIDE 20 · FECHO + FOTO OFICIAL -->
+<section class="slide" data-num="20" data-block="20:55 – 21:00 · Foto Oficial + Fecho AURA + Próx Aula">
+  <span class="tag gold">Fecho ritual · Bloco 1 ENCERRADO · 5 min</span>
+
+  <div class="foto-pill">
+    📸 FOTO OFICIAL · CÂMERAS LIGADAS
+    <small>NÃO DESLIGUE · Cris orquestra · cue 20:55</small>
+  </div>
+
+  <h1 class="title hook" style="margin-top: 24px;">"A carta que você escreve hoje<br>vai te esperar em 18 semanas.<br>Quem abrir, vai ser outra pessoa."</h1>
+
+  <div class="body" style="font-family: var(--font-display); text-transform: uppercase; font-size: clamp(22px,2vw,32px); margin-top: 24px; font-style: normal; color: var(--violet); letter-spacing: -0.005em;">
+    19:00 em ponto da próxima.<br>Sem atraso · sem espera.
+  </div>
+
+  <div class="lede" style="margin-top: 24px; color: var(--text);">
+    Daqui a duas semanas: <strong>Aula 4 — Frequência do Posicionamento (Bloco 2).</strong><br>
+    Chegam com 14 dias da Declaração rodando. Sem isso, não entram.
+  </div>
+
+  <div class="body" style="margin-top: 14px; font-family: var(--font-body); font-style: italic; color: var(--text-mute); font-size: clamp(16px,1.3vw,20px);">A AURA registra quem se compromete. Vão em paz.</div>
+
+  <div class="speaker"><span class="label">Operacional + Fala de Augustto · fecho · 5 min</span>
+    <p><strong>📸 FOTO OFICIAL · cue 20:55 (Cris):</strong> "Pessoal, todas as câmeras ligadas. NÃO DESLIGUE. Vou tirar a foto oficial do grupo da Aula 3 agora. Sorriam. 3 · 2 · 1."</p>
+    <p><strong>Fala de Augustto · fecho ritual:</strong></p>
+    <p>"Último registro antes de encerrar."</p>
+    <p>"Cada um de vocês tem agora 3 coisas guardadas:"</p>
+    <p>"A primeira: uma CARTA lacrada, com a data de abertura 06 de outubro de 2026. Daqui 18 semanas."</p>
+    <p>"A segunda: um ÁUDIO registrado, guardado no servidor AURA, da sua Declaração de Nova Identidade de hoje."</p>
+    <p>"A terceira: um MARCO. Marco 3 de 12. Nova Identidade."</p>
+    <p>"Quando a gente se encontrar na Aula 4, daqui 2 semanas, vocês não vão mais estar no mesmo lugar. A carta vai estar respirando. O áudio vai estar girando. E a versão de vocês que escreveu e gravou hoje vai começar a puxar a versão que saiu daqui de cima pra baixo."</p>
+    <p>"Porque identidade nova puxa comportamento novo. Não o contrário."</p>
+    <p>"O Bloco 1 se chamava Autoimagem. A pedra-base."</p>
+    <p>"O Bloco 2 se chama Posicionamento. Como o mundo te reconhece depois que você decidiu quem é."</p>
+    <p>"A carta que você escreveu hoje vai te esperar em 18 semanas. Quem abrir, vai ser outra pessoa."</p>
+    <p>"A AURA registra quem se compromete. 19:00 em ponto da próxima. Vão em paz."</p>
+  </div>
+</section>
+
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress"><div class="bar" id="progress-bar" style="width: 0%"></div></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button onclick="prevSlide()">‹ Anterior</button>
+  <button onclick="nextSlide()">Próximo ›</button>
+  <button onclick="toggleSpeaker()">Speaker (T)</button>
+  <button onclick="toggleFullscreen()">Fullscreen (F)</button>
+  <button onclick="goSlide(0)">Início</button>
+  <span class="keys">
+    <kbd>←</kbd><kbd>→</kbd> navegar ·
+    <kbd>F</kbd> fullscreen ·
+    <kbd>T</kbd> speaker ·
+    <kbd>Home</kbd> início ·
+    <kbd>End</kbd> fim
+  </span>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  let speakerOn = false;
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    document.getElementById('slide-num').textContent = `${String(current).padStart(2,'0')}/${total - 1}`;
+    document.getElementById('progress-bar').style.width = `${((current + 1) / total) * 100}%`;
+    const block = slides[current].dataset.block;
+    document.getElementById('block-label').textContent = block || '';
+    document.querySelectorAll('.speaker').forEach(sp => sp.classList.remove('show'));
+    if (speakerOn) {
+      const sp = slides[current].querySelector('.speaker');
+      if (sp) sp.classList.add('show');
+    }
+  }
+
+  function nextSlide() { if (current < total - 1) { current++; render(); } }
+  function prevSlide() { if (current > 0) { current--; render(); } }
+  function goSlide(i) { current = Math.max(0, Math.min(total - 1, i)); render(); }
+  function toggleSpeaker() { speakerOn = !speakerOn; render(); }
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight':
+      case ' ':
+      case 'PageDown':
+        e.preventDefault(); nextSlide(); break;
+      case 'ArrowLeft':
+      case 'PageUp':
+        e.preventDefault(); prevSlide(); break;
+      case 'Home':
+        e.preventDefault(); goSlide(0); break;
+      case 'End':
+        e.preventDefault(); goSlide(total - 1); break;
+      case 'f': case 'F':
+        toggleFullscreen(); break;
+      case 't': case 'T':
+        toggleSpeaker(); break;
+      case 'Escape':
+        if (document.fullscreenElement) document.exitFullscreen();
+        break;
+    }
+  });
+
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (dx < -50) nextSlide();
+    if (dx > 50) prevSlide();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
